@@ -1,0 +1,6 @@
+/Users/pomer/RiderProjects/KibbutzNet/Backend/obj/Debug/Backend.csproj.AssemblyReference.cache
+/Users/pomer/RiderProjects/KibbutzNet/Backend/obj/Debug/Backend.csproj.CoreCompileInputs.cache
+/Users/pomer/RiderProjects/KibbutzNet/Backend/bin/Debug/Backend.exe
+/Users/pomer/RiderProjects/KibbutzNet/Backend/bin/Debug/Backend.pdb
+/Users/pomer/RiderProjects/KibbutzNet/Backend/obj/Debug/Backend.exe
+/Users/pomer/RiderProjects/KibbutzNet/Backend/obj/Debug/Backend.pdb
