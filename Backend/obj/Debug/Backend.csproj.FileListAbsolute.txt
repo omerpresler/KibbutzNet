@@ -11,3 +11,10 @@ C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.csproj.SuggestedBindi
 C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.csproj.CoreCompileInputs.cache
 C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.exe
 C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.pdb
+C:\Users\rotem\RiderProjects\KibbutzNet\Backend\bin\Debug\Backend.exe
+C:\Users\rotem\RiderProjects\KibbutzNet\Backend\bin\Debug\Backend.pdb
+C:\Users\rotem\RiderProjects\KibbutzNet\Backend\obj\Debug\Backend.csproj.AssemblyReference.cache
+C:\Users\rotem\RiderProjects\KibbutzNet\Backend\obj\Debug\Backend.csproj.SuggestedBindingRedirects.cache
+C:\Users\rotem\RiderProjects\KibbutzNet\Backend\obj\Debug\Backend.csproj.CoreCompileInputs.cache
+C:\Users\rotem\RiderProjects\KibbutzNet\Backend\obj\Debug\Backend.exe
+C:\Users\rotem\RiderProjects\KibbutzNet\Backend\obj\Debug\Backend.pdb

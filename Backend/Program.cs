@@ -1,4 +1,5 @@
 ﻿using System;
+using Backend.Business.src.StoreRegister;
 
 namespace Backend
 {
@@ -6,7 +7,7 @@ namespace Backend
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello world");
+            Console.WriteLine("Hello world!");
         }
     }
 }
