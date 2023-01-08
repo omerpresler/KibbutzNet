@@ -1,4 +1,4 @@
-namespace Backend.Business.Utils
+namespace Backend.Business.src.Utils
 {
     public sealed class AuthenticationManager
     {

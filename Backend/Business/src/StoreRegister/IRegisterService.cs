@@ -1,4 +1,4 @@
-namespace Backend.Business.StoreRegister
+namespace Backend.Business.src.StoreRegister
 {
     public interface IRegisterService
     {

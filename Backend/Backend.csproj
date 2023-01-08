@@ -57,6 +57,7 @@
         <Compile Include="Business\src\Client-Store\Product.cs" />
         <Compile Include="Business\src\Client-Store\Service.cs" />
         <Compile Include="Business\src\Client-Store\WorkerManager.cs" />
+        <Compile Include="Business\src\exceptions\IException.cs" />
         <Compile Include="Business\src\Facade\Facade.cs" />
         <Compile Include="Business\src\Reports\EmailReportCreator.cs" />
         <Compile Include="Business\src\Reports\EmailReportSender.cs" />

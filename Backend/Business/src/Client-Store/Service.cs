@@ -1,7 +1,7 @@
-using Backend.Business.Utils;
-using Backend.Business.Reports;
+using Backend.Business.src.Utils;
+using Backend.Business.src.Reports;
 
-namespace Backend.Business.Client_Store
+namespace Backend.Business.src.Client_Store
 {
     public class Service
     {

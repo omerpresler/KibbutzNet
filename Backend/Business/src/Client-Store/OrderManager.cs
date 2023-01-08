@@ -1,4 +1,4 @@
-namespace Backend.Business.Client_Store
+namespace Backend.Business.src.Client_Store
 {
     public class OrderManager
     {
