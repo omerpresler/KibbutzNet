@@ -39,8 +39,43 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Business\Client-Member\Order.cs" />
+        <Compile Include="Business\Client-Member\OrderManager.cs" />
+        <Compile Include="Business\Client-Member\Purchase.cs" />
+        <Compile Include="Business\Client-Member\PurchaseManager.cs" />
+        <Compile Include="Business\Client-Member\Service.cs" />
+        <Compile Include="Business\Client-Store\NotificationManager.cs" />
+        <Compile Include="Business\Client-Store\Order.cs" />
+        <Compile Include="Business\Client-Store\OrderManager.cs" />
+        <Compile Include="Business\Client-Store\PageManager.cs" />
+        <Compile Include="Business\Client-Store\Post.cs" />
+        <Compile Include="Business\Client-Store\Product.cs" />
+        <Compile Include="Business\Client-Store\Service.cs" />
+        <Compile Include="Business\Client-Store\WorkerManager.cs" />
+        <Compile Include="Business\Reports\EmailReportCreator.cs" />
+        <Compile Include="Business\Reports\EmailReportSender.cs" />
+        <Compile Include="Business\Reports\LocalReportCreator.cs" />
+        <Compile Include="Business\Reports\LocalReportSender.cs" />
+        <Compile Include="Business\Reports\OutputManager.cs" />
+        <Compile Include="Business\Reports\PlainTextReportCreator.cs" />
+        <Compile Include="Business\Reports\PlainTextReportSender.cs" />
+        <Compile Include="Business\Reports\ReportCreator.cs" />
+        <Compile Include="Business\Reports\ReportSender.cs" />
+        <Compile Include="Business\Reports\SAPManager.cs" />
+        <Compile Include="Business\Reports\SMSReportCreator.cs" />
+        <Compile Include="Business\Reports\SMSReportSender.cs" />
         <Compile Include="Business\StoreRegister\IRegisterService.cs" />
+        <Compile Include="Business\StoreRegister\Purchase.cs" />
         <Compile Include="Business\StoreRegister\Service.cs" />
+        <Compile Include="Business\StoreRegister\StoreRegister.cs" />
+        <Compile Include="Business\Utils\AuthenticationManager.cs" />
+        <Compile Include="Business\Utils\Chat.cs" />
+        <Compile Include="Business\Utils\ChatManager.cs" />
+        <Compile Include="Business\Utils\Member.cs" />
+        <Compile Include="Business\Utils\Message.cs" />
+        <Compile Include="Business\Utils\Outsider.cs" />
+        <Compile Include="Business\Utils\Response.cs" />
+        <Compile Include="Business\Utils\User.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
