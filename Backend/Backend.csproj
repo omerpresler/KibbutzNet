@@ -55,7 +55,7 @@
         <Compile Include="Business\src\Client-Store\PageManager.cs" />
         <Compile Include="Business\src\Client-Store\Post.cs" />
         <Compile Include="Business\src\Client-Store\Product.cs" />
-        <Compile Include="Business\src\Client-Store\Service.cs" />
+        <Compile Include="Business\src\Client-Store\StoreController.cs" />
         <Compile Include="Business\src\Client-Store\WorkerManager.cs" />
         <Compile Include="Business\src\Facade\Facade.cs" />
         <Compile Include="Business\src\Reports\EmailReportCreator.cs" />
@@ -77,6 +77,7 @@
         <Compile Include="Business\src\Utils\AuthenticationManager.cs" />
         <Compile Include="Business\src\Utils\Chat.cs" />
         <Compile Include="Business\src\Utils\ChatManager.cs" />
+        <Compile Include="Business\src\Utils\House.cs" />
         <Compile Include="Business\src\Utils\Member.cs" />
         <Compile Include="Business\src\Utils\Message.cs" />
         <Compile Include="Business\src\Utils\Outsider.cs" />

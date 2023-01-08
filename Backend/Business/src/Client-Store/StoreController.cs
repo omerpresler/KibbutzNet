@@ -1,9 +1,10 @@
+using Backend.Business.Client_Store;
 using Backend.Business.Utils;
 using Backend.Business.Reports;
 
-namespace Backend.Business.Client_Store
+namespace Backend.Business.src.Client_Store
 {
-    public class Service
+    public class StoreController
     {
         private ChatManager chatManager;
         private OrderManager orderManager;
@@ -15,19 +16,16 @@ namespace Backend.Business.Client_Store
 
         public Response<bool> logIn(string name, string pasword)
         {
-            
             return new Response<bool>();
         }
-        
+
         public Response<bool> startChat(int member)
         {
-
             return new Response<bool>();
         }
-        
+
         public Response<bool> endChat(int member)
         {
-
             return new Response<bool>();
         }
     }
