@@ -82,13 +82,13 @@
         <Compile Include="Business\src\Utils\Outsider.cs" />
         <Compile Include="Business\src\Utils\Response.cs" />
         <Compile Include="Business\src\Utils\User.cs" />
+        <Compile Include="Business\Test\clientTest\clientUnitTests.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Service\iService.cs" />
         <Compile Include="Service\Service.cs" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Business\Test\clientTest" />
       <Folder Include="Business\Test\reportsTest" />
       <Folder Include="Business\Test\storeRegisterTest" />
       <Folder Include="Business\Test\storeResgiterTest" />
