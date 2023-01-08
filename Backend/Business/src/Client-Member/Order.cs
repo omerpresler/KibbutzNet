@@ -1,7 +1,6 @@
 namespace Backend.Business.Client_Member
 {
-    public class Service
+    public class Order : Iorder
     {
-        
     }
 }

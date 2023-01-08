@@ -1,6 +1,6 @@
 namespace Backend.Business.Client_Member
 {
-    public class PurchaseManager
+    public class PurchaseManager : IPurchaseManger
     {
         
     }

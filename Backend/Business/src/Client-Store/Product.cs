@@ -1,7 +1,6 @@
 namespace Backend.Business.Client_Store
 {
-    public class Product
+    public class Product : Iproduct
     {
-        
     }
 }

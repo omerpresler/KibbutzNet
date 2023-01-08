@@ -4,3 +4,10 @@
 /Users/pomer/RiderProjects/KibbutzNet/Backend/bin/Debug/Backend.pdb
 /Users/pomer/RiderProjects/KibbutzNet/Backend/obj/Debug/Backend.exe
 /Users/pomer/RiderProjects/KibbutzNet/Backend/obj/Debug/Backend.pdb
+C:\study\finalproject\KibbutzNet\Backend\bin\Debug\Backend.exe
+C:\study\finalproject\KibbutzNet\Backend\bin\Debug\Backend.pdb
+C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.csproj.AssemblyReference.cache
+C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.csproj.SuggestedBindingRedirects.cache
+C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.csproj.CoreCompileInputs.cache
+C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.exe
+C:\study\finalproject\KibbutzNet\Backend\obj\Debug\Backend.pdb
