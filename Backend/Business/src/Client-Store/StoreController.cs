@@ -3,7 +3,7 @@ using Backend.Business.src.Reports;
 
 namespace Backend.Business.src.Client_Store
 {
-    public class Service
+    public class StoreController
     {
         private ChatManager chatManager;
         private OrderManager orderManager;
@@ -16,19 +16,19 @@ namespace Backend.Business.src.Client_Store
         public Response<bool> logIn(string name, string pasword)
         {
             
-            return new Response<bool>();
+            return new Response<bool>(true);
         }
         
         public Response<bool> startChat(int member)
         {
 
-            return new Response<bool>();
+            return new Response<bool>(true);
         }
         
         public Response<bool> endChat(int member)
         {
 
-            return new Response<bool>();
+            return new Response<bool>(true);
         }
     }
 }

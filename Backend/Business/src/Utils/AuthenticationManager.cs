@@ -18,11 +18,12 @@ namespace Backend.Business.src.Utils
         // existing object stored in the static field.
         public static AuthenticationManager GetInstance()
         {
-            if (_instance == null)
-            {
-                _instance = new AuthenticationManager();
-            }
-            return _instance;
+            return _instance ?? (_instance = new AuthenticationManager());
+        }
+
+        public Response<int> logIn(string name, string password, int Id)
+        {
+            return new Response<int>(-1);
         }
     }
 }
