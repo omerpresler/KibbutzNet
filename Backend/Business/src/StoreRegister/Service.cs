@@ -1,57 +1,102 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using Backend.Business.src.Utils;
 
 namespace Backend.Business.src.StoreRegister
 {
     public class Service : IRegisterService
     {
-        private List<StoreRegister> registers;
-        
+        private AuthenticationManager auth;
+        private bool loged_in { set; get; }
+        private StoreRegister register { set; get; }
         public Service()
         {
-            registers = new List<StoreRegister>();
+            auth = AuthenticationManager.GetInstance();
+            loged_in = false;
+            register = null;
+            Console.WriteLine("Welcome to store register!");
         }
 
-        public void addNewRegister(int storeID, int emplyeeID)
+        public void add_store_register(int storeID, string password)
         {
-            var register = new StoreRegister(storeID, emplyeeID);
-            registers.Add(register);
+            auth.add_store_register(storeID, password);
         }
-        
-        private StoreRegister getStoreRegByStoreID(int storeID)
+
+        public void add_employee_to_store_register(int storeID, string password, int employeeID)
         {
-            StoreRegister register = null;
-            foreach (var reg in registers.Where(reg => reg.getStoreID() == storeID))
+            auth.add_employee_to_store_register(storeID, password, employeeID);
+        }
+
+        public void login()
+        {
+            Console.WriteLine("Please enter the store ID:");
+            var storeID = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter your ID:");
+            var employeeID = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Please enter password:");
+            var password = Console.ReadLine();
+            if (auth.login_register(storeID, employeeID, password))
             {
-                register = reg;
+                loged_in = true;
+                register = new StoreRegister(storeID, employeeID);
+                Console.WriteLine("Login succeed!");
+                return;
             }
-            return register;
+
+            Console.WriteLine("Login failed");
         }
 
-        public bool addPurchase(int storeId, int budgetNumber, string description, float amount)
+        public void logout()
         {
-            var register = getStoreRegByStoreID(storeId);
-            return register != null && register.addPurchase(budgetNumber, description, amount);
-        }
+            if (loged_in)
+            {
+                loged_in = false;
+                register = null;
+                Console.WriteLine("Logout succeed!");
+                return;
+            }
 
-        public bool getPurchaseByBudgetNumber(int storeId, int budget)
-        {
-            var register = getStoreRegByStoreID(storeId);
-            return register != null && register.getPurchaseByBudgetNumber(budget) != null;
-        }
-
-        public bool getPurchaseByDate(int storeId, DateTime from, DateTime until)
-        {
-            var register = getStoreRegByStoreID(storeId);
-            return register != null && register.getPurchaseByDate(from, until) != null;
-        }
-
-        public bool removePurchase(int storeId, int purchaseNum)
-        {
-            var register = getStoreRegByStoreID(storeId);
-            return register != null && register.removePurchase(purchaseNum);
+            Console.WriteLine("Logout failed! you are already logged in...");
         }
         
+        public void addPurchase()
+        {
+            if (loged_in)
+            {
+                Console.WriteLine("Please enter budget number:");
+                var budget = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Please enter description:");
+                var description = Console.ReadLine();
+                Console.WriteLine("Please enter the cost:");
+                var cost = float.Parse(Console.ReadLine());
+                if (register.addPurchase(budget, description, cost))
+                {
+                    Console.WriteLine("The purchase was made successfully!");
+                    return;
+                }
+
+                Console.WriteLine("The purchase failed!");
+                return;
+            }
+            Console.WriteLine("You are logged out. log in first...");
+        }
+        
+        public void removePurchase()
+        {
+            if (loged_in)
+            {
+                Console.WriteLine("Please enter the purchase number:");
+                var purchase = Convert.ToInt32(Console.ReadLine());
+                if (register.removePurchase(purchase))
+                {
+                    Console.WriteLine("The purchase was removed successfully!");
+                    return;
+                }
+
+                Console.WriteLine("The removal failed!");
+                return;
+            }
+            Console.WriteLine("You are logged out. log in first...");
+        }
+
     }
 }

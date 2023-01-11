@@ -19,11 +19,11 @@ namespace Backend.Business.src.StoreRegister
             purchases = new List<Purchase>();
             purchaseNum = 0;
         }
-        
-        public bool addPurchase(int budgetNumber ,string description, float amount)
+
+        public bool addPurchase(int budgetNumber ,string description, float cost)
         {
             purchaseNum += 1;
-            var purchase = new Purchase(storeId,budgetNumber, purchaseNum, employeeId, amount, description);
+            var purchase = new Purchase(storeId,budgetNumber, purchaseNum, employeeId, cost, description);
             purchases.Add(purchase);
             return true;
         }
@@ -48,9 +48,18 @@ namespace Backend.Business.src.StoreRegister
             return purchases.FirstOrDefault(p => p.getPurchaseID() == purchaseID);
         }
 
-        public Purchase getPurchaseByDate(DateTime from, DateTime until)
+        public List<Purchase> getPurchaseByDate(DateTime from, DateTime until)
         {
-            return purchases.FirstOrDefault(p => DateTime.Compare(from.Date, p.getDate().Date) <= 0 && DateTime.Compare(p.getDate().Date, until.Date) <= 0);
+            var purch = new List<Purchase>();
+            foreach (var p in purchases)
+            {
+                if (DateTime.Compare(from.Date, p.getDate().Date) <= 0 &&
+                    DateTime.Compare(p.getDate().Date, until.Date) <= 0)
+                {
+                    purch.Add(p);
+                }
+            }
+            return purch;
         }
 
         public int getStoreID()
