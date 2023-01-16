@@ -37,6 +37,7 @@ namespace Backend.Business.src.Utils
         public void add_store_register(int storeID, string password)
         {
             stores.Add(storeID, password);
+            _storeRegisters.Add(new StoreRegister.StoreRegister(storeID));
         }
 
         public void add_employee_to_store_register(int storeID, string password, int employeeID)
@@ -45,7 +46,6 @@ namespace Backend.Business.src.Utils
             {
                 var store = new KeyValuePair<int, string>(storeID, password);
                 store_registers.Add(store, employeeID);
-                _storeRegisters.Add(new StoreRegister.StoreRegister(storeID, employeeID));
             }
         }
         

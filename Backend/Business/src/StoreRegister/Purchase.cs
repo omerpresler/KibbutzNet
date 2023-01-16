@@ -37,5 +37,20 @@ namespace Backend.Business.src.StoreRegister
         {
             return date;
         }
+
+        public float getCost()
+        {
+            return cost;
+        }
+
+        public string getDescription()
+        {
+            return description;
+        }
+
+        public int getEmployeeID()
+        {
+            return employeeID;
+        }
     }
 }

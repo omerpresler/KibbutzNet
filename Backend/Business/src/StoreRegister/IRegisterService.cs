@@ -11,6 +11,7 @@ namespace Backend.Business.src.StoreRegister
         void logout();
         void addPurchase();
         void removePurchase();
+        void printPurchases();
     }
 }
 

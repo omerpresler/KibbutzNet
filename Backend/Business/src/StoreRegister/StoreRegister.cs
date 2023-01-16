@@ -8,19 +8,19 @@ namespace Backend.Business.src.StoreRegister
     public class StoreRegister
     {
         private int storeId { get; set; }
-        private int employeeId { get; set; }
+        //private int employeeId { get; set; }
         private List<Purchase> purchases;
         private int purchaseNum;
         
-        public StoreRegister(int storeId, int employeeId)
+        public StoreRegister(int storeId)
         {
             this.storeId = storeId;
-            this.employeeId = employeeId;
+            //this.employeeId = employeeId;
             purchases = new List<Purchase>();
             purchaseNum = 0;
         }
 
-        public bool addPurchase(int budgetNumber ,string description, float cost)
+        public bool addPurchase(int budgetNumber ,string description, float cost, int employeeId)
         {
             purchaseNum += 1;
             var purchase = new Purchase(storeId,budgetNumber, purchaseNum, employeeId, cost, description);
@@ -65,6 +65,24 @@ namespace Backend.Business.src.StoreRegister
         public int getStoreID()
         {
             return storeId;
+        }
+
+        public void printPurchases()
+        {
+            if (purchases.Count > 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Date\t\t\tID   Budget   Employee  Cost  Description");
+                Console.WriteLine("________________________________________________________________");
+                foreach (var p in purchases)
+                {
+                    Console.WriteLine(p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription());
+                }
+                Console.WriteLine();
+                return;
+            }
+
+            Console.WriteLine("No purchases to display.");
         }
         
     }

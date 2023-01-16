@@ -7,12 +7,14 @@ namespace Backend.Business.src.StoreRegister
     {
         private AuthenticationManager auth;
         private bool loged_in { set; get; }
+        private int employee { set; get; }
         private StoreRegister register { set; get; }
         public Service()
         {
             auth = AuthenticationManager.GetInstance();
             loged_in = false;
             register = null;
+            employee = -1;
             Console.WriteLine("Welcome to store register!");
         }
 
@@ -37,8 +39,12 @@ namespace Backend.Business.src.StoreRegister
             if (auth.login_register(storeID, employeeID, password))
             {
                 loged_in = true;
-                register = new StoreRegister(storeID, employeeID);
+                employee = employeeID;
                 Console.WriteLine("Login succeed!");
+                if (register == null)
+                {
+                    register = new StoreRegister(storeID);
+                }
                 return;
             }
 
@@ -50,7 +56,7 @@ namespace Backend.Business.src.StoreRegister
             if (loged_in)
             {
                 loged_in = false;
-                register = null;
+                employee = -1;
                 Console.WriteLine("Logout succeed!");
                 return;
             }
@@ -68,7 +74,7 @@ namespace Backend.Business.src.StoreRegister
                 var description = Console.ReadLine();
                 Console.WriteLine("Please enter the cost:");
                 var cost = float.Parse(Console.ReadLine());
-                if (register.addPurchase(budget, description, cost))
+                if (register.addPurchase(budget, description, cost, employee))
                 {
                     Console.WriteLine("The purchase was made successfully!");
                     return;
@@ -97,6 +103,17 @@ namespace Backend.Business.src.StoreRegister
             }
             Console.WriteLine("You are logged out. log in first...");
         }
-
+        
+        public void printPurchases()
+        {
+            if (loged_in)
+            {
+                register.printPurchases();
+                return;
+            }
+            Console.WriteLine("You are logged out. log in first...");
+        }
     }
+    
+
 }

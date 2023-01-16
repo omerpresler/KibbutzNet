@@ -18,15 +18,12 @@ namespace Backend
                 Console.WriteLine("1. LOGIN");
                 Console.WriteLine("2. LOGOUT");
                 Console.WriteLine("3. ADD PURCHASE");
-                Console.WriteLine("4. EXIT");
+                Console.WriteLine("4. PRINT PURCHASES");
+                Console.WriteLine("5. EXIT");
                 var choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
-                    case 4:
-                        Console.WriteLine("BYE- BYE!");
-                        return;
                     case 1:
-                        
                         service.login();
                         break;
                     case 2:
@@ -35,6 +32,12 @@ namespace Backend
                     case 3:
                         service.addPurchase();
                         break;
+                    case 4:
+                        service.printPurchases();
+                        break;
+                    case 5:
+                        Console.WriteLine("BYE- BYE!");
+                        return;
                     default:
                         Console.WriteLine("Wrong input. Please try again.");
                         break;
