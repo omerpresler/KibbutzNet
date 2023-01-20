@@ -30,15 +30,18 @@ export default function Login() {
     const login = e => {
         e.preventDefault();
         if (validate()){
-            if (checkLoginDataInBackend())
-            navigate(paths.register_contorller_path)
+            const didLoginSucsed=checkLoginDataInBackend(values.email,values.accountNum);
+                console.log(didLoginSucsed)
+            if (didLoginSucsed){
+             navigate(paths.register_contorller_path)
+            }
         }
     }
 
     const validate = () => {
         let temp = {}
         temp.email = (/\S+@\S+\.\S+/).test(values.email) ? "" : "Email is not valid."
-        temp.acountNum = values.acountNum != "" ? "" : "This field is required."
+        temp.accountNum = values.accountNum != "" ? "" : "This field is required."
         setErrors(temp)
         return Object.values(temp).every(x => x == "")
     }
@@ -66,11 +69,11 @@ export default function Login() {
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
                                 label="acount number "
-                                name="acountNum"
-                                value={values.acountNum}
+                                name="accountNum"
+                                value={values.accountNum}
                                 onChange={handleInputChange}
                                 variant="outlined"
-                                {...(errors.acountNum && { error: true, helperText: errors.acountNum })} />
+                                {...(errors.accountNum && { error: true, helperText: errors.accountNum })} />
                             <Button
                                 type="login"
                                 variant="contained"

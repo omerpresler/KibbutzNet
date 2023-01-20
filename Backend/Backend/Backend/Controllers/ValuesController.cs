@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using Controllers.Requests;
+
 namespace Backend.Controllers
 {
     [ApiController]
@@ -14,9 +16,11 @@ namespace Backend.Controllers
         }
 
         [HttpPost("login")]
-        public bool login()
+        public bool login([FromBody] UserDataRequest request)
         {
+           
             Console.WriteLine("yess!!!");
+            Console.WriteLine(request.email);
             return true;
         }
 

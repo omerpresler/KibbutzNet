@@ -5,8 +5,10 @@ import axios from 'axios'
 
 const path=paths.back_path+paths.login_controller_path+"/login" 
 export default function checkLoginDataInBackend(email,accountNum){
+    console.log(email)
+    console.log(accountNum)
     axios.post(path, {
-            
+            email: JSON.stringify(email),accountNum:JSON.stringify(accountNum)
         })
     .then(function (response) {
         console.log(response)
