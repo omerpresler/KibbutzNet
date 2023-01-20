@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react'
 import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import Center from './Center'
-import useForm from '../hooks/useForm'
+import Center from '../components/Center'
+import useForm from '../hooks/useFrom'
+import {useNavigate} from 'react-router-dom'
+import checkLoginDataInBackend from '../services/loginService'
+import * as paths from '../services/pathes';
 
 const getFreshModel = () => ({
     email: '',
@@ -10,6 +13,7 @@ const getFreshModel = () => ({
 })
 
 export default function Login() {
+    const navigate=useNavigate()
 
 
     const {
@@ -20,21 +24,21 @@ export default function Login() {
         handleInputChange
     } = useForm(getFreshModel);
 
-    useEffect(() => {
-        resetContext()
-    }, [])
+    
 
 
     const login = e => {
         e.preventDefault();
-        if (validate())
-           console.log(values)
+        if (validate()){
+            if (checkLoginDataInBackend())
+            navigate(paths.register_contorller_path)
+        }
     }
 
     const validate = () => {
         let temp = {}
         temp.email = (/\S+@\S+\.\S+/).test(values.email) ? "" : "Email is not valid."
-        temp.name = values.name != "" ? "" : "This field is required."
+        temp.acountNum = values.acountNum != "" ? "" : "This field is required."
         setErrors(temp)
         return Object.values(temp).every(x => x == "")
     }
@@ -44,7 +48,7 @@ export default function Login() {
             <Card sx={{ width: 400 }}>
                 <CardContent sx={{ textAlign: 'center' }}>
                     <Typography variant="h3" sx={{ my: 3 }}>
-                        Quiz App
+                        kibbutzNet
                     </Typography>
                     <Box sx={{
                         '& .MuiTextField-root': {
@@ -61,12 +65,12 @@ export default function Login() {
                                 variant="outlined"
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
-                                label="acountNum"
-                                name="acount number"
-                                value={values.name}
+                                label="acount number "
+                                name="acountNum"
+                                value={values.acountNum}
                                 onChange={handleInputChange}
                                 variant="outlined"
-                                {...(errors.name && { error: true, helperText: errors.name })} />
+                                {...(errors.acountNum && { error: true, helperText: errors.acountNum })} />
                             <Button
                                 type="login"
                                 variant="contained"

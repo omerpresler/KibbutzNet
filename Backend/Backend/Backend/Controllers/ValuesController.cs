@@ -4,33 +4,23 @@ namespace Backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ValuesForecastController : ControllerBase
+    public class loginController : ControllerBase
     {
 
-        private readonly ILogger<ValuesForecastController> _logger;
+      
 
-        public ValuesForecastController(ILogger<ValuesForecastController> logger)
+        public loginController()
         {
-            _logger = logger;
         }
 
-        [HttpGet("GetValues")]
-        public string Get()
+        [HttpPost("login")]
+        public bool login(string email,int acountNum)
         {
-            return "1234";
+            Console.WriteLine(email, acountNum);
+            return true;
         }
 
-        [HttpGet("GetIndex")]
-        public string Index()
-        {
-            return "12345";
-        }
-
-        [HttpPost("PostIndex")]
-        public string post()
-        {
-            return "123456";
-        }
+        
 
 
 
