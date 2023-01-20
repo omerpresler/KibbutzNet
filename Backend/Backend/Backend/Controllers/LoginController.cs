@@ -23,8 +23,9 @@ namespace Backend.Controllers
             Console.WriteLine(request.email);
             return true;
         }
-
-        
+        //register -add new purchse see purchse history
+        //store-client-get report 
+    
 
 
 

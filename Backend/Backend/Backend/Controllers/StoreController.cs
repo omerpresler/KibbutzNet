@@ -1,0 +1,54 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+using Controllers.Requests;
+
+namespace Backend.Controllers
+{
+    [ApiController]
+    [Route("[controller]")]
+    public class StoreController : ControllerBase
+    {
+
+
+
+        public StoreController()
+        {
+            //127.128.0.0 ()
+        }
+        //int StoreId string from string too
+        [HttpPost("addPurchase")]
+        public bool SeeReports([FromBody] UserDataRequest request)
+        {
+
+            Console.WriteLine("yess!!!");
+            Console.WriteLine(request.email);
+            return true;
+        }
+
+        //int StoreId 
+        [HttpPost("sendbyemail")]
+        public bool SendByemail([FromBody] UserDataRequest request)
+        {
+
+            Console.WriteLine("yess!!!");
+            Console.WriteLine(request.email);
+            return true;
+        }
+
+        //int StoreId 
+        [HttpPost("sendbysms")]
+        public bool SendBysms([FromBody] UserDataRequest request)
+        {
+
+            Console.WriteLine("yess!!!");
+            Console.WriteLine(request.email);
+            return true;
+        }
+      
+
+
+
+
+
+    }
+}
