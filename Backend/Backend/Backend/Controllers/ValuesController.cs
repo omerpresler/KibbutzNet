@@ -14,9 +14,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost("login")]
-        public bool login(string email,int acountNum)
+        public bool login()
         {
-            Console.WriteLine(email, acountNum);
+            Console.WriteLine("yess!!!");
             return true;
         }
 

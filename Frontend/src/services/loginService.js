@@ -6,11 +6,12 @@ import axios from 'axios'
 const path=paths.back_path+paths.login_controller_path+"/login" 
 export default function checkLoginDataInBackend(email,accountNum){
     axios.post(path, {
-        email: email,
-        accountNum: accountNum
-    })
+            
+        })
     .then(function (response) {
-        if (response.value===true){
+        console.log(response)
+        if (response.data===true){
+            console.log("yes")
             localStorage.setItem('email',email);
             return true;
         }
