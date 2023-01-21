@@ -10,9 +10,11 @@ namespace Backend.Business.src.StoreRegister
         void add_employee_to_store_register(int storeID, string password, int employeeID);
         void login(int storeID, int employeeID);
         void logout();
-        void addPurchase(int budgetNumber, string description, float cost);
+        bool addPurchase(int budgetNumber, string description, float cost);
         void removePurchase();
         string printPurchases();
+        string printPurchases(DateTime start);
+        string printPurchases(DateTime start, DateTime end);
     }
 }
 

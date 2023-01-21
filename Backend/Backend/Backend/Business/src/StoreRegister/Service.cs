@@ -58,13 +58,14 @@ namespace Backend.Business.src.StoreRegister
             Console.WriteLine("Logout failed! you are already logged in...");
         }
         
-        public void addPurchase(int budgetNumber, string description, float cost)
+        public bool addPurchase(int budgetNumber, string description, float cost)
         {
             if (loged_in)
             {
-                register.addPurchase(budgetNumber, description, cost, employee);
+                return register.addPurchase(budgetNumber, description, cost, employee);
             }
-            Console.WriteLine("You are logged out. log in first...");
+
+            return false;
         }
         
         public void removePurchase()
@@ -90,6 +91,26 @@ namespace Backend.Business.src.StoreRegister
             if (loged_in)
             {
                 return register.printPurchases();
+            }
+
+            return "No employee logged in";
+        }
+        
+        public string printPurchases(DateTime start)
+        {
+            if (loged_in)
+            {
+                return register.printPurchases(start);
+            }
+
+            return "No employee logged in";
+        }
+        
+        public string printPurchases(DateTime start, DateTime end)
+        {
+            if (loged_in)
+            {
+                return register.printPurchases(start, end);
             }
 
             return "No employee logged in";

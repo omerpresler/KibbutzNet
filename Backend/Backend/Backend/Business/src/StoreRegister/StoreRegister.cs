@@ -19,8 +19,17 @@ namespace Backend.Business.src.StoreRegister
 
         public bool addPurchase(int budgetNumber ,string description, float cost, int employeeId)
         {
-            Purchase purchase = new Purchase(storeId, budgetNumber, Interlocked.Increment(ref purchaseNum), employeeId, cost, description);
-            purchases.Add(purchase);
+            try
+            {
+                Purchase purchase = new Purchase(storeId, budgetNumber, Interlocked.Increment(ref purchaseNum), employeeId, cost, description);
+                purchases.Add(purchase);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+            
             return true;
         }
 
@@ -72,6 +81,30 @@ namespace Backend.Business.src.StoreRegister
 
             return purhcaseSummary;
         }
+        
+        public string printPurchases(DateTime start)
+        {
+            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
+            
+            foreach (Purchase p in purchases)
+                if (DateTime.Compare(p.getDate(), start) > 0)
+                    purhcaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
+
+            return purhcaseSummary;
+        }
+        
+        public string printPurchases(DateTime start, DateTime end)
+        {
+            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
+            
+            foreach (Purchase p in purchases)
+                if (DateTime.Compare(p.getDate(), start) > 0 && DateTime.Compare(p.getDate(), end) < 0)
+                    purhcaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
+
+            return purhcaseSummary;
+        }
+        
+        
         
     }
 }

@@ -49,9 +49,11 @@ public class Register
     {
         Console.WriteLine(registers.Count);
         IRegisterService register = registers[StoreId];
-        register.addPurchase(BudgetNumber, Description, Cost);
+        if (register == null)
+            return false;
+        
             
-        return true;
+        return register.addPurchase(BudgetNumber, Description, Cost);;
     }
     
     public string SeePurchaseHistory(int StoreId)
@@ -61,5 +63,19 @@ public class Register
         return register.printPurchases();;
     }
     //register -add new purchse see purchse history
-    //store-client-get report 
+    //store-client-get report
+    
+    public string SeePurchaseHistory(int StoreId, DateTime start)
+    {
+        IRegisterService register = registers[StoreId];
+            
+        return register.printPurchases(start);;
+    }
+    
+    public string SeePurchaseHistory(int StoreId, DateTime start, DateTime end)
+    {
+        IRegisterService register = registers[StoreId];
+            
+        return register.printPurchases(start, end);;
+    }
 }
