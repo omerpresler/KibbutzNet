@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Controllers.Requests;
 using Backend.Service;
+
 namespace Backend.Controllers
 {
     [ApiController]
@@ -23,6 +24,7 @@ namespace Backend.Controllers
         public bool addPurchase([FromBody] AddPurchaseRequest request)
         {
             Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description, request.Cost);
+
             return true;
         }
         
