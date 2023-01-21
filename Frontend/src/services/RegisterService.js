@@ -21,18 +21,24 @@ export default function GetRegsiterService(){
     });
       }
     const seePurchaseHistory=(from,to)=> {
-        axios.post(seePurchaseHistory, {
+        console.log("trying to see purchase history")
+        console.log(from)
+        console.log(to)
+
+        axios.post(seePurchaseHistoryPath, {
             from: JSON.stringify(from),
             to:JSON.stringify(to)
         })
     .then(function (response) {
-        console.log(response)
+        console.log("see purchase history sucsses")
+        
         if (response.data===true){
             console.log("added new purhcase in server")
         }
         return false;
     })
     .catch(function (error) {
+        console.log("see purchase history error")
         console.log(error);
         return false;
     });

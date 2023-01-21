@@ -60,7 +60,7 @@ export default function Regsiter() {
             see purchase history
 
         </Button>
-        <Button    
+        <Button    N
          onClick={()=>(LoginService.logout())}   
             >
             logout

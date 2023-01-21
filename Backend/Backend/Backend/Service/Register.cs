@@ -11,6 +11,8 @@ public class Register
     private Register()
     {
         registers = new Dictionary<int, IRegisterService>();
+        this.OpenRegister(0,0);
+
     }
 
     public static Register Instance {
