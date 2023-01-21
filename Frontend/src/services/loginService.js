@@ -2,20 +2,51 @@ import { Fab } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import * as paths from './pathes';
 import axios from 'axios'
+import { useState } from 'react';
 
-const path=paths.back_path+paths.login_controller_path+"/login" 
-export default function checkLoginDataInBackend(email,accountNum){
-    console.log(email)
-    console.log(accountNum)
-    axios.post(path, {
-            email: JSON.stringify(email),accountNum:JSON.stringify(accountNum)
+const LoginFunctionPath=paths.back_path+paths.login_controller_path+"/login" 
+
+let accountNumberber = null;
+
+export default function GetLoginService() {
+  const navigate=useNavigate();
+  const [user, setUser] = useState(accountNumberber);
+
+  function checkLoginDataInBackend(email, accountNumber) {
+    const ServerAns=sendLoginRequest(email,accountNumber);
+    console.log(ServerAns);
+    if(ServerAns===true){
+    accountNumberber = { accountNumber };
+    setUser(accountNumberber);
+    }
+  }
+
+  function logout() {
+    localStorage.clear();
+    accountNumberber = null;
+    setUser(accountNumberber);
+    navigate(paths.front_path)
+  }
+
+  function isAuthenticated() {
+    return !!user;
+  }
+
+  return { user, checkLoginDataInBackend, logout, isAuthenticated };
+}
+ function sendLoginRequest(email,accountNumber){
+    console.log(accountNumber);
+    axios.post(LoginFunctionPath, {
+            email: JSON.stringify(email),accountNumber:JSON.stringify(accountNumber)
         })
     .then(function (response) {
         console.log(response)
         if (response.data===true){
             console.log("yes")
+            localStorage.clear();
             localStorage.setItem('email',email);
-            return true;
+            localStorage.setItem('accountNumber',accountNumber)
+            return 1;
         }
         return false;
     })
@@ -23,4 +54,6 @@ export default function checkLoginDataInBackend(email,accountNum){
         console.log(error);
         return false;
     });
+
+
 }
