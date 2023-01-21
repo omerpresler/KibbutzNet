@@ -25,12 +25,13 @@ namespace Backend.Controllers
             return true;
         }
         //int StoreId 
-        [HttpPost("addPurchase")]
+        [HttpPost("seePurchaseHistory")]
         public bool SeePurchaseHistory([FromBody] UserDataRequest request)
         {
 
             Console.WriteLine("yess!!!");
             Console.WriteLine(request.email);
+            Console.WriteLine(request.accountNumber);
             return true;
         }
         //register -add new purchse see purchse history

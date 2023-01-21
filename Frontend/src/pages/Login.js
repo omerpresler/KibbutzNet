@@ -4,12 +4,12 @@ import { Box } from '@mui/system'
 import Center from '../components/Center'
 import useForm from '../hooks/useFrom'
 import {useNavigate} from 'react-router-dom'
-import checkLoginDataInBackend from '../services/loginService'
+import GetLoginService from '../services/loginService'
 import * as paths from '../services/pathes';
 
-const getFreshModel = () => ({
+const getLoginModel = () => ({
     email: '',
-    accountNum: ''
+    accountNumberber: ''
 })
 
 export default function Login() {
@@ -22,17 +22,16 @@ export default function Login() {
         errors,
         setErrors,
         handleInputChange
-    } = useForm(getFreshModel);
+    } = useForm(getLoginModel);
 
     
-
+    const { user, checkLoginDataInBackend, logout, isAuthenticated }=GetLoginService()
 
     const login = e => {
         e.preventDefault();
         if (validate()){
-            const didLoginSucsed=checkLoginDataInBackend(values.email,values.accountNum);
-                console.log(didLoginSucsed)
-            if (didLoginSucsed){
+            const didLoginSucsed=checkLoginDataInBackend(values.email,values.accountNumberber,);
+            if (isAuthenticated){
              navigate(paths.register_contorller_path)
             }
         }
@@ -41,7 +40,7 @@ export default function Login() {
     const validate = () => {
         let temp = {}
         temp.email = (/\S+@\S+\.\S+/).test(values.email) ? "" : "Email is not valid."
-        temp.accountNum = values.accountNum != "" ? "" : "This field is required."
+        temp.accountNumberber = values.accountNumberber != "" ? "" : "This field is required."
         setErrors(temp)
         return Object.values(temp).every(x => x == "")
     }
@@ -69,11 +68,11 @@ export default function Login() {
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
                                 label="acount number "
-                                name="accountNum"
-                                value={values.accountNum}
+                                name="accountNumberber"
+                                value={values.accountNumberber}
                                 onChange={handleInputChange}
                                 variant="outlined"
-                                {...(errors.accountNum && { error: true, helperText: errors.accountNum })} />
+                                {...(errors.accountNumberber && { error: true, helperText: errors.accountNumberber })} />
                             <Button
                                 type="login"
                                 variant="contained"
