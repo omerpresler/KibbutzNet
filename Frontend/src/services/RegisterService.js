@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as paths from './pathes';
-const addNewPurchasePath=paths.back_path+paths.login_controller_path+"/addNewPruchase" 
-const seePurchaseHistoryPath=paths.back_path+paths.login_controller_path+"/seePurchaseHistory" 
+const addNewPurchasePath=paths.back_path+paths.register_contorller_path+"/addPurchase" 
+const seePurchaseHistoryPath=paths.back_path+paths.register_contorller_path+"/seePurchaseHistory" 
 
 export default function GetRegsiterService(){
     const addNewPurhcase=(price,description,accountNumber)=> {

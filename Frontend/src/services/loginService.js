@@ -9,6 +9,7 @@ const LoginFunctionPath=paths.back_path+paths.login_controller_path+"/login"
 let accountNumberber = null;
 
 export default function GetLoginService() {
+  const navigate=useNavigate();
   const [user, setUser] = useState(accountNumberber);
 
   function checkLoginDataInBackend(email, accountNumber) {
@@ -24,6 +25,7 @@ export default function GetLoginService() {
     localStorage.clear();
     accountNumberber = null;
     setUser(accountNumberber);
+    navigate(paths.front_path)
   }
 
   function isAuthenticated() {

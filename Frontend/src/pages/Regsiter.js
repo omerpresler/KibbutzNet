@@ -3,6 +3,10 @@ import Center from "../components/Center";
 import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import GetRegsiterService from '../services/RegisterService';
+import GetLoginService from '../services/loginService';
+
+import {useNavigate} from 'react-router-dom'
+
 
 
 const getPurchaseModel = () => ({
@@ -11,6 +15,8 @@ const getPurchaseModel = () => ({
     accountNumber:''
  })
 export default function Regsiter() {
+    const navigate=useNavigate()
+    const LoginService= GetLoginService()
     const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService();
     const {
         values,
@@ -48,11 +54,16 @@ export default function Regsiter() {
             add new purahcse
 
         </Button>
+       
+        <Button onClick={()=>seePurchaseHistory(0,1)}   >
 
+            see purchase history
+
+        </Button>
         <Button    
-         onClick={()=>seePurchaseHistory(0,1)}   
+         onClick={()=>(LoginService.logout())}   
             >
-            seePurchaseHistory
+            logout
 
         </Button>
     </Center>
