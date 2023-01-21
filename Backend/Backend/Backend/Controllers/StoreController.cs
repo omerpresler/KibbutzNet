@@ -27,7 +27,7 @@ namespace Backend.Controllers
 
         //int StoreId 
         [HttpPost("sendbyemail")]
-        public bool SendByemail([FromBody] UserDataRequest request)
+        public bool SendByEmail([FromBody] UserDataRequest request)
         {
 
             Console.WriteLine("yess!!!");
@@ -37,7 +37,7 @@ namespace Backend.Controllers
 
         //int StoreId 
         [HttpPost("sendbysms")]
-        public bool SendBysms([FromBody] UserDataRequest request)
+        public bool SendBySms([FromBody] UserDataRequest request)
         {
 
             Console.WriteLine("yess!!!");

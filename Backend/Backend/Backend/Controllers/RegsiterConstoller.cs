@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using System.Collections;
+using Microsoft.AspNetCore.Mvc;
 using Controllers.Requests;
-using Backend.Controllers.Requests;
+using Backend.Service;
 
 namespace Backend.Controllers
 {
@@ -9,31 +9,30 @@ namespace Backend.Controllers
     [Route("[controller]")]
     public class RegisterController : ControllerBase
     {
-
-
-
-        public RegisterController()
-        {
-            //127.128.0.0 ()
-        }
+        public RegisterController() { }
+        
         //float price string description int budget number int storeId int EmplooId 
-        [HttpPost("addPurchase")]
-        public bool addPurchase([FromBody] purchaseDataRequest request)
+        [HttpPost("OpenRegister")]
+        public bool OpenRegister([FromBody] RegisterInfoRequest request)
         {
-
-            Console.WriteLine("yess!!!");
-            Console.WriteLine(request.price);
+            Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
             return true;
         }
-        //int StoreId 
-        [HttpPost("seePurchaseHistory")]
-        public bool SeePurchaseHistory([FromBody] purchaseHistoryRequest request)
+        
+        //float Cost string description int budget number int storeId
+        [HttpPost("addPurchase")]
+        public bool addPurchase([FromBody] AddPurchaseRequest request)
         {
+            Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description, request.Cost);
 
-            Console.WriteLine("yess!!!");
-            Console.WriteLine(request.from);
-            Console.WriteLine(request.to);
             return true;
+        }
+        
+        //int StoreId 
+        [HttpPost("SeePurchaseHistory")]
+        public string SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
+        {
+            return Register.Instance.SeePurchaseHistory(request.StoreId);
         }
         //register -add new purchse see purchse history
         //store-client-get report 

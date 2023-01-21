@@ -3,19 +3,23 @@ using Backend.Business.src.Utils;
 
 namespace Backend.Business.src.StoreRegister
 {
-    public class Service : IRegisterService
+    public class RegisterService : IRegisterService
     {
         private AuthenticationManager auth;
         private bool loged_in { set; get; }
         private int employee { set; get; }
         private StoreRegister register { set; get; }
-        public Service()
+        public RegisterService()
         {
             auth = AuthenticationManager.GetInstance();
             loged_in = false;
             register = null;
             employee = -1;
-            Console.WriteLine("Welcome to store register!");
+        }
+
+        public void changeEmployee(int newEmployee)
+        {
+            this.employee = newEmployee;
         }
 
         public void add_store_register(int storeID, string password)
@@ -28,27 +32,17 @@ namespace Backend.Business.src.StoreRegister
             auth.add_employee_to_store_register(storeID, password, employeeID);
         }
 
-        public void login()
+        public void login(int storeID, int employeeID)
         {
-            Console.WriteLine("Please enter the store ID:");
-            var storeID = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Please enter your ID:");
-            var employeeID = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Please enter password:");
-            var password = Console.ReadLine();
-            if (auth.login_register(storeID, employeeID, password))
+            //TODO: Add passwords?
+            string password = "Ignore Password for now";
+            //if (auth.login_register(storeID, employeeID, password))
+            if(true)
             {
                 loged_in = true;
                 employee = employeeID;
-                Console.WriteLine("Login succeed!");
-                if (register == null)
-                {
-                    register = new StoreRegister(storeID);
-                }
-                return;
+                register = new StoreRegister(storeID);
             }
-
-            Console.WriteLine("Login failed");
         }
 
         public void logout()
@@ -64,24 +58,11 @@ namespace Backend.Business.src.StoreRegister
             Console.WriteLine("Logout failed! you are already logged in...");
         }
         
-        public void addPurchase()
+        public void addPurchase(int budgetNumber, string description, float cost)
         {
             if (loged_in)
             {
-                Console.WriteLine("Please enter budget number:");
-                var budget = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Please enter description:");
-                var description = Console.ReadLine();
-                Console.WriteLine("Please enter the cost:");
-                var cost = float.Parse(Console.ReadLine());
-                if (register.addPurchase(budget, description, cost, employee))
-                {
-                    Console.WriteLine("The purchase was made successfully!");
-                    return;
-                }
-
-                Console.WriteLine("The purchase failed!");
-                return;
+                register.addPurchase(budgetNumber, description, cost, employee);
             }
             Console.WriteLine("You are logged out. log in first...");
         }
@@ -104,14 +85,14 @@ namespace Backend.Business.src.StoreRegister
             Console.WriteLine("You are logged out. log in first...");
         }
         
-        public void printPurchases()
+        public string printPurchases()
         {
             if (loged_in)
             {
-                register.printPurchases();
-                return;
+                return register.printPurchases();
             }
-            Console.WriteLine("You are logged out. log in first...");
+
+            return "No employee logged in";
         }
     }
     
