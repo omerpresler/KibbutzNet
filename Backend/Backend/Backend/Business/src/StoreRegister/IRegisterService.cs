@@ -5,13 +5,14 @@ namespace Backend.Business.src.StoreRegister
 {
     public interface IRegisterService
     {
+        void changeEmployee(int newEmployee);
         void add_store_register(int storeID, string password);
         void add_employee_to_store_register(int storeID, string password, int employeeID);
-        void login();
+        void login(int storeID, int employeeID);
         void logout();
-        void addPurchase();
+        void addPurchase(int budgetNumber, string description, float cost);
         void removePurchase();
-        void printPurchases();
+        string printPurchases();
     }
 }
 

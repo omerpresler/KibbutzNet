@@ -8,22 +8,18 @@ namespace Backend.Business.src.StoreRegister
     public class StoreRegister
     {
         private int storeId { get; set; }
-        //private int employeeId { get; set; }
         private List<Purchase> purchases;
-        private int purchaseNum;
+        private static int purchaseNum = 0;
         
         public StoreRegister(int storeId)
         {
             this.storeId = storeId;
-            //this.employeeId = employeeId;
             purchases = new List<Purchase>();
-            purchaseNum = 0;
         }
 
         public bool addPurchase(int budgetNumber ,string description, float cost, int employeeId)
         {
-            purchaseNum += 1;
-            var purchase = new Purchase(storeId,budgetNumber, purchaseNum, employeeId, cost, description);
+            Purchase purchase = new Purchase(storeId, budgetNumber, Interlocked.Increment(ref purchaseNum), employeeId, cost, description);
             purchases.Add(purchase);
             return true;
         }
@@ -67,22 +63,14 @@ namespace Backend.Business.src.StoreRegister
             return storeId;
         }
 
-        public void printPurchases()
+        public string printPurchases()
         {
-            if (purchases.Count > 0)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Date\t\t\tID   Budget   Employee  Cost  Description");
-                Console.WriteLine("________________________________________________________________");
-                foreach (var p in purchases)
-                {
-                    Console.WriteLine(p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription());
-                }
-                Console.WriteLine();
-                return;
-            }
+            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
+            
+            foreach (Purchase p in purchases)
+                purhcaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
 
-            Console.WriteLine("No purchases to display.");
+            return purhcaseSummary;
         }
         
     }
