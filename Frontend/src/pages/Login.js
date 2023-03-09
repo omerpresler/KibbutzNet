@@ -32,7 +32,7 @@ export default function Login() {
         if (validate()){
             const didLoginSucsed=checkLoginDataInBackend(values.email,values.accountNumberber,);
             if (isAuthenticated){
-             navigate(paths.register_contorller_path)
+             navigate(paths.home_controller_path)
             }
         }
     }
