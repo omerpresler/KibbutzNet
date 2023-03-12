@@ -1,0 +1,22 @@
+{
+  "name": "kibbutznet",
+  "version": "1.0.0",
+  "description": "this is the main src for the kibuutznet program",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omerpresler/KibbutzNet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omerpresler/KibbutzNet/issues"
+  },
+  "homepage": "https://github.com/omerpresler/KibbutzNet#readme"
+}

@@ -10,6 +10,7 @@ namespace Backend.Business.Utils
         int storeId;
         string name;
         int phoneNumber;
+        
         User(int userId,int storeId,string name,int phoneNumber) {
             this.userId = userId;
             this.storeId = storeId;
