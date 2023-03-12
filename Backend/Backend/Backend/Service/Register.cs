@@ -1,4 +1,6 @@
-﻿namespace Backend.Service;
+﻿using System.Collections;
+
+namespace Backend.Service;
 using Backend.Business.src.StoreRegister;
 
 public class Register
@@ -58,7 +60,7 @@ public class Register
         return register.addPurchase(BudgetNumber, Description, Cost);;
     }
     
-    public string SeePurchaseHistory(int StoreId)
+    public ArrayList SeePurchaseHistory(int StoreId)
     {
         IRegisterService register = registers[StoreId];
             
@@ -67,14 +69,14 @@ public class Register
     //register -add new purchse see purchse history
     //store-client-get report
     
-    public string SeePurchaseHistory(int StoreId, DateTime start)
+    public ArrayList SeePurchaseHistory(int StoreId, DateTime start)
     {
         IRegisterService register = registers[StoreId];
             
         return register.printPurchases(start);;
     }
     
-    public string SeePurchaseHistory(int StoreId, DateTime start, DateTime end)
+    public ArrayList SeePurchaseHistory(int StoreId, DateTime start, DateTime end)
     {
         IRegisterService register = registers[StoreId];
             

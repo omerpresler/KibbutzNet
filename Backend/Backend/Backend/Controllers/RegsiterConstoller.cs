@@ -28,7 +28,7 @@ namespace Backend.Controllers
         
         //int StoreId 
         [HttpPost("SeePurchaseHistory")]
-        public string SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
+        public ArrayList SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
         {
             if(request.Start == null)
                 return Register.Instance.SeePurchaseHistory(request.StoreId);

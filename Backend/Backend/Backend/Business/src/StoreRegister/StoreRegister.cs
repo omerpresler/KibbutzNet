@@ -1,7 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Backend.Business.src.Utils;
+using Newtonsoft.Json;
+
 
 namespace Backend.Business.src.StoreRegister
 {
@@ -72,37 +75,47 @@ namespace Backend.Business.src.StoreRegister
             return storeId;
         }
 
-        public string printPurchases()
+        public ArrayList printPurchases()
         {
-            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
-            
-            foreach (Purchase p in purchases)
-                purhcaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
-
-            return purhcaseSummary;
+            return printPurchases(DateTime.MinValue, DateTime.MaxValue);
         }
         
-        public string printPurchases(DateTime start)
+        public ArrayList printPurchases(DateTime start)
         {
-            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
-            
-            foreach (Purchase p in purchases)
-                if (DateTime.Compare(p.getDate(), start) > 0)
-                    purhcaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
-
-            return purhcaseSummary;
+            return printPurchases(start, DateTime.MaxValue);
         }
         
-        public string printPurchases(DateTime start, DateTime end)
+        public ArrayList printPurchases(DateTime start, DateTime end)
         {
-            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
-            
+            ArrayList jsons = new ArrayList();
             foreach (Purchase p in purchases)
                 if (DateTime.Compare(p.getDate(), start) > 0 && DateTime.Compare(p.getDate(), end) < 0)
-                    purhcaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
+                {
+                    var purchase = new
+                    {
+                        PurchaseID = p.getPurchaseID(),
+                        Date = p.getDate(),
+                        BudgetNumber = p.getBudgetNumber(),
+                        EmployeeID = p.getEmployeeID(),
+                        Cost = p.getCost(),
+                        Description = p.getDescription()
+                    };
+                    jsons.Add(JsonConvert.SerializeObject(purchase));
+                }
 
-            return purhcaseSummary;
+            return jsons;
         }
+        
+        /*
+         {
+	        "PurchaseID" : Number,
+	        "Date": "dd/mm/yyy",
+	        "BudgetNumber" : Number,
+	        "EmployeeID" : Number,
+	        "Cost" : Number,
+	        "Description" : "......",
+        }
+         */
         
         
         

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Backend.Business.src.Utils;
 
 namespace Backend.Business.src.StoreRegister
@@ -12,9 +13,9 @@ namespace Backend.Business.src.StoreRegister
         void logout();
         bool addPurchase(int budgetNumber, string description, float cost);
         void removePurchase();
-        string printPurchases();
-        string printPurchases(DateTime start);
-        string printPurchases(DateTime start, DateTime end);
+        ArrayList printPurchases();
+        ArrayList printPurchases(DateTime start);
+        ArrayList printPurchases(DateTime start, DateTime end);
     }
 }
 

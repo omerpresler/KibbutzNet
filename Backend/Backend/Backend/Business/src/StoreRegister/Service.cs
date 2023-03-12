@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Backend.Business.src.Utils;
 
 namespace Backend.Business.src.StoreRegister
@@ -86,34 +87,34 @@ namespace Backend.Business.src.StoreRegister
             Console.WriteLine("You are logged out. log in first...");
         }
         
-        public string printPurchases()
+        public ArrayList printPurchases()
         {
             if (loged_in)
             {
                 return register.printPurchases();
             }
 
-            return "No employee logged in";
+            return new ArrayList();
         }
         
-        public string printPurchases(DateTime start)
+        public ArrayList printPurchases(DateTime start)
         {
             if (loged_in)
             {
                 return register.printPurchases(start);
             }
 
-            return "No employee logged in";
+            return new ArrayList();
         }
         
-        public string printPurchases(DateTime start, DateTime end)
+        public ArrayList printPurchases(DateTime start, DateTime end)
         {
             if (loged_in)
             {
                 return register.printPurchases(start, end);
             }
 
-            return "No employee logged in";
+            return new ArrayList();
         }
     }
     
