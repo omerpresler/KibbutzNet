@@ -15,9 +15,9 @@ const getPurchaseModel = () => ({
     accountNumber:''
  })
 export default function Regsiter() {
+    const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService()
     const navigate=useNavigate()
     const LoginService= GetLoginService()
-    const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService();
     const {
         values,
         setValues,
