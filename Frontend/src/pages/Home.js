@@ -13,7 +13,8 @@ export default function Home() {
    
 
 function move_register(){
-    navigate(paths.register_contorller_path)
+    navigate(paths.store_login_controller_path)
+    //navigate(paths.register_contorller_path)
 }
 
 function move_to_member(){

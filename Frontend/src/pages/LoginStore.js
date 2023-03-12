@@ -6,7 +6,10 @@ import useForm from '../hooks/useFrom'
 import {useNavigate} from 'react-router-dom'
 import * as paths from '../services/pathes';
 import GetLoginStoreService from "../services/loginStoreService";
+<<<<<<< HEAD
 import { useHistory } from 'react-router-dom';
+=======
+>>>>>>> main
 
 const getLoginStoreModel = () => ({
     store:'',
@@ -39,7 +42,11 @@ export default function LoginStore() {
 
     const validate = () => {
         let temp = {}
+<<<<<<< HEAD
         temp.store = values.store != "" ? (typeof values.store === "number" ? "" : "Store has to be a number.") : "This field is required."
+=======
+        temp.store = values.store != "" ? (!isNaN(values.store) ? "Store has to be a number." : "") : "This field is required."
+>>>>>>> main
         temp.password = values.password != "" ? "" : "This field is required."
         setErrors(temp)
         return Object.values(temp).every(x => x == "")
@@ -50,7 +57,11 @@ export default function LoginStore() {
             <Card sx={{ width: 400 }}>
                 <CardContent sx={{ textAlign: 'center' }}>
                     <Typography variant="h3" sx={{ my: 3 }}>
+<<<<<<< HEAD
                         כניסה לענף
+=======
+                        kibbutzNet
+>>>>>>> main
                     </Typography>
                     <Box sx={{
                         '& .MuiTextField-root': {
@@ -60,7 +71,11 @@ export default function LoginStore() {
                     }}>
                         <form noValidate autoComplete="off" onSubmit={login}>
                             <TextField
+<<<<<<< HEAD
                                 label="מספר ענף"
+=======
+                                label="Store"
+>>>>>>> main
                                 name="store"
                                 value={values.store}
                                 onChange={handleInputChange}
@@ -68,7 +83,11 @@ export default function LoginStore() {
                                 {...(errors.store && { error: true, helperText: errors.store })} />
                             <TextField
                                 type="password"
+<<<<<<< HEAD
                                 label="סיסמה"
+=======
+                                label="password"
+>>>>>>> main
                                 name="password"
                                 value={values.password}
                                 onChange={handleInputChange}
