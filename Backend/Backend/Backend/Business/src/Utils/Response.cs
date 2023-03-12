@@ -2,9 +2,9 @@ namespace Backend.Business.src.Utils
 {
     public class Response<T>
     {
-        private T value { get; set; }
-        private bool exceptionHasOccured { get; set; }
-        private string errorMessage { get; set; }
+        public T value { get; set; }
+        public bool exceptionHasOccured { get; set; }
+        public string errorMessage { get; set; }
         
         
         public Response(T value)

@@ -2,20 +2,11 @@ using Backend.Business.Utils;
 
 namespace Backend.Business.src.Utils
 {
-    public class Outsider
+    public class Outsider : User
     {
-        private int userId;
-        private int storeId;
-        private string name;
-        private string phoneNumber;
-
-        public Outsider(int userId, int storeId, string name, string phoneNumber)
+        public Outsider(int userId,int storeId,string name,string phoneNumber) : base(userId, storeId, name, phoneNumber)
         {
-            this.userId = userId;
-            this.storeId = storeId;
-            this.name = name;
-            this.phoneNumber = phoneNumber;
         }
-        
+
     }
 }

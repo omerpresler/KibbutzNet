@@ -1,13 +1,15 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Drawing;
 using Backend.Business.Utils;
+using Newtonsoft.Json;
 
 namespace Backend.Business.src.Utils
 {
     public class Chat
     {
-        private List<IMessage> messages;
+        public List<IMessage> messages;
         public int sessionId { get; set;}
         private User source;
         private User target;
@@ -25,9 +27,19 @@ namespace Backend.Business.src.Utils
         }
         
 
-        public void AddMessage(string message)
+        public void AddMessage(Message<string> message)
         {
-            messages.Add(new Message<Object>(source, message));
+            messages.Add(message);
+        }
+        
+        public void AddMessage(Message<House> message)
+        {
+            messages.Add(message);
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

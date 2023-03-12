@@ -1,12 +1,25 @@
-﻿namespace Backend.Business.Utils
+﻿using Newtonsoft.Json;
+
+namespace Backend.Business.Utils
 {
     public class House
     {
-        private int HouseId;
+        public int HouseId;
 
-        private string Direction;
+        public string Direction;
 
         //will be a google map link
-        private object mapsLink;
+        public object mapsLink;
+
+        public House(int houseId, string direction)
+        {
+            this.HouseId = houseId;
+            this.Direction = direction;
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

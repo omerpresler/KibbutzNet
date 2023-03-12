@@ -9,9 +9,9 @@ namespace Backend.Business.Utils
         int userId;
         int storeId;
         string name;
-        int phoneNumber;
+        string phoneNumber;
         
-        User(int userId,int storeId,string name,int phoneNumber) {
+        protected User(int userId,int storeId,string name,string phoneNumber) {
             this.userId = userId;
             this.storeId = storeId;
             this.name = name;
