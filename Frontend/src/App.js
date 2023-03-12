@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Login from './pages/Login';
+import LoginStore from './pages/LoginStore';
 import Register from './pages/Regsiter';
 import * as paths from './services/pathes';
 import Member from './pages/Member';
@@ -18,6 +19,7 @@ function App() {
     <Router>
         <Routes>
           <Route index element={<Login />} />
+          <Route path={paths.store_login_controller_path} element={<LoginStore />} />
           <Route path={paths.register_contorller_path} element={<Register />} />
           <Route path={paths.home_controller_path} element={<Home />} />
           <Route path={paths.member_controller_path} element={<Member />} />
