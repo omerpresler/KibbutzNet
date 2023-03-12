@@ -6,10 +6,6 @@ import useForm from '../hooks/useFrom'
 import {useNavigate} from 'react-router-dom'
 import * as paths from '../services/pathes';
 import GetLoginStoreService from "../services/loginStoreService";
-<<<<<<< HEAD
-import { useHistory } from 'react-router-dom';
-=======
->>>>>>> main
 
 const getLoginStoreModel = () => ({
     store:'',
