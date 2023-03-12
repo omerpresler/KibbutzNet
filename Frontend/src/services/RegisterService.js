@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as paths from './pathes';
+import PurchaseHistoryDisplayer from '../components/PurchaseHistoryDisplayer'
 const addNewPurchasePath=paths.back_path+paths.register_contorller_path+"/addPurchase" 
 const seePurchaseHistoryPath=paths.back_path+paths.register_contorller_path+"/seePurchaseHistory" 
 
@@ -22,25 +23,23 @@ export default function GetRegsiterService(){
       }
     const seePurchaseHistory=(from,to)=> {
         console.log("trying to see purchase history")
-        console.log(from)
-        console.log(to)
 
         axios.post(seePurchaseHistoryPath, {
             from: JSON.stringify(from),
             to:JSON.stringify(to)
         })
     .then(function (response) {
-        console.log("see purchase history sucsses")
+       
         
-        if (response.data===true){
-            console.log("added new purhcase in server")
+        if (response.data!=null){
+            alert(response)
+            return PurchaseHistoryDisplayer(response)
         }
-        return false;
     })
     .catch(function (error) {
         console.log("see purchase history error")
         console.log(error);
-        return false;
+        return <h1> there was an error </h1>;
     });
       }
       return {addNewPurhcase,seePurchaseHistory}

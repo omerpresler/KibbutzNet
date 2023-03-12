@@ -16,12 +16,16 @@ export default function Member() {
     const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService();
     const [formData, setFormData] = useState(null);
     const [open, setOpen] = useState(false);
+    const [getHistory,setGetHistory]=useState(false);
+    const [history,setHistory]=useState(null);
     const handleClick = () => {
       setOpen(!open);
     };
     const handleSubmit = (data) => {
       setFormData(data);
-      seePurchaseHistory(formData.start,formData.finish);
+      setGetHistory(seePurchaseHistory(formData.start,formData.finish));
+      if (history)
+        setGetHistory(true)
     };
   
     const fieldsForPurchaseHistory = [
@@ -33,7 +37,8 @@ export default function Member() {
        <Center>
           <Button onClick={handleClick}>
                                  see purhcase history</Button>
-                                 {open && <Form fields={fieldsForPurchaseHistory} onSubmit={handleSubmit}/>}
+                                 {open && <Center><Form fields={fieldsForPurchaseHistory} onSubmit={handleSubmit}/></Center>}
+                                 {getHistory && <Center> {getHistory} </Center>}
             <Button onClick={4}>
                                 start new chat</Button>
             <Button onClick={4}>
