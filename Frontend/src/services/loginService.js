@@ -37,7 +37,8 @@ export default function GetLoginService() {
  function sendLoginRequest(email,accountNumber){
     console.log(accountNumber);
     axios.post(LoginFunctionPath, {
-            email: JSON.stringify(email),accountNumber:JSON.stringify(accountNumber)
+            email: JSON.stringify(email),
+            accountNumber:JSON.stringify(accountNumber)
         })
     .then(function (response) {
         console.log(response)
