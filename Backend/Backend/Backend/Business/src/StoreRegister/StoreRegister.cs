@@ -21,16 +21,17 @@ namespace Backend.Business.src.StoreRegister
         {
             try
             {
-                Purchase purchase = new Purchase(storeId, budgetNumber, Interlocked.Increment(ref purchaseNum), employeeId, cost, description);
+                if (budgetNumber <= 0 || employeeId <= 0 || cost < 0 || description.Length <= 0) return false;
+                var purchase = new Purchase(storeId, budgetNumber, Interlocked.Increment(ref purchaseNum), employeeId, cost, description);
                 purchases.Add(purchase);
+                return true;
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return false;
             }
-            
-            return true;
         }
 
         public bool removePurchase(int purchaseNum)
@@ -55,16 +56,7 @@ namespace Backend.Business.src.StoreRegister
 
         public List<Purchase> getPurchaseByDate(DateTime from, DateTime until)
         {
-            var purch = new List<Purchase>();
-            foreach (var p in purchases)
-            {
-                if (DateTime.Compare(from.Date, p.getDate().Date) <= 0 &&
-                    DateTime.Compare(p.getDate().Date, until.Date) <= 0)
-                {
-                    purch.Add(p);
-                }
-            }
-            return purch;
+            return purchases.Where(p => DateTime.Compare(from.Date, p.getDate().Date) <= 0 && DateTime.Compare(p.getDate().Date, until.Date) <= 0).ToList();
         }
 
         public int getStoreID()
@@ -74,17 +66,17 @@ namespace Backend.Business.src.StoreRegister
 
         public string printPurchases()
         {
-            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
+            var purchaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
             
             foreach (Purchase p in purchases)
-                purhcaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
+                purchaseSummary += p.getDate()+"\t"+p.getPurchaseID()+"\t"+p.getBudgetNumber()+"\t"+p.getEmployeeID()+"\t"+p.getCost()+"\t"+p.getDescription() + "\n";
 
-            return purhcaseSummary;
+            return purchaseSummary;
         }
         
         public string printPurchases(DateTime start)
         {
-            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
+            var purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
             
             foreach (Purchase p in purchases)
                 if (DateTime.Compare(p.getDate(), start) > 0)
@@ -95,7 +87,7 @@ namespace Backend.Business.src.StoreRegister
         
         public string printPurchases(DateTime start, DateTime end)
         {
-            string purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
+            var purhcaseSummary = "Date\t\t\tID   Budget   Employee  Cost  Description\n";
             
             foreach (Purchase p in purchases)
                 if (DateTime.Compare(p.getDate(), start) > 0 && DateTime.Compare(p.getDate(), end) < 0)
@@ -103,8 +95,6 @@ namespace Backend.Business.src.StoreRegister
 
             return purhcaseSummary;
         }
-        
-        
         
     }
 }

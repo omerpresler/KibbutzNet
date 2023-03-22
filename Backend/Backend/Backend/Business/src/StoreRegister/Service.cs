@@ -8,7 +8,7 @@ namespace Backend.Business.src.StoreRegister
         private AuthenticationManager auth;
         private bool loged_in { set; get; }
         private int employee { set; get; }
-        private StoreRegister register { set; get; }
+        private StoreRegister? register { set; get; }
         public RegisterService()
         {
             auth = AuthenticationManager.GetInstance();
@@ -19,15 +19,15 @@ namespace Backend.Business.src.StoreRegister
 
         public void changeEmployee(int newEmployee)
         {
-            this.employee = newEmployee;
+            employee = newEmployee;
         }
 
-        public void add_store_register(int storeID, string password)
+        public void AddStoreRegister(int storeID, string password)
         {
             auth.add_store_register(storeID, password);
         }
 
-        public void add_employee_to_store_register(int storeID, string password, int employeeID)
+        public void AddEmployeeToStoreRegister(int storeID, string password, int employeeID)
         {
             auth.add_employee_to_store_register(storeID, password, employeeID);
         }
@@ -60,7 +60,7 @@ namespace Backend.Business.src.StoreRegister
         
         public bool addPurchase(int budgetNumber, string description, float cost)
         {
-            if (loged_in)
+            if (loged_in && register != null)
             {
                 return register.addPurchase(budgetNumber, description, cost, employee);
             }
@@ -70,7 +70,7 @@ namespace Backend.Business.src.StoreRegister
         
         public void removePurchase()
         {
-            if (loged_in)
+            if (loged_in && register != null)
             {
                 Console.WriteLine("Please enter the purchase number:");
                 var purchase = Convert.ToInt32(Console.ReadLine());
@@ -88,17 +88,12 @@ namespace Backend.Business.src.StoreRegister
         
         public string printPurchases()
         {
-            if (loged_in)
-            {
-                return register.printPurchases();
-            }
-
-            return "No employee logged in";
+            return loged_in && register != null ? register.printPurchases() : "No employee logged in";
         }
         
         public string printPurchases(DateTime start)
         {
-            if (loged_in)
+            if (loged_in && register != null)
             {
                 return register.printPurchases(start);
             }
@@ -108,7 +103,7 @@ namespace Backend.Business.src.StoreRegister
         
         public string printPurchases(DateTime start, DateTime end)
         {
-            if (loged_in)
+            if ( loged_in & register != null)
             {
                 return register.printPurchases(start, end);
             }
