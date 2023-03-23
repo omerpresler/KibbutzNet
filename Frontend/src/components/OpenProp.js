@@ -4,7 +4,11 @@ import Center from './Center';
 
 export default function OpenProp(prop) {
 
+    const [open, setOpen] = useState(false);
 
+    const handleClick = () => {
+      setOpen(!open);
+    };
 return (
     <div>
       {open && (

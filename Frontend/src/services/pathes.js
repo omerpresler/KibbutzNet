@@ -7,5 +7,6 @@ export const home_controller_path="/Home"
 export const register_contorller_path="/Register"
 export const member_controller_path="/Member"
 export const store_controller_path="/Store"
+export const purhcase_history="/purchse_history"
 
 

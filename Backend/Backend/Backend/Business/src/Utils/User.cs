@@ -4,20 +4,25 @@ using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace Backend.Business.Utils
 {
-    public abstract class User
+    public class User
     {
         int userId;
-        int storeId;
         string name;
-        int phoneNumber;
-        
-        User(int userId,int storeId,string name,int phoneNumber) {
+        int acountNumber;
+        string email;
+
+        public User(int userId,string name, int acountNumber , string email )
+        {
             this.userId = userId;
-            this.storeId = storeId;
             this.name = name;
-            this.phoneNumber = phoneNumber;
+            this.acountNumber = acountNumber;
+            this.email = email;
         }
 
+        public bool checkEquelUser(int userId,string email)
+        {
+            return userId==this.userId && email==this.email;   
+        }
         //will be implmented in 
         public string getNotifction(Post post)
         {

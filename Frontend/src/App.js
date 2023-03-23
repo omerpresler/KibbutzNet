@@ -5,7 +5,8 @@ import Register from './pages/Regsiter';
 import * as paths from './services/pathes';
 import Member from './pages/Member';
 import Store from './pages/Store';
-
+import DataDisplay from './components/DataDisplay'
+import PurchseHistory from './pages/purchaseHistory'
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,6 +23,8 @@ function App() {
           <Route path={paths.home_controller_path} element={<Home />} />
           <Route path={paths.member_controller_path} element={<Member />} />
           <Route path={paths.store_controller_path} element={<Store />} />
+          <Route path={paths.purhcase_history} element={<PurchseHistory />} />
+
         </Routes>
     </Router>
 )

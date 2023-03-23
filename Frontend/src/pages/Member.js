@@ -3,14 +3,12 @@ import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import Center from '../components/Center'
 import useForm from '../hooks/useFrom'
-import {useNavigate} from 'react-router-dom'
+import {Navigate, useNavigate} from 'react-router-dom'
 import GetLoginService from '../services/loginService'
 import * as paths from '../services/pathes';
 import GetRegsiterService from '../services/RegisterService';
 import { useState }  from 'react';
-import Form from '../components/Form'
-import OpenProp from '../components/OpenProp'
-import memberBackround from '../components/memberBackround'
+
 
 export default function Member() {
     const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService();
@@ -18,27 +16,19 @@ export default function Member() {
     const [open, setOpen] = useState(false);
     const [getHistory,setGetHistory]=useState(false);
     const [history,setHistory]=useState(null);
-    const handleClick = () => {
-      setOpen(!open);
+    const Navigate=useNavigate()
+    const goToSeePurhcaseHistoryPage = () => {
+      Navigate(paths.purhcase_history)
     };
-    const handleSubmit = (data) => {
-      setFormData(data);
-      setGetHistory(seePurchaseHistory(formData.start,formData.finish));
-      if (history)
-        setGetHistory(true)
-    };
+   
+   
   
-    const fieldsForPurchaseHistory = [
-        { name: 'start', label: 'start' },
-        { name: 'finish', label: 'finish' },
-      ];
+
 
     return (
        <Center>
-          <Button onClick={handleClick}>
+          <Button onClick={goToSeePurhcaseHistoryPage}>
                                  see purhcase history</Button>
-                                 {open && <Center><Form fields={fieldsForPurchaseHistory} onSubmit={handleSubmit}/></Center>}
-                                 {getHistory && <Center> {getHistory} </Center>}
             <Button onClick={4}>
                                 start new chat</Button>
             <Button onClick={4}>

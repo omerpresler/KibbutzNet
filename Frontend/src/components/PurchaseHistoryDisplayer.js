@@ -1,8 +1,8 @@
 import React from 'react';
 import { List, ListItem, ListItemText } from '@mui/material';
 import Center from './Center';
-export default function PurchaseHistoryDisplayer(history) {
-  const { dataList } = history;
+export default function PurchaseHistoryDisplayer(ToDisplay) {
+  const { dataList } = ToDisplay;
   return (
     <Center>
     <List>

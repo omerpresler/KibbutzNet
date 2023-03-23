@@ -7,7 +7,7 @@ const seePurchaseHistoryPath=paths.back_path+paths.register_contorller_path+"/se
 export default function GetRegsiterService(){
     const addNewPurhcase=(price,description,accountNumber)=> {
         axios.post(addNewPurchasePath, {
-            price: JSON.stringify(price),description:JSON.stringify(description),accountNumber:JSON.stringify(accountNumber)
+            Cost: JSON.stringify(price),description:JSON.stringify(description),BudgetNumber:JSON.stringify(accountNumber),StoreId:JSON.stringify(1)
         })
     .then(function (response) {
         console.log(response)
@@ -33,13 +33,13 @@ export default function GetRegsiterService(){
         
         if (response.data!=null){
             alert(response)
-            return PurchaseHistoryDisplayer(response)
+            return response
         }
     })
     .catch(function (error) {
         console.log("see purchase history error")
         console.log(error);
-        return <h1> there was an error </h1>;
+        return null;
     });
       }
       return {addNewPurhcase,seePurchaseHistory}

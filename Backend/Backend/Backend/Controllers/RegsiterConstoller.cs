@@ -23,7 +23,8 @@ namespace Backend.Controllers
         [HttpPost("addPurchase")]
         public bool addPurchase([FromBody] AddPurchaseRequest request)
         {
-            return Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description, request.Cost);;
+            Console.WriteLine(request);
+            return Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description, request.Cost);
         }
         
         //int StoreId 
