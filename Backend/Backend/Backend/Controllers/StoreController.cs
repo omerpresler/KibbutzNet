@@ -17,7 +17,7 @@ namespace Backend.Controllers
         }
         //int StoreId string from string too
         [HttpPost("addPurchase")]
-        public bool SeeReports([FromBody] UserDataRequest request)
+        public bool SeeReports([FromBody] PurchaseHistoryRequest request)
         {
 
             Console.WriteLine("yess!!!");

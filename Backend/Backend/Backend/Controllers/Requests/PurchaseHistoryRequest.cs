@@ -3,11 +3,11 @@
     public class PurchaseHistoryRequest
     {
         
-        public DateTime? Start { get; set; }
-        public DateTime? End { get; set; }
+        public String  Start { get; set; }
+        public String End { get; set; }
         public int StoreId { get; set; }
 
-        public PurchaseHistoryRequest(DateTime? start, DateTime? end, int storeId)
+        public PurchaseHistoryRequest(String start, String end, int storeId)
         {
             this.Start = start;
             this.End = end;
