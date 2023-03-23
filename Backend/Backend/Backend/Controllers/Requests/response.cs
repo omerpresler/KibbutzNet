@@ -8,7 +8,7 @@
         public response(T value,bool wasExecption)
         {
             Value = value;
-            wasExecption = wasExecption;
+            this.wasExecption = wasExecption;
         }
 
         public T getValue()

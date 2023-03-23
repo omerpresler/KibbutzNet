@@ -9,8 +9,6 @@ namespace Backend.Controllers
     public class StoreController : ControllerBase
     {
 
-
-
         public StoreController()
         {
             //127.128.0.0 ()
@@ -21,7 +19,7 @@ namespace Backend.Controllers
         {
 
             Console.WriteLine("yess!!!");
-            Console.WriteLine(request.email);
+            //Console.WriteLine(request.email);
             return true;
         }
 
