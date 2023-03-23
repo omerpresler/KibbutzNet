@@ -1,5 +1,6 @@
-namespace BackTests.Register;
-using Backend.Business.src.StoreRegister; 
+using Backend.Business.src.StoreRegister;
+
+namespace BackTests.Register.UnitTests;
 
 public class Tests
 {
