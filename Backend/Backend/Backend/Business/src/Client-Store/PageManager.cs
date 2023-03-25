@@ -5,12 +5,14 @@ namespace Backend.Business.src.Client_Store
 {
     public class PageManager
     {
+        private int storeID;
         private string StoreName { get; set; }
         private List<Post> posts { get; set; }
         private List<Product> products { get; set; }
-
-        public PageManager(string storeName)
+   
+        public PageManager(string storeName, int storeID)
         {
+            this.storeID = storeID;
             this.StoreName = storeName;
             this.posts = new List<Post>();
             this.products = new List<Product>();
@@ -50,6 +52,16 @@ namespace Backend.Business.src.Client_Store
             }
 
             return "didnt find the post to remove";
+        }
+
+        public string getName()
+        {
+            return StoreName;
+        }
+
+        public int getID()
+        {
+            return storeID;
         }
         
     }

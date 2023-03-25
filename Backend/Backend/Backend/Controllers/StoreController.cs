@@ -9,19 +9,17 @@ namespace Backend.Controllers
     public class StoreController : ControllerBase
     {
 
-
-
         public StoreController()
         {
             //127.128.0.0 ()
         }
         //int StoreId string from string too
         [HttpPost("addPurchase")]
-        public bool SeeReports([FromBody] UserDataRequest request)
+        public bool SeeReports([FromBody] PurchaseHistoryRequest request)
         {
 
             Console.WriteLine("yess!!!");
-            Console.WriteLine(request.email);
+            //Console.WriteLine(request.email);
             return true;
         }
 

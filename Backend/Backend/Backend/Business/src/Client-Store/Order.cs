@@ -5,19 +5,42 @@ namespace Backend.Business.src.Client_Store
 {
     public class Order
     {
-        public string status { get; set; }
-        public string memberName { get; set; }
-        public int memberId { get; set; }
-        public bool active { get; set; }
-        public Chat Chat { get; set; }
+        private int orderID;
+        private DateTime date;
+        private string status { get; set; }
+        private string memberName { get; set; }
+        private int memberId { get; set; }
+        private bool active { get; set; }
+        private Chat Chat { get; set; }
+        private float cost;
+        private string description;
 
-        public Order(string status, string memberName, string memverId, bool active)
+        public Order(int orderId, string memberName, int memberId, bool active, float cost, string description)
         {
-            this.status = status;
+            orderID = orderId;
+            date = DateTime.Now;
+            status = "received";
             this.memberId = memberId;
             this.memberName = memberName;
-            this.memberId = memberId;
             this.active = active;
+            this.cost = cost;
+            this.description = description;
         }
+
+        public override string ToString()
+        {
+            return $"{memberName}\t{memberId}\t{cost}\t{description}\t{status}";
+        }
+
+        public int getID()
+        {
+            return orderID;
+        }
+
+        public void setStatus(string status)
+        {
+            this.status = status;
+        }
+
     }
 }
