@@ -16,15 +16,15 @@ public class ChatManagerUnitTest
         Member recipient = new Member(2, 2, "recipient1", "051-222-2222");
         cm.StartChat(sender, recipient);
 
-        Console.WriteLine(cm.getChats().Count);
+        Console.WriteLine(cm.GetChats().Count);
 
-        Assert.AreEqual(1, cm.getChats().Count);
+        Assert.AreEqual(1, cm.GetChats().Count);
         
         cm.StartChat(recipient, sender);
         
-        Assert.AreEqual(cm.getChats().Count, 2);
+        Assert.AreEqual(cm.GetChats().Count, 2);
         
-        Assert.AreNotEqual(cm.getChats().ToArray()[0].sessionId, cm.getChats().ToArray()[1].sessionId);
+        Assert.AreNotEqual(cm.GetChats().ToArray()[0].sessionId, cm.GetChats().ToArray()[1].sessionId);
     }
     
     [Test]
@@ -39,16 +39,16 @@ public class ChatManagerUnitTest
         
         Assert.AreNotEqual(firstSession.value,secondSession.value);
         
-        Assert.AreEqual(cm.getChats().Count, 2);
+        Assert.AreEqual(cm.GetChats().Count, 2);
 
         cm.EndChat(firstSession.value);
-        Assert.AreEqual(cm.getChats().Count, 1);
+        Assert.AreEqual(cm.GetChats().Count, 1);
         cm.EndChat(firstSession.value);
-        Assert.AreEqual(cm.getChats().Count, 1);
+        Assert.AreEqual(cm.GetChats().Count, 1);
         cm.EndChat(-1);
-        Assert.AreEqual(cm.getChats().Count, 1);
+        Assert.AreEqual(cm.GetChats().Count, 1);
         cm.EndChat(secondSession.value);
-        Assert.AreEqual(cm.getChats().Count, 0);
+        Assert.AreEqual(cm.GetChats().Count, 0);
     }
 
     [Test]
@@ -70,12 +70,12 @@ public class ChatManagerUnitTest
         cm.SendMessage(firstSession, msg3);
         cm.SendMessage(firstSession, msg4);
 
-        Assert.AreEqual(cm.chats.Count, 1);
-        Assert.AreEqual(cm.chats.ToArray()[0].messages.Count, 4);
-        Assert.AreEqual(cm.chats.ToArray()[0].messages.ToArray()[0], msg1);
-        Assert.AreEqual(cm.chats.ToArray()[0].messages.ToArray()[1], msg2);
-        Assert.AreEqual(cm.chats.ToArray()[0].messages.ToArray()[2], msg3);
-        Assert.AreEqual(cm.chats.ToArray()[0].messages.ToArray()[3], msg4);
+        Assert.AreEqual(cm.GetChats().Count, 1);
+        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.Count, 4);
+        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[0], msg1);
+        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[1], msg2);
+        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[2], msg3);
+        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[3], msg4);
 
         Assert.AreEqual(msg1.sender, member1);
         Assert.AreEqual(msg2.sender, member1);

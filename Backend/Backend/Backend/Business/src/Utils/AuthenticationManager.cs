@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Backend.Business.src.StoreRegister;
+using Backend.Business.Utils;
 
 namespace Backend.Business.src.Utils
 {
@@ -55,6 +56,21 @@ namespace Backend.Business.src.Utils
             var store = new KeyValuePair<int, string>(storeID, password);
             return store_registers.TryGetValue(store, out employeeID);
         }
-        
+
+        public User Login(int id, string password)
+        {
+            //TODO: get user data from db
+            return new Member(-1, -1, "PlaceHolder", "PlaceHolder");
+        }
+
+        /*
+         * Return the store name upon success, otherwise returns null
+         */
+        public String CheckWorkingPrivilege(int storeID, int employeeID)
+        {
+            //TODO: confirm that this employee work at this store
+            return "StoreName";
+        }
+
     }
 }

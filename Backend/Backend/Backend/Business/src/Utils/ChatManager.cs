@@ -8,20 +8,15 @@ namespace Backend.Business.src.Utils
 {
     public class ChatManager
     {
-        public List<Chat> chats;
-        private static int nextSession;
+        public static List<Chat> chats = new List<Chat>();
+        private static int _nextSession;
 
-        public List<Chat> getChats()
+        public List<Chat> GetChats()
         {return chats;}
-
-        public ChatManager()
-        {
-            this.chats = new List<Chat>();
-        }
 
         private static int AssignSession()
         {
-            return Interlocked.Increment(ref nextSession);
+            return Interlocked.Increment(ref _nextSession);
         }
 
         public Response<int> StartChat(User sender, User target)
@@ -48,8 +43,13 @@ namespace Backend.Business.src.Utils
                 Chat toClose = chats.Find(x => x.sessionId == sessionId);
                 if (toClose != null)
                 {
-                    chats.Remove(toClose);
-                    return toClose.active ? new Response<bool>(true) : new Response<bool>(true, "Chat already closed");
+                    //chats.Remove(toClose);
+                    if (toClose.active)
+                    {
+                        toClose.active = false;
+                        return new Response<bool>(true);
+                    }
+                    return new Response<bool>(true, "Chat already closed");
                 }
 
                 return new Response<bool>(true, "No such chat was found, id: " + sessionId);

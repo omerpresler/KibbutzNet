@@ -7,13 +7,11 @@ namespace Backend.Business.Utils
     public abstract class User
     {
         int userId;
-        int storeId;
         string name;
         string phoneNumber;
         
         protected User(int userId,int storeId,string name,string phoneNumber) {
             this.userId = userId;
-            this.storeId = storeId;
             this.name = name;
             this.phoneNumber = phoneNumber;
         }

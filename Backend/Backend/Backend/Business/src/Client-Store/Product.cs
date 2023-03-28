@@ -6,18 +6,51 @@ namespace Backend.Business.src.Client_Store
 {
     public class Product : Iproduct
     {
-        public int Productid { get; set; }
-
-        public string descpition { get; set; }
-
-        //string is an addrass in the server for where the files is saved 
-        public List<string> FileList { get; set; }
+        public int productId { get; set; }
         
-        public string addfile(string filePath)
+        public string name { get; set; }
+        public string description { get; set; }
+
+        //We represent the location of the file in our file system usg string
+        public List<string> files;
+        private static int _nextProdId;
+
+
+
+        public Product(int productId, string name, string description, List<string> files)
+        {
+            this.productId = productId;
+            this.description = description;
+            this.files = files;
+            this.name = name;
+        }
+        
+        public Product(string name, string description, List<string> files)
+        {
+            productId = AssignProdId();
+            this.description = description;
+            this.files = files;
+            this.name = name;
+        }
+        
+        public Product(string name, string description)
+        {
+            productId = AssignProdId();
+            this.description = description;
+            files = new List<string>();
+            this.name = name;
+        }
+
+        private static int AssignProdId()
+        {
+            return Interlocked.Increment(ref _nextProdId);
+        }
+        
+        public string AddFile(string filePath)
         {
             if (!filePath.Contains(filePath))
             {
-                FileList.Add(filePath);
+                files.Add(filePath);
                 return "added file to the product";
             }
 
@@ -26,9 +59,9 @@ namespace Backend.Business.src.Client_Store
 
         public string RemoveFile(string filePath)
         {
-            if (FileList.Contains(filePath))
+            if (files.Contains(filePath))
             {
-                FileList.Remove(filePath);
+                files.Remove(filePath);
                 return "the file was uplouded correctally";
             }
 
