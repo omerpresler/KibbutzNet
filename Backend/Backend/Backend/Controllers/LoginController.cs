@@ -18,8 +18,6 @@ namespace Backend.Controllers
         [HttpPost("login")]
         public bool login([FromBody] UserDataRequest request)
         {
-           
-            Console.WriteLine("yess!!!");
             Console.WriteLine(request.email);
             Console.WriteLine(request.accountNumber);
             return true;

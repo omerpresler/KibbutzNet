@@ -15,27 +15,32 @@ namespace Backend.Controllers
         [HttpPost("OpenRegister")]
         public bool OpenRegister([FromBody] RegisterInfoRequest request)
         {
-            Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
-            return true;
+
+            bool res=Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
+            Console.Write(res);
+            return res;
         }
         
         //float Cost string description int budget number int storeId
         [HttpPost("addPurchase")]
         public bool addPurchase([FromBody] AddPurchaseRequest request)
         {
-            return Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description, request.Cost);;
+
+            bool res=Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description, request.Cost);;
+            Console.Write(res);
+            return res; 
         }
         
         //int StoreId 
         [HttpPost("SeePurchaseHistory")]
         public ArrayList SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
         {
-            if(request.Start == null)
+           // if(request.Start == null)
                 return Register.Instance.SeePurchaseHistory(request.StoreId);
-            if (request.End == null)
-                return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
+           // if (request.End == null)
+             //   return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
 
-            return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
+           // return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
         }
         //register -add new purchse see purchse history
         //store-client-get report 

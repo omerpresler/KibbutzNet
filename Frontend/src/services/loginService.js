@@ -1,39 +1,61 @@
 import { Fab } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import * as paths from './pathes';
 import axios from 'axios'
 import { useState } from 'react';
 const LoginFunctionPath=paths.back_path+paths.login_controller_path+"/login" 
 
-let accountNumberber = null;
+let accountNumberSaver = null;
+let storeIdSaver = null;
 
 export default function GetLoginService() {
   const navigate=useNavigate();
-  const [user, setUser] = useState(accountNumberber);
+  const [user, setUser] = useState(accountNumberSaver);
+  const [storeId, setStoreID] = useState(storeIdSaver);
 
-  function checkLoginDataInBackend(email, accountNumber) {
-    const ServerAns=sendLoginRequest(email,accountNumber);
-    console.log(ServerAns);
-    if(ServerAns===true){
-    accountNumberber = { accountNumber };
-    setUser(accountNumberber);
+  function loginToUser(email, accountNumber) {
+    const ServerAns=sendLoginAsUser(email,accountNumber);
+    // if(ServerAns===true){
+      if (true){
+    localStorage.clear();
+    localStorage.setItem('email',email);
+    localStorage.setItem('accountNumber',accountNumber)
+    accountNumberSaver = { accountNumber };
+    setUser(accountNumberSaver);
+    }
+  }
+
+  function loginToStore(email, accountNumber,storeId) {
+    const ServerAns=sendLoginAsStore(email,accountNumber,storeId);
+    // if(ServerAns===true){
+      if (true){
+      localStorage.clear();
+      localStorage.setItem('email',email);
+      localStorage.setItem('accountNumber',accountNumber)
+      localStorage.setItem('storeId',storeId)
+      accountNumberSaver = { accountNumber };
+      storeIdSaver = { storeId };
+      setUser(accountNumberSaver);
+      setStoreID(storeIdSaver);
     }
   }
 
   function logout() {
     localStorage.clear();
-    accountNumberber = null;
-    setUser(accountNumberber);
+    accountNumberSaver = null;
+    storeId=null;
+    setUser(accountNumberSaver);
+    setStoreID(storeId);
     navigate(paths.front_path)
   }
 
   function isAuthenticated() {
-    return !!user;
+    return !!user ||storeId!=0;
   }
 
-  return { user, checkLoginDataInBackend, logout, isAuthenticated };
+  return { user, loginToUser,loginToStore, logout, isAuthenticated };
 }
- function sendLoginRequest(email,accountNumber){
+ function sendLoginAsUser(email,accountNumber){
     console.log(accountNumber);
     axios.post(LoginFunctionPath, {
             email: JSON.stringify(email),
@@ -42,11 +64,7 @@ export default function GetLoginService() {
     .then(function (response) {
         console.log(response)
         if (response.data===true){
-            console.log("yes")
-            localStorage.clear();
-            localStorage.setItem('email',email);
-            localStorage.setItem('accountNumber',accountNumber)
-            return 1;
+ 
         }
         return false;
     })
@@ -54,6 +72,25 @@ export default function GetLoginService() {
         console.log(error);
         return false;
     });
+  }
+
+    function sendLoginAsStore(email,accountNumber,storeId){
+      console.log(storeId);
+      axios.post(LoginFunctionPath, {
+              email: JSON.stringify(email),
+              accountNumber:JSON.stringify(accountNumber),
+              storeId:JSON.stringify(storeId)
+          })
+      .then(function (response) {
+          if (response.data===true){
+            localStorage.setItem('storeId',storeId);
+          }
+          return false;
+      })
+      .catch(function (error) {
+          console.log(error);
+          return false;
+      });
 
 
 }
