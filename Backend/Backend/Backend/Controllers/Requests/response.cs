@@ -2,18 +2,18 @@
 {
     public class response<T>
     {
-        private T Value;
-        private bool wasExecption;
+        public T value { get; set; }
+        public bool wasExecption { get; set; }
 
         public response(T value,bool wasExecption)
         {
-            Value = value;
-            wasExecption = wasExecption;
+            this.value = value;
+            this.wasExecption = wasExecption;
         }
 
         public T getValue()
         {
-            return Value;
+            return value;
         }
 
         public bool getWasExecption()

@@ -5,8 +5,8 @@ export const  home_page="/Home"
 
 
 //login pathes
-export const login_to_user="/loginToUSer"
-export const login_to_register="/loginToRegsiter"
+export const login_to_user="/loginToUser"
+export const login_to_register="/loginToStore"
 export const login_to_store="/loginToStore"
 
 
