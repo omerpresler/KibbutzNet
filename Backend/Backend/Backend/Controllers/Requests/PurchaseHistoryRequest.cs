@@ -3,14 +3,13 @@
     public class PurchaseHistoryRequest
     {
         
-        public String  Start { get; set; }
-        public String End { get; set; }
-        public int StoreId { get; set; }
 
-        public PurchaseHistoryRequest(String start, String end, int storeId)
+        public int StoreId { get; set; }
+        public int userId { get; set; }
+
+        public PurchaseHistoryRequest(int storeId,int UserId)
         {
-            this.Start = start;
-            this.End = end;
+            this.userId = userId;
             this.StoreId = storeId;
         }
     }

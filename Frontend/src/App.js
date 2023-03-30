@@ -1,10 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
-import Login from './pages/Login';
+import LoginUser from './pages/LoginUser';
 import Register from './pages/Regsiter';
 import * as paths from './services/pathes';
 import Member from './pages/Member';
 import Store from './pages/Store';
+import LoginStore from './pages/LoginStore';
 
 import {
   BrowserRouter as Router,
@@ -16,12 +17,19 @@ import Home from './pages/Home';
 function App() {
   return (
     <Router>
+
         <Routes>
-          <Route index element={<Login />} />
-          <Route path={paths.register_contorller_path} element={<Register />} />
-          <Route path={paths.home_controller_path} element={<Home />} />
-          <Route path={paths.member_controller_path} element={<Member />} />
-          <Route path={paths.store_controller_path} element={<Store />} />
+          <Route index element={<Home />} />
+          <Route path={paths.home_page} element={<Home />} />
+
+          <Route path={paths.login_to_user} element={<LoginUser />} />
+          <Route path={paths.login_to_register} element={<LoginStore nextPage={paths.register_page_path} />} />
+          <Route path={paths.login_to_store} element={<LoginStore nextPage={paths.store_page_path} />} />
+
+
+          <Route path={paths.register_page_path} element={<Register />} />
+          <Route path={paths.member_page_path} element={<Member />} />
+          <Route path={paths.store_page_path} element={<Store  />} />
         </Routes>
     </Router>
 )

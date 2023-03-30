@@ -17,7 +17,7 @@ const getPurchaseModel = () => ({
 export default function Regsiter() {
     const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService()
     const navigate=useNavigate()
-    const LoginService= GetLoginService()
+    const { user, loginToUser,loginToStore, logout, isAuthenticated }= GetLoginService()
     const {
         values,
         setValues,
@@ -60,11 +60,11 @@ export default function Regsiter() {
             see purchase history
 
         </Button>
-        <Button    N
+        {/* <Button    N
          onClick={()=>(LoginService.logout())}   
             >
             logout
 
-        </Button>
+        </Button> */}
     </Center>
 }

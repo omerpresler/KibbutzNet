@@ -11,7 +11,8 @@ const darkTheme = createTheme({
     mode: 'dark',
   },
   typography:{
-    fontFamily:'"IBM Plex Sans"'
+    fontFamily:'"IBM Plex Sans"',
+    fontSize: 20,
   }
 })
 

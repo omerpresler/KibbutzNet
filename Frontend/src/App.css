@@ -29,6 +29,10 @@
   color: #61dafb;
 }
 
+.MuiButton {
+  font-size: 100px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

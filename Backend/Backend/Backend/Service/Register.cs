@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-
 namespace Backend.Service;
 using Backend.Business.src.StoreRegister;
 
@@ -51,7 +50,6 @@ public class Register
         
     public bool addPurchase(int StoreId, int BudgetNumber, string Description, float Cost)
     {
-        Console.WriteLine(registers.Count);
         IRegisterService register = registers[StoreId];
         if (register == null)
             return false;

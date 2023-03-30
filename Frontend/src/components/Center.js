@@ -6,9 +6,10 @@ export default function Center(props) {
         <Grid container
             direction="column"
             alignItems="center"
-            justifyContent="center"
+            justifyContent="space-evenly"
+
             sx={{ minHeight: '100vh' }}>
-            <Grid item xs={1}>
+            <Grid item xs={4} sm={6} rowSpacing={1} >
                 {props.children}
             </Grid>
         </Grid>

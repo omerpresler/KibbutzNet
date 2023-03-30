@@ -12,7 +12,7 @@ const getLoginModel = () => ({
     accountNumberber: ''
 })
 
-export default function Login() {
+export default function LoginStore(nextPage) {
     const navigate=useNavigate()
 
 
@@ -25,14 +25,13 @@ export default function Login() {
     } = useForm(getLoginModel);
 
     
-    const { user, checkLoginDataInBackend, logout, isAuthenticated }=GetLoginService()
-
+    const { user,loginToUser,loginToStore, logout, isAuthenticated }=GetLoginService()
     const login = e => {
         e.preventDefault();
         if (validate()){
-            const didLoginSucsed=checkLoginDataInBackend(values.email,values.accountNumberber,);
+            const didLoginSucsed=loginToStore(values.email,values.accountNumber,values.storeId);
             if (isAuthenticated){
-             navigate(paths.home_controller_path)
+             navigate(nextPage.nextPage)
             }
         }
     }
@@ -40,7 +39,8 @@ export default function Login() {
     const validate = () => {
         let temp = {}
         temp.email = (/\S+@\S+\.\S+/).test(values.email) ? "" : "Email is not valid."
-        temp.accountNumberber = values.accountNumberber != "" ? "" : "This field is required."
+        temp.accountNumber = values.accountNumber != "" ? "" : "This field is required."
+        temp.storeNumber = values.storeNumber != "" ? "" : "This field is required."
         setErrors(temp)
         return Object.values(temp).every(x => x == "")
     }
@@ -68,11 +68,18 @@ export default function Login() {
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
                                 label="acount number "
-                                name="accountNumberber"
-                                value={values.accountNumberber}
+                                name="accountNumber"
+                                value={values.accountNumber}
                                 onChange={handleInputChange}
                                 variant="outlined"
-                                {...(errors.accountNumberber && { error: true, helperText: errors.accountNumberber })} />
+                                {...(errors.accountNumber && { error: true, helperText: errors.accountNumber })} />
+                            <TextField
+                                label="store id "
+                                name="storeId"
+                                value={values.storeId}
+                                onChange={handleInputChange}
+                                variant="outlined"
+                                {...(errors.storeNumber && { error: true, helperText: errors.storeId })} />
                             <Button
                                 type="login"
                                 variant="contained"

@@ -17,7 +17,6 @@ namespace Backend.Controllers
         [HttpPost("addPurchase")]
         public bool SeeReports([FromBody] PurchaseHistoryRequest request)
         {
-
             Console.WriteLine("yess!!!");
             //Console.WriteLine(request.email);
             return true;
