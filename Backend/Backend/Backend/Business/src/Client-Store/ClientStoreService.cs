@@ -35,7 +35,7 @@ public class ClientStoreService
     public Response<bool> AddProduct(string name, string description)
     {
         Product prod = new Product(name, description);
-        pageManager.addProduct(prod);
+        pageManager.AddProduct(prod);
     }
 
 

@@ -30,12 +30,12 @@ namespace Backend.Controllers
         [HttpPost("SeePurchaseHistory")]
         public ArrayList SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
         {
-            if(request.Start == null)
+//            if(request.Start == null)
                 return Register.Instance.SeePurchaseHistory(request.StoreId);
-            if (request.End == null)
-                return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
-
-            return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
+//            if (request.End == null)
+//                return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
+//
+//            return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
         }
         //register -add new purchse see purchse history
         //store-client-get report 

@@ -10,6 +10,7 @@ namespace Backend.Business.src.Client_Store
         public List<Post> posts { get; set; }
         public List<Product> products { get; set; }
 
+   
         public PageManager(string storeName)
         {
             this.StoreName = storeName;
@@ -53,6 +54,5 @@ namespace Backend.Business.src.Client_Store
 
             return "didnt find the post to remove";
         }
-        
     }
 }

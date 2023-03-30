@@ -23,16 +23,31 @@ function move_to_member(){
 function move_to_store(){
     navigate(paths.store_controller_path)
 }
-    
+
 
     return (
-      <Center>
-          <Button onClick={move_register}>
-                                 Register</Button>
-            <Button onClick={move_to_member}>
-                                 kibutz member</Button>
-            <Button onClick={move_to_store}>
-                                 kibutz store</Button>
-                                </Center>
+        <Center>
+        <Card sx={{ width: 400 }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" sx={{ my: 3 }}>
+                    kibbutzNet
+                </Typography>
+                <Box sx={{
+                    '& .MuiTextField-root': {
+                        m: 1,
+                        width: '90%',
+                        length: '60%'
+                    }
+                }}>
+                <Button onClick={move_register}>
+                                    Register</Button>
+                <Button onClick={move_to_member}>
+                                    kibutz member</Button>
+                <Button onClick={move_to_store}>
+                                    kibutz store</Button>
+                </Box>
+            </CardContent>
+        </Card>
+    </Center>
     )
 }
