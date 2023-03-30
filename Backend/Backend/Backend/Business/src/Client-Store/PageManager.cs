@@ -6,9 +6,9 @@ namespace Backend.Business.src.Client_Store
 {
     public class PageManager
     {
-        public string StoreName { get; set; }
-        public List<Post> posts { get; set; }
-        public List<Product> products { get; set; }
+        public string StoreName;
+        private List<Post> posts;
+        private List<Product> products;
 
    
         public PageManager(string storeName)
@@ -37,22 +37,24 @@ namespace Backend.Business.src.Client_Store
             return new Response<Post>(postToRemove);
         }
 
-        public string AddProduct(Product product)
+        public Response<Product> AddProduct(Product product)
         {
+            if (products.Find(x => x.productId == product.productId) != null)
+                return new Response<Product>(true, "Product with such id already exist");
+                
             products.Add(product);
-            return "added the post";
+            return new Response<Product>(product);
         }
         
-        public string RemoveProduct(int ProductIdToRemove)
+        public Response<Product> RemoveProduct(int productId)
         {
-            foreach (var postToRemove in posts)
-            {
-                if (ProductIdToRemove == postToRemove.Postid)
-                    posts.Remove(postToRemove);
-                return "removed sucssfully";
-            }
+            Product? prod = products.Find(x => x.productId == productId);
+            
+            if(prod == null)
+                return new Response<Product>(true, "Product with such id already exist");
 
-            return "didnt find the post to remove";
+            products.Remove(prod);
+            return new Response<Product>(prod);
         }
     }
 }
