@@ -7,6 +7,7 @@ public class AddPurchaseRequest
     public int BudgetNumber { get; set; }
     public int StoreId { get; set; }
 
+
     public AddPurchaseRequest(float cost, string description, int budgetNumber, int storeId)
     {
         Cost = cost;

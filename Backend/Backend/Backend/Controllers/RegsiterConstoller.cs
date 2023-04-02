@@ -27,19 +27,16 @@ namespace Backend.Controllers
         [HttpPost("addPurchase")]
         public bool addPurchase([FromBody] AddPurchaseRequest request)
         {
-
             bool res = Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description,
                 request.Cost);
-            ;
             Console.Write(res);
             return res;
         }
 
         //int StoreId 
-        [HttpPost("SeePurchaseHistory")]
-        public ArrayList SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("SeePurchaseHistoryUser")]
+        public ArrayList SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
         {
-            
 //            if(request.Start == null)
             return Register.Instance.SeePurchaseHistory(request.StoreId);
 //            if (request.End == null)
@@ -53,5 +50,43 @@ namespace Backend.Controllers
 
                 // return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
         }
+
+                //int StoreId 
+        [HttpPost("SeePurchaseHistoryStore")]
+        public ArrayList SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
+        {
+//            if(request.Start == null)
+            return Register.Instance.SeePurchaseHistory(request.StoreId);
+//            if (request.End == null)
+//                return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
+//
+//            return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
+            // if(request.Start == null)
+            return Register.Instance.SeePurchaseHistory(request.StoreId);
+                // if (request.End == null)
+                //   return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
+
+                // return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
+        }
+
+                [HttpPost("SeePurchaseHistoryUserAndStore")]
+        public ArrayList SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        {
+//            if(request.Start == null)
+            return Register.Instance.SeePurchaseHistory(request.StoreId);
+//            if (request.End == null)
+//                return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
+//
+//            return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
+            // if(request.Start == null)
+            return Register.Instance.SeePurchaseHistory(request.StoreId);
+                // if (request.End == null)
+                //   return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
+
+                // return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
+        }
+
+
+        
     }
 }
