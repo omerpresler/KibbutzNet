@@ -7,7 +7,7 @@
         public int StoreId { get; set; }
         public int userId { get; set; }
 
-        public PurchaseHistoryRequest(int storeId,int UserId)
+        public PurchaseHistoryRequest(int storeId,int userId)
         {
             this.userId = userId;
             this.StoreId = storeId;

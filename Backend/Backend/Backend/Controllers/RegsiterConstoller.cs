@@ -32,10 +32,26 @@ namespace Backend.Controllers
         }
 
         //int StoreId 
-        [HttpPost("SeePurchaseHistory")]
-        public ArrayList SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("SeePurchaseHistoryUser")]
+        public ArrayList SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
         {
             return Register.Instance.SeePurchaseHistory(request.StoreId);
         }
+
+        //int StoreId 
+        [HttpPost("SeePurchaseHistoryStore")]
+        public ArrayList SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Register.Instance.SeePurchaseHistory(request.StoreId);
+        }
+
+        [HttpPost("SeePurchaseHistoryUserAndStore")]
+        public ArrayList SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Register.Instance.SeePurchaseHistory(request.StoreId);
+        }
+
+
+        
     }
 }
