@@ -20,20 +20,21 @@ namespace Backend.Business.src.StoreRegister
             purchases = new List<Purchase>();
         }
 
-        public bool addPurchase(int budgetNumber ,string description, float cost, int employeeId)
+        public Response<int> addPurchase(int budgetNumber ,string description, float cost, int employeeId)
         {
             try
             {
                 Purchase purchase = new Purchase(storeId, budgetNumber, Interlocked.Increment(ref purchaseNum), employeeId, cost, description);
                 purchases.Add(purchase);
+                return new Response<int>(purchase.purchaseID);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return false;
+                return new Response<int>(true, e.Message);
             }
             
-            return true;
+            
         }
 
         public bool removePurchase(int purchaseNum)

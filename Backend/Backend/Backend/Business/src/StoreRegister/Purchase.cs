@@ -6,7 +6,7 @@ namespace Backend.Business.src.StoreRegister
     {
         private int budgetNumber { get; set; }
         private int storeID { get; set; }
-        private int purchaseID { get; set; }
+        public int purchaseID { get; set; }
         private int employeeID { get; set; }
         private float cost { get; set; }
         private string description { get; set; }

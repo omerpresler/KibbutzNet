@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using Backend.Business.src.Utils;
+
 namespace Backend.Service;
 using Backend.Business.src.StoreRegister;
 
@@ -47,15 +49,10 @@ public class Register
         Console.WriteLine(registers.Count);
         return true;
     }
-        
-    public bool addPurchase(int StoreId, int BudgetNumber, string Description, float Cost)
+    
+    public Response<int> addPurchase(int StoreId, int BudgetNumber, string Description, float Cost)
     {
-        IRegisterService register = registers[StoreId];
-        if (register == null)
-            return false;
-        
-            
-        return register.addPurchase(BudgetNumber, Description, Cost);;
+        return registers.ContainsKey(StoreId) ? registers[StoreId].addPurchase(BudgetNumber, Description, Cost) : new Response<int>(true, "The register has not been opened");
     }
     
     public ArrayList SeePurchaseHistory(int StoreId)

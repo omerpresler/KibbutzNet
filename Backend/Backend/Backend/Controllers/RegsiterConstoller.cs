@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Controllers.Requests;
 using Backend.Service;
+using Backend.Business.src.Utils;
 
 namespace Backend.Controllers
 {
@@ -25,33 +26,16 @@ namespace Backend.Controllers
 
         //float Cost string description int budget number int storeId
         [HttpPost("addPurchase")]
-        public bool addPurchase([FromBody] AddPurchaseRequest request)
+        public Response<int> addPurchase([FromBody] AddPurchaseRequest request)
         {
-
-            bool res = Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description,
-                request.Cost);
-            ;
-            Console.Write(res);
-            return res;
+            return Register.Instance.addPurchase(request.StoreId, request.BudgetNumber, request.Description, request.Cost);
         }
 
         //int StoreId 
         [HttpPost("SeePurchaseHistory")]
         public ArrayList SeePurchaseHistory([FromBody] PurchaseHistoryRequest request)
         {
-            
-//            if(request.Start == null)
             return Register.Instance.SeePurchaseHistory(request.StoreId);
-//            if (request.End == null)
-//                return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
-//
-//            return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
-            // if(request.Start == null)
-            return Register.Instance.SeePurchaseHistory(request.StoreId);
-                // if (request.End == null)
-                //   return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now);
-
-                // return Register.Instance.SeePurchaseHistory(request.StoreId, request.Start??DateTime.Now, request.End??DateTime.Now);
         }
     }
 }

@@ -7,13 +7,13 @@ namespace Backend.Business.src.StoreRegister
     public class RegisterService : IRegisterService
     {
         private AuthenticationManager auth;
-        private bool loged_in { set; get; }
+        private bool LoggedIn { set; get; }
         private int employee { set; get; }
         private StoreRegister register { set; get; }
         public RegisterService()
         {
             auth = AuthenticationManager.GetInstance();
-            loged_in = false;
+            LoggedIn = false;
             register = null;
             employee = -1;
         }
@@ -40,7 +40,7 @@ namespace Backend.Business.src.StoreRegister
             //if (auth.login_register(storeID, employeeID, password))
             if(true)
             {
-                loged_in = true;
+                LoggedIn = true;
                 employee = employeeID;
                 register = new StoreRegister(storeID);
             }
@@ -48,9 +48,9 @@ namespace Backend.Business.src.StoreRegister
 
         public void logout()
         {
-            if (loged_in)
+            if (LoggedIn)
             {
-                loged_in = false;
+                LoggedIn = false;
                 employee = -1;
                 Console.WriteLine("Logout succeed!");
                 return;
@@ -59,19 +59,19 @@ namespace Backend.Business.src.StoreRegister
             Console.WriteLine("Logout failed! you are already logged in...");
         }
         
-        public bool addPurchase(int budgetNumber, string description, float cost)
+        public Response<int> addPurchase(int budgetNumber, string description, float cost)
         {
-            if (loged_in)
+            if (LoggedIn)
             {
                 return register.addPurchase(budgetNumber, description, cost, employee);
             }
 
-            return false;
+            return new Response<int>(true, "");
         }
         
         public void removePurchase()
         {
-            if (loged_in)
+            if (LoggedIn)
             {
                 Console.WriteLine("Please enter the purchase number:");
                 var purchase = Convert.ToInt32(Console.ReadLine());
@@ -89,7 +89,7 @@ namespace Backend.Business.src.StoreRegister
         
         public ArrayList printPurchases()
         {
-            if (loged_in)
+            if (LoggedIn)
             {
                 return register.printPurchases();
             }
@@ -99,7 +99,7 @@ namespace Backend.Business.src.StoreRegister
         
         public ArrayList printPurchases(DateTime start)
         {
-            if (loged_in)
+            if (LoggedIn)
             {
                 return register.printPurchases(start);
             }
@@ -109,7 +109,7 @@ namespace Backend.Business.src.StoreRegister
         
         public ArrayList printPurchases(DateTime start, DateTime end)
         {
-            if (loged_in)
+            if (LoggedIn)
             {
                 return register.printPurchases(start, end);
             }
