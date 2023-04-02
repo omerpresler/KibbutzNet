@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
 
 namespace Backend.Controllers
@@ -43,7 +43,28 @@ namespace Backend.Controllers
         }
       
 
+        [HttpPost("openChatStore")]
+        public Response<int> openChat([FromBody] openChatRequest request)
+        {
 
+        }
+        [HttpPost("sendMassageInChat")]
+        public Response<int> sendMassageInChat([FromBody] chatMassageRequest request)
+        {
+
+        }
+        //list (list massages ,int seesion id)
+        [HttpPost("getAllchats")]
+        public Response<List<String>> getAllchats([FromBody] storeLoginRequest request)
+        {
+
+        }
+
+        // [HttpPost("closeChatStore")]
+        // public Response<int> closeChat([FromBody] openChatRequest request)
+        // {
+            
+        // }
 
 
 

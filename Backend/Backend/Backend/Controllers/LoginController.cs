@@ -12,8 +12,9 @@ namespace Backend.Controllers
 
         public loginController()
         {
-        }
 
+
+        }
 
         [HttpPost("loginToUser")]
         public response<bool> loginUser([FromBody] userLoginRequest request)
@@ -34,6 +35,7 @@ namespace Backend.Controllers
             return res;
         }
 
+        public response
 
 
         //register -add new purchse see purchse history
