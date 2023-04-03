@@ -9,22 +9,26 @@ namespace Backend.Controllers
     public class userController : ControllerBase
     {
         [HttpPost("openChatUser")]
+        //int userId
         public Response<int> openChat([FromBody] openChatRequest request)
         {
 
         }
-
         [HttpPost("sendMassageInChat")]
-        public Response<int> sendMassageInChat([FromBody] chatMassageRequest request)
+        //json.stringfy(message)
+        public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
 
         }
 
 
+        //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
-        public Response<int> getAllchats([FromBody] UserDataRequest request)
+        public Response<List<String>> getAllchats([FromBody] storeLoginRequest request)
         {
-
+            List<string> result = new List<string>();
+            Response<List<string>> res = new(result);
+            return res ;
         }
     }
 }

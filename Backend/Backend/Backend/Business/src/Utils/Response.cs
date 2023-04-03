@@ -16,6 +16,7 @@ namespace Backend.Business.src.Utils
         
         public Response(bool exceptionHasOccured, string errorMessage)
         {
+            this.value = default(T);
             this.exceptionHasOccured = exceptionHasOccured;
             this.errorMessage = errorMessage;
         }

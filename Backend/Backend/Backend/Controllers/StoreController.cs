@@ -44,20 +44,24 @@ namespace Backend.Controllers
       
 
         [HttpPost("openChatStore")]
+        //int userId
         public Response<int> openChat([FromBody] openChatRequest request)
         {
 
         }
         [HttpPost("sendMassageInChat")]
-        public Response<int> sendMassageInChat([FromBody] chatMassageRequest request)
+        //json.stringfy(message)
+        public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
 
         }
-        //list (list massages ,int seesion id)
+        //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
         public Response<List<String>> getAllchats([FromBody] storeLoginRequest request)
         {
-
+            List<string> result = new List<string>();
+            Response<List<string>> res = new(result);
+            return res ;
         }
 
         // [HttpPost("closeChatStore")]
