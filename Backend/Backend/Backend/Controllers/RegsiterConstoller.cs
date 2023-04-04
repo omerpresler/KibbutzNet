@@ -16,7 +16,7 @@ namespace Backend.Controllers
 
         //float price string description int budget number int storeId int EmployeeId 
         [HttpPost("OpenRegister")]
-        public Response<bool> OpenRegister([FromBody] RegisterInfoRequest request)
+        public Response<string> OpenRegister([FromBody] RegisterInfoRequest request)
         {
             return Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
         }
@@ -35,22 +35,23 @@ namespace Backend.Controllers
 
         //int StoreId 
         [HttpPost("SeePurchaseHistoryUser")]
-        public Response<List<string>> SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
+        public Response<ArrayList> SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
         {
             return Register.Instance.SeePurchaseHistoryUser(request.UserId);
         }
 
         //int StoreId 
         [HttpPost("SeePurchaseHistoryStore")]
-        public ArrayList SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
+        public Response<ArrayList> SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
         {
             return Register.Instance.SeePurchaseHistoryStore(request.StoreId);
         }
 
         [HttpPost("SeePurchaseHistoryUserAndStore")]
-        public ArrayList SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        public Response<ArrayList> SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
         {
             return Register.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }
+
     }
 }

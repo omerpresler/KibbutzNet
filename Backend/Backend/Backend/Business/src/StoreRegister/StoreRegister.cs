@@ -34,9 +34,19 @@ namespace Backend.Business.src.StoreRegister
 
             return new Response<string>(storeName);
         }
+
+        public Response<bool> logout()
+        {
+            if(employeeId == -1)
+                return new Response<bool>(true, "No employee Logged in at the moment");
+            
+            employeeId = -1;
+            
+            return new Response<bool>(true);
+        }
         
 
-        public Response<int> addPurchase(int budgetNumber ,string description, float cost, int employeeId)
+        public Response<int> addPurchase(int budgetNumber ,string description, float cost)
         {
             try
             {
@@ -61,11 +71,6 @@ namespace Backend.Business.src.StoreRegister
                 return true;
             }
             return false;
-        }
-
-        public Purchase getPurchaseByBudgetNumber(int budget)
-        {
-            return purchases.FirstOrDefault(p => p.getBudgetNumber() == budget);
         }
 
         public Purchase getPurchaseByID(int purchaseID)
@@ -133,6 +138,27 @@ namespace Backend.Business.src.StoreRegister
 	        "Description" : "......",
         }
          */
+        
+        public ArrayList GetPurchasesByUser(int userId)
+        {
+            ArrayList jsons = new ArrayList();
+            foreach (Purchase p in purchases)
+                if (p.budgetNumber == userId)
+                {
+                    var purchase = new
+                    {
+                        PurchaseID = p.getPurchaseID(),
+                        Date = p.getDate(),
+                        BudgetNumber = p.getBudgetNumber(),
+                        EmployeeID = p.getEmployeeID(),
+                        Cost = p.getCost(),
+                        Description = p.getDescription()
+                    };
+                    jsons.Add(JsonConvert.SerializeObject(purchase));
+                }
+
+            return jsons;
+        }
         
         
     }
