@@ -14,14 +14,16 @@ namespace Backend.Controllers
         {
         }
 
-        //float price string description int budget number int storeId int EmplooId 
+        //float price string description int budget number int storeId int EmployeeId 
         [HttpPost("OpenRegister")]
-        public bool OpenRegister([FromBody] RegisterInfoRequest request)
+        public Response<bool> OpenRegister([FromBody] RegisterInfoRequest request)
         {
-
-            bool res = Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
-            Console.Write(res);
-            return res;
+            return Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
+        }
+        
+        public Response<bool> CloseRegister(int storeId)
+        {
+            return Register.Instance.CloseRegister(storeId);
         }
 
         //float Cost string description int budget number int storeId
@@ -33,25 +35,22 @@ namespace Backend.Controllers
 
         //int StoreId 
         [HttpPost("SeePurchaseHistoryUser")]
-        public ArrayList SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
+        public Response<List<string>> SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
         {
-            return Register.Instance.SeePurchaseHistory(request.StoreId);
+            return Register.Instance.SeePurchaseHistoryUser(request.UserId);
         }
 
         //int StoreId 
         [HttpPost("SeePurchaseHistoryStore")]
         public ArrayList SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
         {
-            return Register.Instance.SeePurchaseHistory(request.StoreId);
+            return Register.Instance.SeePurchaseHistoryStore(request.StoreId);
         }
 
         [HttpPost("SeePurchaseHistoryUserAndStore")]
         public ArrayList SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
         {
-            return Register.Instance.SeePurchaseHistory(request.StoreId);
+            return Register.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }
-
-
-        
     }
 }

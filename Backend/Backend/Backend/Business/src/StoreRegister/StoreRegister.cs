@@ -10,15 +10,31 @@ namespace Backend.Business.src.StoreRegister
 {
     public class StoreRegister
     {
-        private int storeId { get; set; }
+        private int storeId;
+        private int employeeId;
         private List<Purchase> purchases;
         private static int purchaseNum = 0;
         
         public StoreRegister(int storeId)
         {
             this.storeId = storeId;
+            employeeId = -1;
             purchases = new List<Purchase>();
         }
+
+        public Response<string> login(int employeeId)
+        {
+            String storeName = AuthenticationManager.GetInstance().CheckWorkingPrivilege(storeId, employeeId);
+            if (storeName == null)
+            {
+                return new Response<string>(true, "This employee does not have Working Privileges");
+            }
+
+            this.employeeId = employeeId;
+
+            return new Response<string>(storeName);
+        }
+        
 
         public Response<int> addPurchase(int budgetNumber ,string description, float cost, int employeeId)
         {

@@ -6,16 +6,15 @@ using Backend.Business.src.StoreRegister;
 
 public class Register
 {
-    private static Dictionary<int, IRegisterService> registers;
+    private static Dictionary<int, StoreRegister> registers;
     
     private static Register instance;
     private static readonly object padlock = new object();
 
     private Register()
     {
-        registers = new Dictionary<int, IRegisterService>();
+        registers = new Dictionary<int, StoreRegister>();
         this.OpenRegister(0,0);
-
     }
 
     public static Register Instance {
@@ -32,22 +31,48 @@ public class Register
     }
 
 
-    public bool OpenRegister(int StoreId, int EmployeeId)
+    public Response<string> OpenRegister(int StoreId, int EmployeeId)
     {
-        if (!registers.ContainsKey(StoreId))
+        try
         {
-            IRegisterService register = new RegisterService();
-            register.login(StoreId, EmployeeId);
-            registers.Add(StoreId, register);
-        }
-        else
+            StoreRegister register;
+            if (!registers.ContainsKey(StoreId))
+            {
+                register = new StoreRegister(StoreId);
+                registers.Add(StoreId, register);
+            }
+            else
+            {
+                register = registers[StoreId];
+            }
+            
+            
+            
+        } catch (Exception e)
         {
-            IRegisterService register = registers[StoreId];
-            register.changeEmployee(EmployeeId);
+            return new Response<bool>(true, e.Message);
         }
+    }
 
-        Console.WriteLine(registers.Count);
-        return true;
+    public Response<bool> CloseRegister(int StoreId)
+    {
+        try
+        {
+            if (registers.ContainsKey(StoreId))
+            {
+                registers[StoreId].logout();
+                registers.Remove(StoreId);
+            }
+            else
+            {
+                return new Response<bool>(true, $"Store: {StoreId} does not exist");
+            }
+
+            return new Response<bool>(true);
+        } catch (Exception e)
+        {
+            return new Response<bool>(true, e.Message);
+        }
     }
     
     public Response<int> addPurchase(int StoreId, int BudgetNumber, string Description, float Cost)
@@ -55,26 +80,21 @@ public class Register
         return registers.ContainsKey(StoreId) ? registers[StoreId].addPurchase(BudgetNumber, Description, Cost) : new Response<int>(true, "The register has not been opened");
     }
     
-    public ArrayList SeePurchaseHistory(int StoreId)
+    public Response<List<string>> SeePurchaseHistoryUser(int userId)
     {
-        IRegisterService register = registers[StoreId];
+        foreach(IRegisterService register in registers.Values)
+        {
             
-        return register.printPurchases();;
+        }
     }
     //register -add new purchse see purchse history
     //store-client-get report
     
-    public ArrayList SeePurchaseHistory(int StoreId, DateTime start)
+    public ArrayList SeePurchaseHistoryStore(int StoreId, DateTime start)
     {
-        IRegisterService register = registers[StoreId];
-            
-        return register.printPurchases(start);;
     }
     
-    public ArrayList SeePurchaseHistory(int StoreId, DateTime start, DateTime end)
+    public ArrayList SeePurchaseHistoryUserAndStore(int StoreId, DateTime start, DateTime end)
     {
-        IRegisterService register = registers[StoreId];
-            
-        return register.printPurchases(start, end);;
     }
 }
