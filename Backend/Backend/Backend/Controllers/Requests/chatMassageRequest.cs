@@ -2,8 +2,9 @@ namespace Backend.Controllers.Requests;
 
 public class chatMassageRequest
 {
-
-    public int sessionId {get; set;}
+    public int StoreId {get; set;}
+    
+    public int SessionId {get; set;}
 
     public string Text {get; set;}
 
@@ -12,9 +13,10 @@ public class chatMassageRequest
 
 
 
-    public chatMassageRequest(int seesionId,string Text)
+    public chatMassageRequest(int storeId, int sessionId,string text)
     {
-        this.sessionId=sessionId;
-        this.Text=Text;
+        this.StoreId = storeId;
+        this.SessionId = sessionId;
+        this.Text = text;
     }
 }

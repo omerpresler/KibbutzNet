@@ -1,4 +1,5 @@
 using Backend.Business.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Backend.Business.src.Utils
             return Interlocked.Increment(ref _nextSession);
         }
 
-        public Response<int> StartChat(User sender, User target)
+        public Response<int> StartChat(int sender, int target)
         {
             Chat chat;
             try
@@ -60,13 +61,13 @@ namespace Backend.Business.src.Utils
             }
         }
 
-        public Response<bool> SendMessage(int sessionId, Message<String> message)
+        public Response<string> SendMessage(int sessionId, Message<String> message)
         {
             Chat chat = chats.Find(x => x.sessionId == sessionId);
             if(chat is null)
-                return new Response<bool>(false);
+                return new Response<string>(true, $"No chat exist with the session id of {sessionId}");
             chat.AddMessage(message);
-            return new Response<bool>(true);
+            return new Response<string>(JsonConvert.SerializeObject(message));
         }
         
         public Response<bool> SendMessage(int sessionId, Message<House> message)

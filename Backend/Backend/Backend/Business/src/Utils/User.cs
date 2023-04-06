@@ -6,14 +6,14 @@ namespace Backend.Business.Utils
 {
     public abstract class User
     {
-        int userId;
-        string name;
-        string phoneNumber;
+        public int UserId;
+        string Name;
+        string PhoneNumber;
         
-        protected User(int userId,int storeId,string name,string phoneNumber) {
-            this.userId = userId;
-            this.name = name;
-            this.phoneNumber = phoneNumber;
+        protected User(int userId ,string name,string phoneNumber) {
+            this.UserId = userId;
+            this.Name = name;
+            this.PhoneNumber = phoneNumber;
         }
 
         //will be implmented in 

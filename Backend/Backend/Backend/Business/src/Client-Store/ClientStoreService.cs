@@ -38,6 +38,16 @@ public class ClientStoreService
         return pageManager.AddProduct(prod);
     }
 
+    public Response<int> OpenChat(int userId)
+    {
+        return chatManager.StartChat(employee.UserId, userId);
+    }
+
+    public Response<string> SendMessage(int sessionId, string msg)
+    {
+        return chatManager.SendMessage(sessionId, new Message<string>(employee, msg));
+    }
+
 
 
 }
