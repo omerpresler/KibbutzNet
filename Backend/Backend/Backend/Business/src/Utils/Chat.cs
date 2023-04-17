@@ -11,8 +11,8 @@ namespace Backend.Business.src.Utils
     {
         public List<IMessage> messages;
         public int sessionId { get; set;}
-        private int source;
-        private int target;
+        public int source;
+        public int target;
         public bool active { get; set;}
         private DateTime start;
 

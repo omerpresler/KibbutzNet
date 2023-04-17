@@ -78,5 +78,18 @@ namespace Backend.Business.src.Utils
             chat.AddMessage(message);
             return new Response<bool>(true);
         }
+
+        public Response<List<String>> GetAllchats(int storeId)
+        {
+            List<Chat> allChats = chats.FindAll(x => x.source == storeId | x.target == storeId);
+            List<string> allJsons = new List<string>();
+
+            foreach (Chat chat in allChats)
+            {
+                allJsons.Add(chat.ToString());
+            }
+
+            return new Response<List<string>>(allJsons);
+        }
     }
 }

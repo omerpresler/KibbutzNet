@@ -29,6 +29,25 @@ public class Store
             }
         }
     }
+
+    public Response<bool> Login(int userId, int storeId, string password)
+    {
+        
+
+        try
+        {
+            if (stores.ContainsKey(storeId))
+                return new Response<bool>(true, $"The is no store with the id of {storeId}");
+            stores.Add(storeId, new ClientStoreService(storeId, userId, password));
+        }
+        catch (Exception e)
+        {
+            return new Response<bool>(true, e.Message);
+        }
+
+
+        return new Response<bool>(true);
+    }
     
     public Response<int> OpenChat(int storeId, int userId)
     {
@@ -64,4 +83,20 @@ public class Store
         }
     }
     
+    public Response<List<String>> GetAllchats(int storeId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].GetAllchats(storeId);
+            }
+
+            return new  Response<List<String>>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new  Response<List<String>>(true, e.Message);
+        }
+    }
 }

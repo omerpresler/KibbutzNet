@@ -14,7 +14,11 @@ namespace Backend.Controllers
         {
             //127.128.0.0 ()
         }
-        
+
+        public Response<bool> Login([FromBody] storeLoginRequest request)
+        {
+            return Store.Instance.Login(request.accountNumber, request.storeId, request.password);
+        }
         
         //int StoreId string from string too
         [HttpPost("SeeReports")]
@@ -60,11 +64,9 @@ namespace Backend.Controllers
         }
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
-        public Response<List<String>> getAllchats([FromBody] storeLoginRequest request)
+        public Response<List<String>> getAllchats(int StoreId)
         {
-            List<string> result = new List<string>();
-            Response<List<string>> res = new(result);
-            return res ;
+            return Store.Instance.GetAllchats(StoreId);
         }
 
         // [HttpPost("closeChatStore")]

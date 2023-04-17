@@ -48,6 +48,11 @@ public class ClientStoreService
         return chatManager.SendMessage(sessionId, new Message<string>(employee, msg));
     }
 
+    public Response<List<String>> GetAllchats(int storeId)
+    {
+        return chatManager.GetAllchats(storeId);
+    }
+
 
 
 }
