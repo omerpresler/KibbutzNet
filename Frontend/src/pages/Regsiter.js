@@ -4,7 +4,7 @@ import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import GetRegsiterService from '../services/RegisterService';
 import GetLoginService from '../services/loginService';
-
+import { Box } from '@mui/system'
 import {useNavigate} from 'react-router-dom'
 
 
@@ -25,7 +25,20 @@ export default function Regsiter() {
         setErrors,
         handleInputChange
     } = useForm(getPurchaseModel);
-    return <Center>
+    return(
+     <Center>
+        <Card sx={{ width: 1000 }}>
+            <CardContent sx={{ textAlign: 'center' }}>
+                <Typography variant="h1" sx={{ my: 3 }}>
+                    kibbutzNet
+                </Typography>
+                <Box sx={{
+                    '& .MuiTextField-root': {
+                        m: 1,
+                        width: '90%',
+                        length: '80%'
+                    }
+                }}>
         <TextField
                                 label="price"
                                 name="price"
@@ -66,5 +79,9 @@ export default function Regsiter() {
             logout
 
         </Button> */}
+        </Box>
+            </CardContent>
+        </Card>
     </Center>
+    )
 }

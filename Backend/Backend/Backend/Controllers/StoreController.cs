@@ -15,8 +15,8 @@ namespace Backend.Controllers
             //127.128.0.0 ()
         }
         
-        
-        //int StoreId string from string too
+        //list Json
+        //PurchaseID" : Number,"Date": "dd/mm/yyy","BudgetNumber" : Number,"EmployeeID" : Number,"Cost" : Number,"Description" : "......"
         [HttpPost("SeeReports")]
         public bool SeeReports([FromBody] PurchaseHistoryRequest request)
         {
@@ -29,7 +29,6 @@ namespace Backend.Controllers
         [HttpPost("sendbyemail")]
         public bool SendByEmail([FromBody] UserDataRequest request)
         {
-
             Console.WriteLine("yess!!!");
             Console.WriteLine(request.email);
             return true;

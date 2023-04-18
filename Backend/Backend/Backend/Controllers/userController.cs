@@ -12,16 +12,27 @@ namespace Backend.Controllers
         //int userId
         public Response<int> openChat([FromBody] openChatRequest request)
         {
-
+            int result = 7;
+            Response<int> res = new (result);
+            return res;
         }
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
-        public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
-        {
-
+        public Response<string> sendMassageInChat([FromBody] chatMassageRequest request){
+            int result = 7;
+            Response<string> res = new(result);
+            return res;
         }
 
-
+        //list Json
+        //PurchaseID" : Number,"Date": "dd/mm/yyy","BudgetNumber" : Number,"EmployeeID" : Number,"Cost" : Number,"Description" : "......"
+        [HttpPost("SeeReports")]
+        public bool SeeReports([FromBody] PurchaseHistoryRequest request)
+        {
+            Console.WriteLine("yess!!!");
+            //Console.WriteLine(request.email);
+            return true;
+        }
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
         public Response<List<String>> getAllchats([FromBody] storeLoginRequest request)
