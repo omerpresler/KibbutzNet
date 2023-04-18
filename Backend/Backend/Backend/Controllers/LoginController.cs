@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
 using Backend.Controllers.Requests;
 using Backend.Business.Utils;
 using Backend.Business.src.Utils;
+using Backend.Service;
 
 namespace Backend.Controllers
 {
@@ -30,12 +30,13 @@ namespace Backend.Controllers
         [HttpPost("loginToStore")]
         public Response<bool> loginStore([FromBody] storeLoginRequest request)
         {
-            Console.WriteLine(request.storeId,request.email,request.storeId);
-            Console.WriteLine(request.email, request.storeId);
-            Console.WriteLine( request.storeId);
-            Response<bool> res = new(true);
-
-            return res;
+            return Store.Instance.Login(request.accountNumber, request.storeId, request.password);
+        }
+        
+        [HttpPost("loginToRegister")]
+        public Response<String> loginRegister([FromBody] RegisterInfoRequest request)
+        {
+            return Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
         }
 
 
