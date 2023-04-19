@@ -79,9 +79,23 @@ namespace Backend.Business.src.Utils
             return new Response<bool>(true);
         }
 
-        public Response<List<String>> GetAllchats(int storeId)
+        public Response<List<String>> GetAllchatsStore(int storeId)
         {
             List<Chat> allChats = chats.FindAll(x => x.source == storeId | x.target == storeId);
+            List<string> allJsons = new List<string>();
+
+            foreach (Chat chat in allChats)
+            {
+                allJsons.Add(chat.ToString());
+            }
+
+            return new Response<List<string>>(allJsons);
+        }
+
+
+        public Response<List<String>> GetAllchatsUser(int userId)
+        {
+            List<Chat> allChats = chats.FindAll(x => x.source == userId | x.target == userId);
             List<string> allJsons = new List<string>();
 
             foreach (Chat chat in allChats)

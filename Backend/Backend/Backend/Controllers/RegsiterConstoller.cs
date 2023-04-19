@@ -20,7 +20,7 @@ namespace Backend.Controllers
         {
             return Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
         }
-        
+        [HttpPost("CloseRegister")]
         public Response<bool> CloseRegister(int storeId)
         {
             return Register.Instance.CloseRegister(storeId);

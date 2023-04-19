@@ -6,6 +6,7 @@ import GetRegsiterService from '../services/RegisterService';
 import GetLoginService from '../services/loginService';
 import { Box } from '@mui/system'
 import {useNavigate} from 'react-router-dom'
+import BackButton from '../components/BackButton';
 
 
 
@@ -79,6 +80,7 @@ export default function Regsiter() {
             logout
 
         </Button> */}
+         <BackButton sx={{ mt: 2 }} />
         </Box>
             </CardContent>
         </Card>

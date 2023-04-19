@@ -10,6 +10,7 @@ import * as paths from '../services/pathes';
 import GetStoreService from '../services/storeService';
 import React, { useState, useEffect } from 'react';
 import { List, ListItem, ListItemText } from '@mui/material';
+import BackButton from '../components/BackButton';
 
 
 
@@ -61,6 +62,7 @@ export default function PurchaseHistoryDisplayer() {
           </ListItem>
         ))}
       </List>
+      <BackButton sx={{ mt: 2 }} />
       </Box>
                 </CardContent>
             </Card>

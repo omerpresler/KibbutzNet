@@ -11,6 +11,8 @@ import { useState }  from 'react';
 import Form from '../components/Form'
 import OpenProp from '../components/OpenProp'
 import memberBackround from '../components/memberBackround'
+import BackButton from '../components/BackButton';
+
 
 export default function Member() {
     const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService();
@@ -47,6 +49,7 @@ export default function Member() {
                                  see archived chats</Button>
             <Button onClick={5}>
                                  settings</Button>
+                                 <BackButton sx={{ mt: 2 }} />
                                 </Center>
     )
 }

@@ -14,7 +14,7 @@ namespace Backend.Controllers
         {
             //127.128.0.0 ()
         }
-
+        [HttpPost("loginToStore")]
         public Response<bool> Login([FromBody] storeLoginRequest request)
         {
             return Store.Instance.Login(request.accountNumber, request.storeId, request.password);

@@ -7,7 +7,7 @@ import GetLoginService from '../services/loginService';
 import {useNavigate} from 'react-router-dom'
 import { Box } from '@mui/system'
 import * as paths from '../services/pathes';
-
+import BackButton from '../components/BackButton';
 
 
 export default function Store() {
@@ -31,10 +31,11 @@ export default function Store() {
           }}>
           <Button onClick={see_purchse_history}>
                               see purchse history</Button>
-
+                              <BackButton sx={{ mt: 2 }} />
           </Box>
       </CardContent>
   </Card>
+
 </Center>)
 
 }

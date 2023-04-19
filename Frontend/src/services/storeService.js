@@ -41,7 +41,6 @@ function getPurchaseHistoryFromServer() {
     },
   ];
   const res= Response.create(fakeData, false); 
-  return res
   console.log(res)
   // return res
     const storeid=localStorage.getItem('storeId')

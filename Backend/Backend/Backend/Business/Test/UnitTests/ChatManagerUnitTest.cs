@@ -14,13 +14,13 @@ public class ChatManagerUnitTest
         ChatManager cm = new ChatManager();
         Member sender = new Member(1, 1, "Sender1", "051-111-1111");
         Member recipient = new Member(2, 2, "recipient1", "051-222-2222");
-        cm.StartChat(sender, recipient);
+        cm.StartChat(1, 1);
 
         Console.WriteLine(cm.GetChats().Count);
 
         Assert.AreEqual(1, cm.GetChats().Count);
         
-        cm.StartChat(recipient, sender);
+        cm.StartChat(1, 1);
         
         Assert.AreEqual(cm.GetChats().Count, 2);
         
@@ -34,8 +34,8 @@ public class ChatManagerUnitTest
         Member sender = new Member(1, 1, "Sender1", "051-111-1111");
         Member recipient = new Member(2, 2, "recipient1", "051-222-2222");
         
-        Response<int> firstSession = cm.StartChat(sender, recipient);
-        Response<int> secondSession = cm.StartChat(recipient, sender);
+        Response<int> firstSession = cm.StartChat(1, 1);
+        Response<int> secondSession = cm.StartChat(1, 1);
         
         Assert.AreNotEqual(firstSession.value,secondSession.value);
         
@@ -59,7 +59,7 @@ public class ChatManagerUnitTest
         Member member2 = new Member(2, 2, "recipient1", "051-222-2222");
         
 
-        int firstSession = cm.StartChat(member1, member2).value;
+        int firstSession = cm.StartChat(1, 1).value;
         Message<String> msg1 = new Message<String>(member1, "First message", "random Addon");
         Message<House> msg2 = new Message<House>(member1, "Second message", new House(1, "BlaBla1"));
         Message<String> msg3 = new Message<String>(member2, "Third message", "random Addon 2");

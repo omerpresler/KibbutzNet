@@ -19,7 +19,7 @@ namespace Backend.Controllers
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
         public Response<string> sendMassageInChat([FromBody] chatMassageRequest request){
-            int result = 7;
+            string result = "7";
             Response<string> res = new(result);
             return res;
         }
