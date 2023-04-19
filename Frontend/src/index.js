@@ -9,10 +9,13 @@ import { CssBaseline } from '@mui/material/';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    background: {
+      default: '#1034A6', // Replace with the desired background color
+    },
   },
   typography:{
     fontFamily:'"IBM Plex Sans"',
-    fontSize: 20,
+    fontSize: 30,
   }
 })
 

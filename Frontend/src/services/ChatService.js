@@ -2,10 +2,10 @@
 import axios from 'axios';
 import { Response } from './Response';
 import * as paths from '../services/pathes';
+import Message from './data objects/Message';
 
 
-
-export default function ChatService() {
+export default function getChatService() {
   function startChat(sender, target) {
     return axios
       .post(paths.startChatPath, { sender, target })
@@ -42,7 +42,33 @@ export default function ChatService() {
       });
   }
 
-  function getAllChats(userId) {
+    function getAllChatsUser(userId) {
+      const fakeData = [
+        {
+          sessionId: 1,
+          source: userId,
+          target: 2,
+          active: true,
+          messages: [
+            new Message(userId, 'Hello!'),
+            new Message(2, 'Hi, how can I help you?'),
+            new Message(userId, 'I have a question about my order.'),
+          ],
+        },
+        {
+          sessionId: 2,
+          source: userId,
+          target: 3,
+          active: true,
+          messages: [
+            new Message(userId, 'Hi, I need assistance.'),
+            new Message(3, 'Sure, what do you need help with?'),
+          ],
+        },
+      ];
+    
+      const response = Response.create(fakeData, false);
+      return Promise.resolve(response);
     return axios
       .post(paths.getAllChatsPath, { userId })
       .then((response) => {
@@ -54,5 +80,43 @@ export default function ChatService() {
       });
   }
 
-  return { startChat, endChat, sendMessage, getAllChats };
+
+      function getAllChatsStore(storeId) {
+      const fakeData = [
+        {
+          sessionId: 1,
+          source: storeId,
+          target: 2,
+          active: true,
+          messages: [
+            new Message(storeId, 'Hello!'),
+            new Message(2, 'Hi, how can I help you?'),
+            new Message(storeId, 'I have a question about my order.'),
+          ],
+        },
+        {
+          sessionId: 2,
+          source: storeId,
+          target: 3,
+          active: true,
+          messages: [
+            new Message(storeId, 'Hi, I need assistance.'),
+            new Message(3, 'Sure, what do you need help with?'),
+          ],
+        },
+      ];
+      const response = Response.create(fakeData, false);
+      return Promise.resolve(response);
+    return axios
+      .post(paths.getAllChatsPath, { storeId })
+      .then((response) => {
+        return Response.create(response.data.value, response.data.wasExecption);
+      })
+      .catch((error) => {
+        console.log('Error getting all chats:', error);
+        return Response.create(null, true, error.message);
+      });
+  }
+
+  return { startChat, endChat, sendMessage, getAllChatsUser,getAllChatsStore };
 }

@@ -42,7 +42,7 @@ function getPurchaseHistoryFromServer() {
   ];
   const res= Response.create(fakeData, false); 
   console.log(res)
-  // return res
+  return res
     const storeid=localStorage.getItem('storeId')
     return axios.post(getPurchseHistoryFunctionPath, {
         storeId: JSON.stringify(storeid),

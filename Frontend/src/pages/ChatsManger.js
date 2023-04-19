@@ -15,7 +15,6 @@ export default function ChatManagerPage() {
     // Fetch user ID and user type from local storage or other sources
     const storedUserId = localStorage.getItem('userId');
     const storedUserType = localStorage.getItem('userType');
-
     if (storedUserId && storedUserType) {
       setUserId(parseInt(storedUserId, 10));
       setUserType(storedUserType);

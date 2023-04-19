@@ -1,5 +1,5 @@
 // src/components/ChatDisplay.js
-import Message from '../services/dataObjects/Message';
+import Message from '../services/data objects/Message';
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -8,22 +8,31 @@ import {
   ListItemText,
   TextField,
   Button,
-} from '@mui/material';
-import ChatService from '../services/ChatService';
+  Typography,
+  Paper,
+  ListItemAvatar,
+  Avatar,
+  IconButton,
+  Grid,
+  Container,
+}  from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import getChatService from '../services/ChatService';
+import Center from './Center';
 
-export default function ChatDisplay({ userId, userType }) {
+export default function ChatDisplyer({ userId, userType }) {
   const [chats, setChats] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChat, setSelectedChat] = useState([]);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const chatService = ChatService();
+  const { startChat, endChat, sendMessage, getAllChatsUser, getAllChatsStore } = getChatService();
 
   useEffect(() => {
     const fetchChats = async () => {
       const response =
         userType === 'user'
-          ? await chatService.getAllChatsUser(userId)
-          : await chatService.getAllChatsStore(userId);
+          ? await getAllChatsUser(userId)
+          : await getAllChatsStore(userId);
 
       if (!response.exception) {
         setChats(response.value);
@@ -31,18 +40,23 @@ export default function ChatDisplay({ userId, userType }) {
     };
 
     fetchChats();
-  }, [userId, userType, chatService]);
+  }, [userId, userType, messages]);
 
   const handleChatSelect = (chat) => {
     setSelectedChat(chat);
     setMessages(chat.messages);
   };
 
+  const handleCloseChat = () => {
+    setSelectedChat(null);
+    setMessages([]);
+  };
+
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
 
     const message = new Message(userId, newMessage);
-    const response = await chatService.sendMessage(selectedChat.sessionId, message);
+    const response = await sendMessage(selectedChat.sessionId, message);
 
     if (!response.exception) {
       setMessages([...messages, message]);
@@ -51,32 +65,67 @@ export default function ChatDisplay({ userId, userType }) {
   };
 
   return (
-    <Box>
-      {chats.map((chat) => (
-        <Box key={chat.sessionId} onClick={() => handleChatSelect(chat)}>
-          {chat.sessionId}
-        </Box>
-      ))}
-      {selectedChat && (
-        <Box>
-          <List>
-            {messages.map((message, index) => (
-              <ListItem key={index}>
-                <ListItemText
-                  primary={message.sender === userId ? 'You' : 'Them'}
-                  secondary={message.message}
-                />
-              </ListItem>
-            ))}
-          </List>
-          <TextField
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            fullWidth
-          />
-          <Button onClick={handleSendMessage}>Send</Button>
-        </Box>
-      )}
-    </Box>
+    <Center>
+      <Container maxWidth="md">
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={4}>
+            <Paper elevation={3} style={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+              <Typography variant="h5" gutterBottom>
+                Chats
+              </Typography>
+              <List>
+                {chats.map((chat) => (
+                  <ListItem
+                    key={chat.sessionId}
+                    button
+                    onClick={() => handleChatSelect(chat)}
+                    style={{ backgroundColor: selectedChat?.sessionId === chat.sessionId ? 'black' : '' }}
+                  >
+                    <ListItemAvatar>
+                      <Avatar>{chat.sessionId}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={`Chat ID: ${chat.sessionId}`} />
+                    <IconButton onClick={handleCloseChat} edge="end" aria-label="close">
+                      <CloseIcon />
+                    </IconButton>
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </Grid>
+          {selectedChat && (
+            <Grid item xs={12} md={8}>
+              <Paper elevation={3} style={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+                <Typography variant="h5" gutterBottom>
+                  Chat ID: {selectedChat.sessionId}
+                </Typography>
+                <List>
+                  {messages.map((message, index) => (
+                    <ListItem key={index}>
+                      <ListItemText
+                        primary={message.sender === userId ? 'You' : 'Them'}
+                        secondary={message.message}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                  <TextField
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    fullWidth
+                    variant="outlined"
+                    margin="normal"
+                  />
+                  <Button onClick={handleSendMessage} variant="contained" sx={{ mt: 1, mb: 1 }}>
+                    Send
+                  </Button>
+                </Box>
+              </Paper>
+            </Grid>
+          )}
+        </Grid>
+      </Container>
+    </Center>
   );
 }

@@ -21,30 +21,47 @@ export default function GetLoginService() {
 
 async function loginToUser(email, accountNumber) {
     const ServerAns=await sendLoginRequestAsUser(email,accountNumber);
-    if(ServerAns===true){
+    // if(ServerAns===true){
     localStorage.clear();
     localStorage.setItem('email',email);
-    localStorage.setItem('accountNumber',accountNumber)
+    localStorage.setItem('userId',accountNumber)
+    localStorage.setItem('userType','user');
     accountNumberSaver = { accountNumber };
     setUser(accountNumberSaver);
-    }
+    // }
+    
   }
 
    async function LoginToStore(email, accountNumber,storeId) {
         const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
-        if (serverAns.value=true){
+        // if (serverAns.value=true){
         localStorage.clear();
         localStorage.setItem('email',email);
-        localStorage.setItem('accountNumber',accountNumber)
+        localStorage.setItem('userId',accountNumber)
         localStorage.setItem('storeId',storeId)
+        localStorage.setItem('userType','store');
         accountNumberSaver = { accountNumber };
         storeIdSaver = { storeId };
         setUser(accountNumberSaver);
         setStoreID(storeIdSaver);
-      }
+      // }
   }
-  
 
+  async function LoginToRegister(email, accountNumber,storeId) {
+    const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
+    if (serverAns.value=true){
+    localStorage.clear();
+    localStorage.setItem('email',email);
+    localStorage.setItem('accountNumber',accountNumber)
+    localStorage.setItem('storeId',storeId)
+    localStorage.setItem('userType','resgister');
+    accountNumberSaver = { accountNumber };
+    storeIdSaver = { storeId };
+    setUser(accountNumberSaver);
+    setStoreID(storeIdSaver);
+  }
+}
+  
   function logout() {
     localStorage.clear();
     accountNumberSaver = null;
@@ -77,18 +94,18 @@ async function loginToUser(email, accountNumber) {
 }
 
   function sendLoginRequestAsStore(email, accountNumber, storeId) {
-      return axios.post(loginToStoreFunctionPath, {
-          email: JSON.stringify(email),
-          accountNumber: JSON.stringify(accountNumber),
-          storeId: JSON.stringify(storeId)
-        })
-        .then(res=> {
-          const response = Response.create(res.data.value, res.data.wasExecption);
-          return response;
-        })
-        .catch(res=> {
-          const response = Response.create(res.data.value, res.data.wasExecption);
-          return response;
-        })
+      // return axios.post(loginToStoreFunctionPath, {
+      //     email: JSON.stringify(email),
+      //     accountNumber: JSON.stringify(accountNumber),
+      //     storeId: JSON.stringify(storeId)
+      //   })
+      //   .then(res=> {
+      //     const response = Response.create(res.data.value, res.data.wasExecption);
+      //     return response;
+      //   })
+      //   .catch(res=> {
+      //     const response = Response.create(res.data.value, res.data.wasExecption);
+      //     return response;
+      //   })
     };
 

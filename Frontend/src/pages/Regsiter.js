@@ -7,7 +7,7 @@ import GetLoginService from '../services/loginService';
 import { Box } from '@mui/system'
 import {useNavigate} from 'react-router-dom'
 import BackButton from '../components/BackButton';
-
+import * as paths from '../services/pathes';
 
 
 const getPurchaseModel = () => ({
@@ -16,8 +16,12 @@ const getPurchaseModel = () => ({
     accountNumber:''
  })
 export default function Regsiter() {
-    const {addNewPurhcase,seePurchaseHistory}=GetRegsiterService()
     const navigate=useNavigate()
+    function seePurchaseHistory(){
+    navigate(paths.purchse_history_page_path)
+}
+
+    const {addNewPurhcase}=GetRegsiterService()
     const { user, loginToUser,loginToStore, logout, isAuthenticated }= GetLoginService()
     const {
         values,
@@ -69,7 +73,7 @@ export default function Regsiter() {
 
         </Button>
        
-        <Button onClick={()=>seePurchaseHistory(0,1)}   >
+        <Button onClick={(seePurchaseHistory)}   >
 
             see purchase history
 

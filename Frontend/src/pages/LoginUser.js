@@ -50,7 +50,7 @@ export default function LoginUser() {
 
     return (
         <Center>
-            <Card sx={{ width: 400 }}>
+            <Card sx={{ width: 1000 }}>
                 <CardContent sx={{ textAlign: 'center' }}>
                     <Typography variant="h3" sx={{ my: 3 }}>
                         kibbutzNet
