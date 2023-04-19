@@ -15,6 +15,9 @@ export default function Store() {
   function see_purchse_history(){
       navigate(paths.purchse_history_page_path)
   }
+  function open_chat_manager(){
+    navigate(paths.chat_manager_page_path)
+}
   return (
   <Center>
   <Card sx={{ width: 1000 }}>
@@ -31,6 +34,11 @@ export default function Store() {
           }}>
           <Button onClick={see_purchse_history}>
                               see purchse history</Button>
+           <Button onClick={open_chat_manager}>
+                              open chat manager</Button>
+            <Button onClick={()=>console.log(3)}>
+                see all stores
+                              </Button>
                               <BackButton sx={{ mt: 2 }} />
           </Box>
       </CardContent>

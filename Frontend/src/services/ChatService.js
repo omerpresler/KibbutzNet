@@ -8,7 +8,7 @@ import * as paths from '../services/pathes';
 export default function ChatService() {
   function startChat(sender, target) {
     return axios
-      .post(startChatPath, { sender, target })
+      .post(paths.startChatPath, { sender, target })
       .then((response) => {
         return Response.create(response.data.value, response.data.wasExecption);
       })
@@ -20,7 +20,7 @@ export default function ChatService() {
 
   function endChat(sessionId) {
     return axios
-      .post(endChatPath, { sessionId })
+      .post(paths.endChatPath, { sessionId })
       .then((response) => {
         return Response.create(response.data.value, response.data.wasExecption);
       })
@@ -32,7 +32,7 @@ export default function ChatService() {
 
   function sendMessage(sessionId, message) {
     return axios
-      .post(sendMessagePath, { sessionId, message })
+      .post(paths.sendMessagePath, { sessionId, message })
       .then((response) => {
         return Response.create(response.data.value, response.data.wasExecption);
       })
@@ -44,7 +44,7 @@ export default function ChatService() {
 
   function getAllChats(userId) {
     return axios
-      .post(getAllChatsPath, { userId })
+      .post(paths.getAllChatsPath, { userId })
       .then((response) => {
         return Response.create(response.data.value, response.data.wasExecption);
       })

@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography } from '@mui/material';
-import ChatDisplay from '../components/ChatDisplay';
+import ChatDisplay from '../components/ChatDisplyer';
 import ChatService from '../services/ChatService';
+import BackButton from '../components/BackButton';
 
-export default function ChatPage() {
+export default function ChatManagerPage() {
   const [userId, setUserId] = useState(null);
   const [userType, setUserType] = useState(null);
   const chatService = ChatService();

@@ -14,7 +14,6 @@ import BackButton from '../components/BackButton';
 
 
 
-
 export default function PurchaseHistoryDisplayer() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);

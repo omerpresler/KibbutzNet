@@ -15,6 +15,7 @@ export const register_page_path="/Register"
 export const member_page_path="/Member"
 export const store_page_path="/Store"
 export const purchse_history_page_path="/purchseHistory"
+export const chat_manager_page_path="/chatManager"
 
 
 
@@ -29,7 +30,7 @@ export const store_controller_path="/Store"
 export const get_purchase_path="/getPurchaseHistory"
 
 //chat function pathes
-const startChatPath = '/path/to/start/chat/endpoint';
-const endChatPath = '/path/to/end/chat/endpoint';
-const sendMessagePath = '/path/to/send/message/endpoint';
-const getAllChatsPath = '/path/to/get/all/chats/endpoint';
+export const startChatPath = '/path/to/start/chat/endpoint';
+export const endChatPath = '/path/to/end/chat/endpoint';
+export const sendMessagePath = '/path/to/send/message/endpoint';
+export const getAllChatsPath = '/path/to/get/all/chats/endpoint';
