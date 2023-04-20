@@ -1,4 +1,5 @@
 using Backend.Controllers.Requests;
+using NHibernate;
 
 namespace Backend.Business.src.Client_Store;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
         // orders is a dictionary that the key is the storeID, and the value is a list of orders
         private Dictionary<int, List<Order>> orders;
         private int orderNum = 0;
+        private readonly ISessionFactory _sessionFactory;
 
         public OrderManager()
         {
@@ -19,14 +21,31 @@ using System.Collections.Generic;
 
         public response<string> addOrder(int storeID, int memberID, string memberName, string description, float cost)
         {
-            var order = new Order(Interlocked.Increment(ref orderNum), memberName, memberID, true, cost, description);
-            if (orders.ContainsKey(storeID))
-                orders[storeID].Add(order);
-            else
+            using (var session = _sessionFactory.OpenSession())
             {
-                var newOrderList = new List<Order>();
-                newOrderList.Add(order);
-                orders.Add(storeID, newOrderList);
+                using (var transaction = session.BeginTransaction())
+                {
+                    try
+                    {
+                        var order = new Order(Interlocked.Increment(ref orderNum), memberName, memberID, true, cost,
+                            description);
+                        if (orders.ContainsKey(storeID))
+                            orders[storeID].Add(order);
+                        else
+                        {
+                            var newOrderList = new List<Order>();
+                            newOrderList.Add(order);
+                            orders.Add(storeID, newOrderList);
+                        }
+
+                        session.Save(order);
+                        transaction.Commit();
+                    }
+                    catch(Exception e)
+                    {
+                        transaction.Rollback();
+                    }
+                }
             }
 
             var res = new response<string>("order was added.", false);
@@ -35,11 +54,20 @@ using System.Collections.Generic;
 
         public response<string> changeOrdersStatus (int storeID, int orderID, string status)
         {
-            foreach (var o in from order in orders where order.Key == storeID from o in order.Value where o.getID() == orderID select o)
+            using (var session = _sessionFactory.OpenSession())
             {
-                o.setStatus(status);
+                foreach (var o in from order in orders where order.Key == storeID from o in order.Value where o.getID() == orderID select o)
+                {
+                    var dataOrder = session.Get<Order>(orderID);
+                    o.setStatus(status);
+                    dataOrder.status = status;
+                    using (ITransaction transaction = session.BeginTransaction())
+                    {
+                        session.SaveOrUpdate(dataOrder);
+                        transaction.Commit();
+                    }
+                }
             }
-
             var res = new response<string>($"status changes to '{status}'.", false);
             return res;
         }

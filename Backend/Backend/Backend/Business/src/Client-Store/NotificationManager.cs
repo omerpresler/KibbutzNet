@@ -15,7 +15,7 @@ namespace Backend.Business.src.Client_Store
                 listeners.Add(user);
                 return "the user was added to the notifction list";
             }
-            return "the user is aאכל lready in the notifction list";
+            return "the user is already in the notifction list";
         }
 
         public string removeListiner(User user)

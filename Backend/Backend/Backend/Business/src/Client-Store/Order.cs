@@ -5,15 +5,15 @@ namespace Backend.Business.src.Client_Store
 {
     public class Order
     {
-        private int orderID;
-        private DateTime date;
-        private string status { get; set; }
-        private string memberName { get; set; }
-        private int memberId { get; set; }
+        public virtual int orderID { get; }
+        public virtual DateTime date { get; }
+        public virtual string status { get; set; }
+        public virtual string memberName { get; set; }
+        public virtual int memberId { get; set; }
         private bool active { get; set; }
         private Chat Chat { get; set; }
-        private float cost;
-        private string description;
+        public virtual float cost { get; set; }
+        public virtual string description { get; set; }
 
         public Order(int orderId, string memberName, int memberId, bool active, float cost, string description)
         {

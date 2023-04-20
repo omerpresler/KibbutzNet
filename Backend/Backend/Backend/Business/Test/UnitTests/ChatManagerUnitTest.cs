@@ -60,10 +60,10 @@ public class ChatManagerUnitTest
         
 
         int firstSession = cm.StartChat(1, 1).value;
-        Message<String> msg1 = new Message<String>(member1, "First message", "random Addon");
-        Message<House> msg2 = new Message<House>(member1, "Second message", new House(1, "BlaBla1"));
-        Message<String> msg3 = new Message<String>(member2, "Third message", "random Addon 2");
-        Message<House> msg4 = new Message<House>(member2, "fourth message", new House(2, "BlaBla2"));
+        Message<String> msg1 = new Message<String>(member1.UserId, "First message", "random Addon");
+        Message<House> msg2 = new Message<House>(member1.UserId, "Second message", new House(1, "BlaBla1"));
+        Message<String> msg3 = new Message<String>(member2.UserId, "Third message", "random Addon 2");
+        Message<House> msg4 = new Message<House>(member2.UserId, "fourth message", new House(2, "BlaBla2"));
 
         cm.SendMessage(firstSession, msg1);
         cm.SendMessage(firstSession, msg2);

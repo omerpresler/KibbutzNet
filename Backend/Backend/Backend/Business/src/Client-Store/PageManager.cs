@@ -6,6 +6,7 @@ namespace Backend.Business.src.Client_Store
 {
     public class PageManager
     {
+        public virtual int storeID { set; get; }
         public string StoreName;
         private List<Post> posts;
         private List<Product> products;
