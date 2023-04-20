@@ -2,6 +2,6 @@ namespace Backend.Business.Client_Member
 {
     public class Order : Iorder
     {
-        private int orderID { get; set; }
+        public virtual int orderID { get; set; }
     }
 }

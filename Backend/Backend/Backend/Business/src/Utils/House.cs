@@ -4,9 +4,9 @@ namespace Backend.Business.Utils
 {
     public class House
     {
-        public int HouseId;
+        public virtual int HouseId { get; set; }
 
-        public string Direction;
+        public virtual string Direction { get; set; }
 
         //will be a google map link
         public object mapsLink;

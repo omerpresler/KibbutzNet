@@ -4,8 +4,8 @@ namespace Backend.Business.Utils
 {
     public class Member : User
     {
-        private List<House> houseHistoryList;
-        private House CurrHouse;
+        public virtual List<House> houseHistoryList { get; set; }
+        public virtual House CurrHouse { get; set; }
         
         public Member(int userId,int storeId,string name,string phoneNumber) : base(userId, storeId, name, phoneNumber)
         {

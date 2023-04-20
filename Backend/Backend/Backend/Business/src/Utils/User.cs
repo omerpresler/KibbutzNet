@@ -6,9 +6,9 @@ namespace Backend.Business.Utils
 {
     public abstract class User
     {
-        int userId;
-        string name;
-        string phoneNumber;
+        public virtual int userId { get; set; }
+        public virtual string name { get; set; }
+        public string phoneNumber { get; set; }
         
         protected User(int userId,int storeId,string name,string phoneNumber) {
             this.userId = userId;

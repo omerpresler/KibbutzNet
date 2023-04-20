@@ -8,7 +8,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var provider = builder.Services.BuildServiceProvider();
-var configuration=provider.GetRequiredService<IConfiguration>();
+provider.GetRequiredService<IConfiguration>();
+//var configuration=provider.GetRequiredService<IConfiguration>();
 builder.Services.AddCors(options =>
 {
     var FrontUrl = "http://localhost:3000";
