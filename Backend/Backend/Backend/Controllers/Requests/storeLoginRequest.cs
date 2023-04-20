@@ -2,15 +2,15 @@
 {
     public class storeLoginRequest
     {
-            public string email { get; set; }
-            public string accountNumber { get; set; }
-            public string storeId { get; set; }
+            public string password { get; set; }
+            public int accountNumber { get; set; }
+            public int storeId { get; set; }
 
-            public storeLoginRequest(string email, string accountNumber,string storeID)
+            public storeLoginRequest(string password, int accountNumber, int storeId)
             {
-                this.email = email;
+                this.password = password;
                 this.accountNumber = accountNumber;
-                this.storeId = storeID;
+                this.storeId = storeId;
             }
         }
 

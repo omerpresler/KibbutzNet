@@ -6,14 +6,15 @@ namespace Backend.Business.Utils
 {
     public abstract class User
     {
-        public virtual int userId { get; set; }
-        public virtual string name { get; set; }
-        public string phoneNumber { get; set; }
-        
-        protected User(int userId,int storeId,string name,string phoneNumber) {
-            this.userId = userId;
-            this.name = name;
-            this.phoneNumber = phoneNumber;
+
+        public virtual int UserId { get; set; }
+        public virtual string Name { get; set; }
+        public string PhoneNumber { get; set; }
+
+        protected User(int userId ,string name,string phoneNumber) {
+            this.UserId = userId;
+            this.Name = name;
+            this.PhoneNumber = phoneNumber;
         }
 
         //will be implmented in 

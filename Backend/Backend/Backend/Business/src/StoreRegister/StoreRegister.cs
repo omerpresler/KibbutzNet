@@ -10,30 +10,57 @@ namespace Backend.Business.src.StoreRegister
 {
     public class StoreRegister
     {
-        private int storeId { get; set; }
+        private int storeId;
+        private int employeeId;
         private List<Purchase> purchases;
         private static int purchaseNum = 0;
         
         public StoreRegister(int storeId)
         {
             this.storeId = storeId;
+            employeeId = -1;
             purchases = new List<Purchase>();
         }
 
-        public bool addPurchase(int budgetNumber ,string description, float cost, int employeeId)
+        public Response<string> login(int employeeId)
+        {
+            String storeName = AuthenticationManager.GetInstance().CheckWorkingPrivilege(storeId, employeeId);
+            if (storeName == null)
+            {
+                return new Response<string>(true, "This employee does not have Working Privileges");
+            }
+
+            this.employeeId = employeeId;
+
+            return new Response<string>(storeName);
+        }
+
+        public Response<bool> logout()
+        {
+            if(employeeId == -1)
+                return new Response<bool>(true, "No employee Logged in at the moment");
+            
+            employeeId = -1;
+            
+            return new Response<bool>(true);
+        }
+        
+
+        public Response<int> addPurchase(int budgetNumber ,string description, float cost)
         {
             try
             {
                 Purchase purchase = new Purchase(storeId, budgetNumber, Interlocked.Increment(ref purchaseNum), employeeId, cost, description);
                 purchases.Add(purchase);
+                return new Response<int>(purchase.purchaseID);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return false;
+                return new Response<int>(true, e.Message);
             }
             
-            return true;
+            
         }
 
         public bool removePurchase(int purchaseNum)
@@ -44,11 +71,6 @@ namespace Backend.Business.src.StoreRegister
                 return true;
             }
             return false;
-        }
-
-        public Purchase getPurchaseByBudgetNumber(int budget)
-        {
-            return purchases.FirstOrDefault(p => p.getBudgetNumber() == budget);
         }
 
         public Purchase getPurchaseByID(int purchaseID)
@@ -116,6 +138,27 @@ namespace Backend.Business.src.StoreRegister
 	        "Description" : "......",
         }
          */
+        
+        public ArrayList GetPurchasesByUser(int userId)
+        {
+            ArrayList jsons = new ArrayList();
+            foreach (Purchase p in purchases)
+                if (p.budgetNumber == userId)
+                {
+                    var purchase = new
+                    {
+                        PurchaseID = p.getPurchaseID(),
+                        Date = p.getDate(),
+                        BudgetNumber = p.getBudgetNumber(),
+                        EmployeeID = p.getEmployeeID(),
+                        Cost = p.getCost(),
+                        Description = p.getDescription()
+                    };
+                    jsons.Add(JsonConvert.SerializeObject(purchase));
+                }
+
+            return jsons;
+        }
         
         
     }

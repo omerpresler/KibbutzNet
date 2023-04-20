@@ -6,6 +6,8 @@ import useForm from '../hooks/useFrom'
 import {useNavigate} from 'react-router-dom'
 import GetLoginService from '../services/loginService'
 import * as paths from '../services/pathes';
+import BackButton from '../components/BackButton';
+
 
 const getLoginModel = () => ({
     email: '',
@@ -47,7 +49,7 @@ export default function LoginStore(nextPage) {
 
     return (
         <Center>
-            <Card sx={{ width: 400 }}>
+            <Card sx={{ width: 1000 }}>
                 <CardContent sx={{ textAlign: 'center' }}>
                     <Typography variant="h3" sx={{ my: 3 }}>
                         kibbutzNet
@@ -86,6 +88,7 @@ export default function LoginStore(nextPage) {
                                 size="large"
                                 sx={{ width: '90%' }}>Start</Button>
                         </form>
+                        <BackButton sx={{ mt: 2 }} />
                     </Box>
                 </CardContent>
             </Card>

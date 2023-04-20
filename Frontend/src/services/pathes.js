@@ -4,9 +4,9 @@ export const  front_path="/"
 export const  home_page="/Home"
 
 
-//login pathes
+//login function pathes
 export const login_to_user="/loginToUser"
-export const login_to_register="/loginToStore"
+export const login_to_register="/loginToRegstier"
 export const login_to_store="/loginToStore"
 
 
@@ -14,6 +14,9 @@ export const login_to_store="/loginToStore"
 export const register_page_path="/Register"
 export const member_page_path="/Member"
 export const store_page_path="/Store"
+export const purchse_history_page_path="/purchseHistory"
+export const chat_manager_page_path="/chatManager"
+
 
 
 
@@ -21,3 +24,13 @@ export const store_page_path="/Store"
 //controller pathes
 export const login_controller_path="/login"
 export const home_controller_path="/Home"
+export const store_controller_path="/Store"
+
+//store function pathes
+export const get_purchase_path="/getPurchaseHistory"
+
+//chat function pathes
+export const startChatPath = '/path/to/start/chat/endpoint';
+export const endChatPath = '/path/to/end/chat/endpoint';
+export const sendMessagePath = '/path/to/send/message/endpoint';
+export const getAllChatsPath = '/path/to/get/all/chats/endpoint';

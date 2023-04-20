@@ -1,19 +1,21 @@
 ﻿using System.Collections;
+using Backend.Business.src.Utils;
+
+
 namespace Backend.Service;
 using Backend.Business.src.StoreRegister;
 
 public class Register
 {
-    private static Dictionary<int, IRegisterService> registers;
+    private static Dictionary<int, StoreRegister> registers;
     
     private static Register instance;
     private static readonly object padlock = new object();
 
     private Register()
     {
-        registers = new Dictionary<int, IRegisterService>();
+        registers = new Dictionary<int, StoreRegister>();
         this.OpenRegister(0,0);
-
     }
 
     public static Register Instance {
@@ -30,54 +32,109 @@ public class Register
     }
 
 
-    public bool OpenRegister(int StoreId, int EmployeeId)
+    public Response<string> OpenRegister(int StoreId, int EmployeeId)
     {
-        if (!registers.ContainsKey(StoreId))
+        try
         {
-            IRegisterService register = new RegisterService();
-            register.login(StoreId, EmployeeId);
-            registers.Add(StoreId, register);
-        }
-        else
-        {
-            IRegisterService register = registers[StoreId];
-            register.changeEmployee(EmployeeId);
-        }
+            StoreRegister register;
+            if (!registers.ContainsKey(StoreId))
+            {
+                register = new StoreRegister(StoreId);
+                registers.Add(StoreId, register);
+            }
+            else
+            {
+                register = registers[StoreId];
+            }
 
-        Console.WriteLine(registers.Count);
-        return true;
-    }
-        
-    public bool addPurchase(int StoreId, int BudgetNumber, string Description, float Cost)
-    {
-        IRegisterService register = registers[StoreId];
-        if (register == null)
-            return false;
-        
+            return register.login(EmployeeId);
             
-        return register.addPurchase(BudgetNumber, Description, Cost);;
+            
+        } catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
+
+    public Response<bool> CloseRegister(int StoreId)
+    {
+        try
+        {
+            if (registers.ContainsKey(StoreId))
+            {
+                registers[StoreId].logout();
+                registers.Remove(StoreId);
+            }
+            else
+            {
+                return new Response<bool>(true, $"Store: {StoreId} does not exist");
+            }
+
+            return new Response<bool>(true);
+        } catch (Exception e)
+        {
+            return new Response<bool>(true, e.Message);
+        }
     }
     
-    public ArrayList SeePurchaseHistory(int StoreId)
+    public Response<int> addPurchase(int storeId, int budgetNumber, string description, float cost)
     {
-        IRegisterService register = registers[StoreId];
-            
-        return register.printPurchases();;
+        return registers.ContainsKey(storeId) ? registers[storeId].addPurchase(budgetNumber, description, cost) : new Response<int>(true, "The register has not been opened");
+    }
+    
+    public Response<ArrayList> SeePurchaseHistoryUser(int userId)
+    {
+        try
+        {
+            ArrayList jsons = new ArrayList();
+            foreach(StoreRegister register in registers.Values)
+            {
+                foreach (string purchase in register.GetPurchasesByUser(userId))
+                {
+                    jsons.Add(purchase);
+                }
+            }
+
+            return new Response<ArrayList>(jsons);
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
+        
     }
     //register -add new purchse see purchse history
     //store-client-get report
     
-    public ArrayList SeePurchaseHistory(int StoreId, DateTime start)
+    public Response<ArrayList> SeePurchaseHistoryStore(int storeId)
     {
-        IRegisterService register = registers[StoreId];
-            
-        return register.printPurchases(start);;
+        try
+        {
+            if (registers.ContainsKey(storeId))
+                return new Response<ArrayList>(registers[storeId].printPurchases());
+
+            return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
+
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
     }
     
-    public ArrayList SeePurchaseHistory(int StoreId, DateTime start, DateTime end)
+    public Response<ArrayList> SeePurchaseHistoryUserAndStore(int storeId, int userId)
     {
-        IRegisterService register = registers[StoreId];
-            
-        return register.printPurchases(start, end);;
+        try
+        {
+            if (registers.ContainsKey(storeId))
+                return new Response<ArrayList>(registers[storeId].GetPurchasesByUser(userId));
+
+            return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
+
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
     }
 }

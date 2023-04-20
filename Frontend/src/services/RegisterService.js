@@ -21,25 +21,25 @@ export default function GetRegsiterService(){
         return false;
     });
       }
-    const seePurchaseHistory=(from,to)=> {
-        console.log("trying to see purchase history")
-        axios.post(seePurchaseHistoryPath, {
-            from: JSON.stringify(from),
-            to:JSON.stringify(to)
-        })
-    .then(function (response) {
+    // const seePurchaseHistory=(from,to)=> {
+    //     console.log("trying to see purchase history")
+    //     axios.post(seePurchaseHistoryPath, {
+    //         from: JSON.stringify(from),
+    //         to:JSON.stringify(to)
+    //     })
+    // .then(function (response) {
        
         
-        if (response.data!=null){
-            alert(response)
-            return PurchaseHistoryDisplayer(response)
-        }
-    })
-    .catch(function (error) {
-        console.log("see purchase history error")
-        console.log(error);
-        return <h1> there was an error </h1>;
-    });
-      }
-      return {addNewPurhcase,seePurchaseHistory}
+    //     if (response.data!=null){
+    //         alert(response)
+    //         return PurchaseHistoryDisplayer(response)
+    //     }
+    // })
+    // .catch(function (error) {
+    //     console.log("see purchase history error")
+    //     console.log(error);
+    //     return <h1> there was an error </h1>;
+    // });
+    //   }
+      return {addNewPurhcase}
 }

@@ -6,7 +6,8 @@ import * as paths from './services/pathes';
 import Member from './pages/Member';
 import Store from './pages/Store';
 import LoginStore from './pages/LoginStore';
-
+import PurchseHistoryPage from './pages/PurchseHistoryPage';
+import ChatManagerPage from './pages/ChatsManger'
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,6 +20,7 @@ function App() {
     <Router>
 
         <Routes>
+          
           <Route index element={<Home />} />
           <Route path={paths.home_page} element={<Home />} />
 
@@ -26,10 +28,14 @@ function App() {
           <Route path={paths.login_to_register} element={<LoginStore nextPage={paths.register_page_path} />} />
           <Route path={paths.login_to_store} element={<LoginStore nextPage={paths.store_page_path} />} />
 
-
+          
           <Route path={paths.register_page_path} element={<Register />} />
           <Route path={paths.member_page_path} element={<Member />} />
           <Route path={paths.store_page_path} element={<Store  />} />
+          <Route path={paths.purchse_history_page_path} element={<PurchseHistoryPage  />} />
+          <Route path={paths.chat_manager_page_path} element={<ChatManagerPage  />} />
+          
+
         </Routes>
     </Router>
 )

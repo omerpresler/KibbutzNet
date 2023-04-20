@@ -5,11 +5,11 @@
         
 
         public int StoreId { get; set; }
-        public int userId { get; set; }
+        public int UserId { get; set; }
 
-        public PurchaseHistoryRequest(int storeId,int UserId)
+        public PurchaseHistoryRequest(int storeId,int userId)
         {
-            this.userId = userId;
+            this.UserId = userId;
             this.StoreId = storeId;
         }
     }

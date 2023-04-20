@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc;
+using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
+using Backend.Service;
 
 namespace Backend.Controllers
 {
@@ -13,8 +14,14 @@ namespace Backend.Controllers
         {
             //127.128.0.0 ()
         }
+        [HttpPost("loginToStore")]
+        public Response<bool> Login([FromBody] storeLoginRequest request)
+        {
+            return Store.Instance.Login(request.accountNumber, request.storeId, request.password);
+        }
+        
         //int StoreId string from string too
-        [HttpPost("addPurchase")]
+        [HttpPost("SeeReports")]
         public bool SeeReports([FromBody] PurchaseHistoryRequest request)
         {
             Console.WriteLine("yess!!!");
@@ -43,7 +50,30 @@ namespace Backend.Controllers
         }
       
 
+        [HttpPost("openChatStore")]
+        //int userId
+        public Response<int> openChat([FromBody] openChatRequest request)
+        {
+            return Store.Instance.OpenChat(request.StoreId, request.userId);
+        }
+        [HttpPost("sendMassageInChat")]
+        //json.stringfy(message)
+        public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
+        {
+            return Store.Instance.SendMessage(request.StoreId, request.SessionId, request.Text);
+        }
+        //list(json.stringfy(chats)
+        [HttpPost("getAllchats")]
+        public Response<List<String>> getAllchats(int StoreId)
+        {
+            return Store.Instance.GetAllchats(StoreId);
+        }
 
+        // [HttpPost("closeChatStore")]
+        // public Response<int> closeChat([FromBody] openChatRequest request)
+        // {
+            
+        // }
 
 
 
