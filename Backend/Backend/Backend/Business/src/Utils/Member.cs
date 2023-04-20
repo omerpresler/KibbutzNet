@@ -4,6 +4,7 @@ namespace Backend.Business.Utils
 {
     public class Member : User
     {
+        public virtual int accountNum { get; set; }
         public virtual List<House> houseHistoryList { get; set; }
         public virtual House CurrHouse { get; set; }
         

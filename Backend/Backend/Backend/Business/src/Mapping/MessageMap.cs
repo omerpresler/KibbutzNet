@@ -9,7 +9,8 @@ public class MessageMap : ClassMap<Message<string>>
     {
         Table("message");
         Id(m => m.messageID);
-        Map(m => m.message);
-        //Map(m => )
+        Map(m => m.message, "content");
+        Map(m => m.date);
+        References(m => m.sender, "userId");
     }
 }

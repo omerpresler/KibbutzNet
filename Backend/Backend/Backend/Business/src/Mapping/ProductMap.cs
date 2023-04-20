@@ -8,7 +8,7 @@ public class ProductMap : ClassMap<Product>
     public ProductMap()
     {
         Table("product");
-        Id(m => m.productId).GeneratedBy.Identity();
+        Id(m => m.productId, "productID").GeneratedBy.Identity();
         Map(m => m.name);
         Map(m => m.description);
     }

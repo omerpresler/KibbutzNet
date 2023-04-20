@@ -8,6 +8,6 @@ public class PostMap : ClassMap<Post>
     public PostMap()
     {
         Table("post");
-        Id(m => m.Postid).GeneratedBy.Identity();
+        Id(m => m.Postid, "postID").GeneratedBy.Identity();
     }
 }

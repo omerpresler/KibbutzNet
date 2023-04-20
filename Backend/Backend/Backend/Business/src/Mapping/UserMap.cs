@@ -8,8 +8,8 @@ public class UserMap : ClassMap<User>
     public UserMap()
     {
         Table("user");
-        Id(m => m.userId).GeneratedBy.Identity();
+        Id(m => m.userId, "userID").GeneratedBy.Identity();
         Map(m => m.name);
-        Map(m => m.phoneNumber);
+        Map(m => m.phoneNumber, "phone");
     }
 }

@@ -9,11 +9,13 @@ namespace Backend.Business.src.Utils
         public virtual User sender { get; set; }
         public virtual string message { get; set; }
         public T addon { get; set; }
+        public virtual DateTime date { get; }
         
         public Message(User sender, string message)
         {
             this.sender = sender;
             this.message = message;
+            date = DateTime.Now;
         }
         
         public Message(User sender, string message, T addon)
