@@ -33,6 +33,7 @@ export default function ChatManagerPage() {
           Please login as a user or store to access the chat.
         </Typography>
       )}
+      <BackButton back></BackButton>
     </Container>
   );
 }

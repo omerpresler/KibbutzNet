@@ -16,6 +16,7 @@ export const member_page_path="/Member"
 export const store_page_path="/Store"
 export const purchse_history_page_path="/purchseHistory"
 export const chat_manager_page_path="/chatManager"
+export const order_manager_page_path="/orderManager"
 
 //controller pathes
 export const login_controller_path="/login"

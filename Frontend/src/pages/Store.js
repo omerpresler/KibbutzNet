@@ -8,14 +8,17 @@ import {useNavigate} from 'react-router-dom'
 import { Box } from '@mui/system'
 import * as paths from '../services/pathes';
 import BackButton from '../components/BackButton';
-
 export default function Store() {
   const navigate=useNavigate()
-  function see_purchse_history(){
-      navigate(paths.purchse_history_page_path)
-  }
+function see_purchse_history(){
+    navigate(paths.purchse_history_page_path)
+}
   function open_chat_manager(){
     navigate(paths.chat_manager_page_path)
+}
+
+function see_all_orders(){
+    navigate(paths.order_manager_page_path)
 }
   return (
   <Center>
@@ -35,8 +38,8 @@ export default function Store() {
                               see purchse history</Button>
            <Button onClick={open_chat_manager}>
                               open chat manager</Button>
-            <Button onClick={()=>console.log(3)}>
-                see all stores
+            <Button onClick={see_all_orders}>
+                see all orders 
                               </Button>
                               <BackButton sx={{ mt: 2 }} />
           </Box>
