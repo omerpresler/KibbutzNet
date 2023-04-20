@@ -69,10 +69,18 @@ namespace Backend.Controllers
             return Store.Instance.GetAllchats(StoreId);
         }
 
+
+
+        [HttpPost("getPurchaseHistory")]
+        public Response<List<String>> getAllchats(int StoreId)
+        {
+            return Store.Instance.GetAllchats(StoreId);
+        }
+
         // [HttpPost("closeChatStore")]
         // public Response<int> closeChat([FromBody] openChatRequest request)
         // {
-            
+
         // }
 
 

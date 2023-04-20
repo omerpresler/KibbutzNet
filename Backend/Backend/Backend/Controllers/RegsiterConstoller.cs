@@ -47,6 +47,8 @@ namespace Backend.Controllers
             return Register.Instance.SeePurchaseHistoryStore(request.StoreId);
         }
 
+
+
         [HttpPost("SeePurchaseHistoryUserAndStore")]
         public Response<ArrayList> SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
         {

@@ -25,9 +25,8 @@ export default function Member() {
     };
     const handleSubmit = (data) => {
       setFormData(data);
-      setGetHistory(seePurchaseHistory(formData.start,formData.finish));
-      if (history)
-        setGetHistory(true)
+
+
     };
   
     const fieldsForPurchaseHistory = [

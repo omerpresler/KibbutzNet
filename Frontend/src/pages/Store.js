@@ -9,7 +9,6 @@ import { Box } from '@mui/system'
 import * as paths from '../services/pathes';
 import BackButton from '../components/BackButton';
 
-
 export default function Store() {
   const navigate=useNavigate()
   function see_purchse_history(){
