@@ -30,7 +30,7 @@ public class Store
         }
     }
 
-    public Response<bool> Login(int userId, int storeId, string password)
+    public Response<bool> Login(int userId, int storeId, string email)
     {
         
 
@@ -38,7 +38,7 @@ public class Store
         {
             if (stores.ContainsKey(storeId))
                 return new Response<bool>(true, $"The is no store with the id of {storeId}");
-            stores.Add(storeId, new ClientStoreService(storeId, userId, password));
+            stores.Add(storeId, new ClientStoreService(storeId, userId, email));
         }
         catch (Exception e)
         {

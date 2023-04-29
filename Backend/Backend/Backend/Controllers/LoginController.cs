@@ -30,7 +30,7 @@ namespace Backend.Controllers
         [HttpPost("loginToStore")]
         public Response<bool> loginStore([FromBody] storeLoginRequest request)
         {
-            return Store.Instance.Login(request.accountNumber, request.storeId, request.password);
+            return Store.Instance.Login(request.accountNumber, request.storeId, request.email);
         }
         
         [HttpPost("loginToRegister")]

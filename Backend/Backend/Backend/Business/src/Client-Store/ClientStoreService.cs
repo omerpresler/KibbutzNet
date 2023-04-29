@@ -13,14 +13,14 @@ public class ClientStoreService
     private NotificationManager notificationManager;
     private PageManager pageManager;
 
-    public ClientStoreService(int storeId, int userId, string password)
+    public ClientStoreService(int storeId, int userId, string email)
     {
         chatManager = new ChatManager();
         orderManager = new OrderManager();
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
-        employee = AuthenticationManager.GetInstance().Login(userId, password);
+        employee = AuthenticationManager.GetInstance().Login(userId, email);
 
         String storeName = AuthenticationManager.GetInstance().CheckWorkingPrivilege(storeId, userId);
         if (storeName == null)

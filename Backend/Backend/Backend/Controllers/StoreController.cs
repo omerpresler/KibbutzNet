@@ -72,7 +72,7 @@ namespace Backend.Controllers
 
 
         [HttpPost("getPurchaseHistory")]
-        public Response<List<String>> getAllchats(int StoreId)
+        public Response<List<String>> getPurchaseHistory(int StoreId)
         {
             return Store.Instance.GetAllchats(StoreId);
         }

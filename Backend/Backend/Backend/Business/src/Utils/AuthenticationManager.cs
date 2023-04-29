@@ -57,7 +57,7 @@ namespace Backend.Business.src.Utils
             return store_registers.TryGetValue(store, out employeeID);
         }
 
-        public User Login(int id, string password)
+        public User Login(int id, string email)
         {
             //TODO: get user data from db
             return new Member(-1, -1, "PlaceHolder", "PlaceHolder");
