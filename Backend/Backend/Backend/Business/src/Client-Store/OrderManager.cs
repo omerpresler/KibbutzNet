@@ -1,3 +1,4 @@
+using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
 using NHibernate;
 
@@ -12,14 +13,14 @@ using System.Collections.Generic;
         // orders is a dictionary that the key is the storeID, and the value is a list of orders
         private Dictionary<int, List<Order>> orders;
         private int orderNum = 0;
-        private readonly ISessionFactory _sessionFactory;
+        private readonly ISessionFactory _sessionFactory = NHibernateHelper.GetSessionFactory();
 
         public OrderManager()
         {
             orders = new Dictionary<int, List<Order>>();
         }
 
-        public response<string> addOrder(int storeID, int memberID, string memberName, string description, float cost)
+        public Response<string> addOrder(int storeID, int memberID, string memberName, string description, float cost)
         {
             using (var session = _sessionFactory.OpenSession())
             {
@@ -40,16 +41,15 @@ using System.Collections.Generic;
 
                         session.Save(order);
                         transaction.Commit();
+                        return new Response<string>("Order was added to data-base.");
                     }
                     catch(Exception e)
                     {
                         transaction.Rollback();
+                        return new Response<string>(true,"Can't add order to data-base.");
                     }
                 }
             }
-
-            var res = new response<string>("order was added.", false);
-            return res;
         }
 
         public response<string> changeOrdersStatus (int storeID, int orderID, string status)

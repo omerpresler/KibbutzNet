@@ -12,8 +12,9 @@ namespace Backend.Business.src.Client_Store
         private List<Product> products;
 
    
-        public PageManager(string storeName)
+        public PageManager(int storeId, string storeName)
         {
+            storeID = storeId;
             this.StoreName = storeName;
             this.posts = new List<Post>();
             this.products = new List<Product>();

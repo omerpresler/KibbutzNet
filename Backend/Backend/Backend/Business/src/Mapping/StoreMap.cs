@@ -9,6 +9,7 @@ public class StoreMap : ClassMap<PageManager>
     {
         Table("store");
         Id(m => m.storeID).GeneratedBy.Identity();
+        Map(m => m.StoreName);
     }
     
 }

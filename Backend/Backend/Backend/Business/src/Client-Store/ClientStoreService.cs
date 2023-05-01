@@ -29,7 +29,7 @@ public class ClientStoreService
             return;
         }
         
-        pageManager = new PageManager(storeName);
+        //pageManager = new PageManager(storeName);
     }
 
     public Response<Product> AddProduct(string name, string description)
