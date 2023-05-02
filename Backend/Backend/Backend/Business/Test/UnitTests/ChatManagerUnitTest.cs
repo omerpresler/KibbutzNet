@@ -12,8 +12,8 @@ public class ChatManagerUnitTest
     public void StartChat()
     {
         ChatManager cm = new ChatManager();
-        Member sender = new Member(1, 1, "Sender1", "051-111-1111");
-        Member recipient = new Member(2, 2, "recipient1", "051-222-2222");
+        Member sender = new Member(1,"Sender1", "051-111-1111");
+        Member recipient = new Member(2,"recipient1", "051-222-2222");
         cm.StartChat(1, 1);
 
         Console.WriteLine(cm.GetChats().Count);
@@ -31,8 +31,8 @@ public class ChatManagerUnitTest
     public void EndChat()
     {
         ChatManager cm = new ChatManager();
-        Member sender = new Member(1, 1, "Sender1", "051-111-1111");
-        Member recipient = new Member(2, 2, "recipient1", "051-222-2222");
+        Member sender = new Member(1, "Sender1", "051-111-1111");
+        Member recipient = new Member(2, "recipient1", "051-222-2222");
         
         Response<int> firstSession = cm.StartChat(1, 1);
         Response<int> secondSession = cm.StartChat(1, 1);
@@ -55,15 +55,15 @@ public class ChatManagerUnitTest
     public void SendTextMessage()
     {
         ChatManager cm = new ChatManager();
-        Member member1 = new Member(1, 1, "Sender1", "051-111-1111");
-        Member member2 = new Member(2, 2, "recipient1", "051-222-2222");
+        Member member1 = new Member(1,"Sender1", "051-111-1111");
+        Member member2 = new Member(2,"recipient1", "051-222-2222");
         
 
         int firstSession = cm.StartChat(1, 1).value;
-        Message<String> msg1 = new Message<String>(member1, "First message", "random Addon");
-        Message<House> msg2 = new Message<House>(member1, "Second message", new House(1, "BlaBla1"));
-        Message<String> msg3 = new Message<String>(member2, "Third message", "random Addon 2");
-        Message<House> msg4 = new Message<House>(member2, "fourth message", new House(2, "BlaBla2"));
+        Message<String> msg1 = new Message<String>(1, "First message", "random Addon");
+        Message<House> msg2 = new Message<House>(1, "Second message", new House(1, "BlaBla1"));
+        Message<String> msg3 = new Message<String>(2, "Third message", "random Addon 2");
+        Message<House> msg4 = new Message<House>(2, "fourth message", new House(2, "BlaBla2"));
 
         cm.SendMessage(firstSession, msg1);
         cm.SendMessage(firstSession, msg2);

@@ -24,6 +24,10 @@ public class Store
                 if (instance == null)
                 {
                     instance = new Store();
+                    
+                    //Init
+                    ClientStoreService init = new ClientStoreService(0, 0, "emai@gmail.com");
+                    stores.Add(0, init);
                 }
                 return instance;
             }
@@ -32,12 +36,10 @@ public class Store
 
     public Response<bool> Login(int userId, int storeId, string email)
     {
-        
-
         try
         {
             if (stores.ContainsKey(storeId))
-                return new Response<bool>(true, $"The is no store with the id of {storeId}");
+                return new Response<bool>(true, $"Already logged in to {storeId}");
             stores.Add(storeId, new ClientStoreService(storeId, userId, email));
         }
         catch (Exception e)
@@ -97,6 +99,41 @@ public class Store
         catch (Exception e)
         {
             return new  Response<List<String>>(true, e.Message);
+        }
+    }
+    
+    
+    public Response<int> addOrder(int storeId, int memberId, string memberName, string description, float cost)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].addOrder(storeId, memberId, memberName, description, cost);
+            }
+
+            return new Response<int>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<int>(true, e.Message);
+        }
+    }
+    
+    public Response<string> changeOrdersStatus(int storeId, int orderId, string status)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].changeOrdersStatus(storeId, orderId, status);
+            }
+
+            return new Response<string>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
         }
     }
 }

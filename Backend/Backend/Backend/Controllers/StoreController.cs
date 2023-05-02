@@ -17,7 +17,7 @@ namespace Backend.Controllers
         [HttpPost("loginToStore")]
         public Response<bool> Login([FromBody] storeLoginRequest request)
         {
-            return Store.Instance.Login(request.accountNumber, request.storeId, request.password);
+            return Store.Instance.Login(request.accountNumber, request.storeId, request.email);
         }
         
         //int StoreId string from string too
@@ -72,11 +72,17 @@ namespace Backend.Controllers
 
 
         [HttpPost("getPurchaseHistory")]
-        public Response<List<String>> getPurchaseHistory(int StoreId)
+        public Response<int> addOrder([FromBody] newOrderRequest request)
         {
-            return Store.Instance.GetAllchats(StoreId);
+            return Store.Instance.addOrder(request.storeId, request.memberId, request.memberName, request.description, request.cost);
         }
 
+        
+        [HttpPost("getPurchaseHistory")]
+        public Response<string> changeOrdersStatus([FromBody] changeOrdersStatusRequest request)
+        {
+            return Store.Instance.changeOrdersStatus(request.storeId, request.orderId, request.status);
+        }
         // [HttpPost("closeChatStore")]
         // public Response<int> closeChat([FromBody] openChatRequest request)
         // {

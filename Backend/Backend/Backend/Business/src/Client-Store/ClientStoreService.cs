@@ -45,12 +45,23 @@ public class ClientStoreService
 
     public Response<string> SendMessage(int sessionId, string msg)
     {
-        return chatManager.SendMessage(sessionId, new Message<string>(employee, msg));
+        return chatManager.SendMessage(sessionId, new Message<string>(employee.UserId, msg));
     }
 
     public Response<List<String>> GetAllchats(int storeId)
     {
-        return chatManager.GetAllchats(storeId);
+        return chatManager.GetAllChats(storeId);
+    }
+
+    public Response<int> addOrder(int storeID, int memberID, string memberName, string description, float cost)
+    {
+        return orderManager.addOrder(storeID, memberID, memberName, description, cost);
+    }
+
+    public Response<string> changeOrdersStatus (int storeID, int orderID, string status)
+    {
+        return orderManager.changeOrdersStatus(storeID, orderID, status);
+
     }
 
 

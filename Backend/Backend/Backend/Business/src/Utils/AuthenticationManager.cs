@@ -31,7 +31,7 @@ namespace Backend.Business.src.Utils
             return _instance ?? (_instance = new AuthenticationManager());
         }
 
-        public Response<int> logIn(string name, string password, int Id)
+        public Response<int> logIn(string name, string email, int Id)
         {
             return new Response<int>(-1);
         }
@@ -57,10 +57,10 @@ namespace Backend.Business.src.Utils
             return store_registers.TryGetValue(store, out employeeID);
         }
 
-        public User Login(int id, string email)
+        public Member Login(int id, string email)
         {
             //TODO: get user data from db
-            return new Member(-1, -1, "PlaceHolder", "PlaceHolder");
+            return new Member(id, "PlaceHolder", "PlaceHolder");
         }
 
         /*
