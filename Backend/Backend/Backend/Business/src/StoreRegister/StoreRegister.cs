@@ -24,7 +24,7 @@ namespace Backend.Business.src.StoreRegister
 
         public Response<string> login(int employeeId)
         {
-            String storeName = AuthenticationManager.GetInstance().CheckWorkingPrivilege(storeId, employeeId);
+            String storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, employeeId);
             if (storeName == null)
             {
                 return new Response<string>(true, "This employee does not have Working Privileges");

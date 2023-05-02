@@ -11,7 +11,7 @@ namespace Backend.Business.MemberController
         
         public MemberController(int userId, string email)
         {
-            member = AuthenticationManager.GetInstance().Login(userId, email);
+            member = AuthenticationManager.Instance.Login(userId, email);
             cm = new ChatManager();
         }
     }

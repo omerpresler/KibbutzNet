@@ -12,8 +12,8 @@ public class ChatManagerUnitTest
     public void StartChat()
     {
         ChatManager cm = new ChatManager();
-        Member sender = new Member(1,"Sender1", "051-111-1111");
-        Member recipient = new Member(2,"recipient1", "051-222-2222");
+        Member sender = new Member(1,"Sender1", "051-111-1111", "email");
+        Member recipient = new Member(2,"recipient1", "051-222-2222", "email");
         cm.StartChat(1, 1);
 
         Console.WriteLine(cm.GetChats().Count);
@@ -31,8 +31,8 @@ public class ChatManagerUnitTest
     public void EndChat()
     {
         ChatManager cm = new ChatManager();
-        Member sender = new Member(1, "Sender1", "051-111-1111");
-        Member recipient = new Member(2, "recipient1", "051-222-2222");
+        Member sender = new Member(1, "Sender1", "051-111-1111", "email");
+        Member recipient = new Member(2, "recipient1", "051-222-2222", "email");
         
         Response<int> firstSession = cm.StartChat(1, 1);
         Response<int> secondSession = cm.StartChat(1, 1);
@@ -55,8 +55,8 @@ public class ChatManagerUnitTest
     public void SendTextMessage()
     {
         ChatManager cm = new ChatManager();
-        Member member1 = new Member(1,"Sender1", "051-111-1111");
-        Member member2 = new Member(2,"recipient1", "051-222-2222");
+        Member member1 = new Member(1,"Sender1", "051-111-1111", "email");
+        Member member2 = new Member(2,"recipient1", "051-222-2222", "email");
         
 
         int firstSession = cm.StartChat(1, 1).value;

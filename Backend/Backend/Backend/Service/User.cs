@@ -23,10 +23,6 @@ public class User
                 if (instance == null)
                 {
                     instance = new User();
-                    
-                    //Init
-                    MemberController init = new MemberController(0, "emai@gmail.com");
-                    users.Add(0, init);
                 }
                 return instance;
             }
@@ -38,9 +34,11 @@ public class User
     {
         try
         {
-            if(users.ContainsKey(userId))
-                return new Response<bool>(true, $"User {userId} is logged in");
-            users.Add(userId, new MemberController(userId, email));
+            if(!users.ContainsKey(userId))
+                users.Add(userId, new MemberController(userId, email));
+            else
+                AuthenticationManager.Instance.Login(userId, email);
+            
         }
         catch (Exception e)
         {

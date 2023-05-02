@@ -7,28 +7,35 @@ namespace Backend.Business.src.Utils
 {
     public sealed class AuthenticationManager
     {
-        // The Singleton's constructor should always be private to prevent
-        // direct construction calls with the `new` operator.
         private AuthenticationManager() { }
-
-        // The Singleton's instance is stored in a static field. There there are
-        // multiple ways to initialize this field, all of them have various pros
-        // and cons. In this example we'll show the simplest of these ways,
-        // which, however, doesn't work really well in multithreaded program.
-        private static AuthenticationManager _instance = null;
-
-        // This is the static method that controls the access to the singleton
-        // instance. On the first run, it creates a singleton object and places
-        // it into the static field. On subsequent runs, it returns the client
-        // existing object stored in the static field.
 
         private Dictionary<KeyValuePair<int, string>, int> store_registers = new Dictionary<KeyValuePair<int, string>, int>();
         private Dictionary<int, string> stores = new Dictionary<int, string>();
         private List<Business.src.StoreRegister.StoreRegister> _storeRegisters = new List<StoreRegister.StoreRegister>();
 
-        public static AuthenticationManager GetInstance()
+        private static Dictionary<int, string> idToEmail = new Dictionary<int, string>();
+        private static AuthenticationManager? instance;
+        private static readonly object padlock = new object();
+
+        public static AuthenticationManager Instance {
+            get {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new AuthenticationManager();
+                        instance.loadData();
+                    }
+                    return instance;
+                }
+            }
+        }
+
+        public void loadData()
         {
-            return _instance ?? (_instance = new AuthenticationManager());
+            
+            idToEmail.Add(0, "amit@gmail.com");
+            stores.Add(0, "Store one");
         }
 
         public Response<int> logIn(string name, string email, int Id)
@@ -59,8 +66,10 @@ namespace Backend.Business.src.Utils
 
         public Member Login(int id, string email)
         {
-            //TODO: get user data from db
-            return new Member(id, "PlaceHolder", "PlaceHolder");
+            if(idToEmail[id].Equals(email))
+                return new Member(id, "PlaceHolder", "PlaceHolder", email);
+
+            throw new Exception("Email doesnt match");
         }
 
         /*
@@ -69,7 +78,7 @@ namespace Backend.Business.src.Utils
         public String CheckWorkingPrivilege(int storeID, int employeeID)
         {
             //TODO: confirm that this employee work at this store
-            return "StoreName";
+            return stores[storeID];
         }
 
     }
