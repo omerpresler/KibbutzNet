@@ -34,9 +34,14 @@ public class Store
     {
         try
         {
-            if (stores.ContainsKey(storeId))
-                return new Response<bool>(true, $"Already logged in to {storeId}");
-            stores.Add(storeId, new ClientStoreService(storeId, userId, email));
+            if(!stores.ContainsKey(userId))
+                stores.Add(userId, new ClientStoreService(storeId, userId, email));
+            else
+            {
+                AuthenticationManager.Instance.Login(userId, email);
+                AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
+            }
+            
         }
         catch (Exception e)
         {
