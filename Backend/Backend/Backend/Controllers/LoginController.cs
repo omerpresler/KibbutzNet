@@ -22,9 +22,7 @@ namespace Backend.Controllers
         [HttpPost("loginToUser")]
         public Response<bool> loginUser([FromBody] userLoginRequest request)
         {
-            Console.WriteLine(request);
-            Response<bool> res = new Response<bool>(true);
-            return  res;
+            return Service.User.Instance.Login(request.accountNumber, request.email);
         }
 
         [HttpPost("loginToStore")]
