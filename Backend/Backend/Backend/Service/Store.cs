@@ -24,10 +24,6 @@ public class Store
                 if (instance == null)
                 {
                     instance = new Store();
-                    
-                    //Init
-                    ClientStoreService init = new ClientStoreService(0, 0, "emai@gmail.com");
-                    stores.Add(0, init);
                 }
                 return instance;
             }

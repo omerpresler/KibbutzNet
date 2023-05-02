@@ -9,11 +9,13 @@ namespace Backend.Business.Utils
         public int UserId;
         string Name;
         string PhoneNumber;
+        public string email;
         
-        protected User(int userId ,string name,string phoneNumber) {
+        protected User(int userId ,string name,string phoneNumber, string email) {
             this.UserId = userId;
             this.Name = name;
             this.PhoneNumber = phoneNumber;
+            this.email = email;
         }
 
         //will be implmented in 

@@ -20,9 +20,9 @@ public class ClientStoreService
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
-        employee = AuthenticationManager.GetInstance().Login(userId, email);
+        employee = AuthenticationManager.Instance.Login(userId, email);
 
-        String storeName = AuthenticationManager.GetInstance().CheckWorkingPrivilege(storeId, userId);
+        String storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
         if (storeName == null)
         {
             //TODO: Stop and raise an exception

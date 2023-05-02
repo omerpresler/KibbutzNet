@@ -78,7 +78,8 @@ namespace Backend.Controllers
         }
 
         
-        [HttpPost("changeOrderStatus")]
+
+        [HttpPost("changeOrdersStatus")]
         public Response<string> changeOrdersStatus([FromBody] changeOrdersStatusRequest request)
         {
             return Store.Instance.changeOrdersStatus(request.storeId, request.orderId, request.status);
