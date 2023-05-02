@@ -8,9 +8,6 @@ namespace Backend.Controllers
     [Route("[controller]")]
     public class HomeController : ControllerBase
     {
-
-
-
         public HomeController()
         {
         }

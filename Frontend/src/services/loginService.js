@@ -21,20 +21,19 @@ export default function GetLoginService() {
 
 async function loginToUser(email, accountNumber) {
     const ServerAns=await sendLoginRequestAsUser(email,accountNumber);
-    // if(ServerAns===true){
+    if (ServerAns===true)
     localStorage.clear();
     localStorage.setItem('email',email);
     localStorage.setItem('userId',accountNumber)
     localStorage.setItem('userType','user');
     accountNumberSaver = { accountNumber };
     setUser(accountNumberSaver);
-    // }
-    
   }
 
    async function LoginToStore(email, accountNumber,storeId) {
         const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
-        // if (serverAns.value=true){
+        console.log(serverAns)
+        if(serverAns.value=true){
         localStorage.clear();
         localStorage.setItem('email',email);
         localStorage.setItem('userId',accountNumber)
@@ -44,7 +43,7 @@ async function loginToUser(email, accountNumber) {
         storeIdSaver = { storeId };
         setUser(accountNumberSaver);
         setStoreID(storeIdSaver);
-      // }
+   }
   }
 
   async function LoginToRegister(email, accountNumber,storeId) {
@@ -78,6 +77,7 @@ async function loginToUser(email, accountNumber) {
   return { user, loginToUser,loginToStore: LoginToStore, logout, isAuthenticated };
 
   function sendLoginRequestAsUser(email, accountNumber, ) {
+      console.log(email,accountNumber)
     return axios.post(loginToUserFunctionPath, {
         email: JSON.stringify(email),
         accountNumber: JSON.stringify(accountNumber),
@@ -94,18 +94,18 @@ async function loginToUser(email, accountNumber) {
 }
 
   function sendLoginRequestAsStore(email, accountNumber, storeId) {
-      // return axios.post(loginToStoreFunctionPath, {
-      //     email: JSON.stringify(email),
-      //     accountNumber: JSON.stringify(accountNumber),
-      //     storeId: JSON.stringify(storeId)
-      //   })
-      //   .then(res=> {
-      //     const response = Response.create(res.data.value, res.data.wasExecption);
-      //     return response;
-      //   })
-      //   .catch(res=> {
-      //     const response = Response.create(res.data.value, res.data.wasExecption);
-      //     return response;
-      //   })
+      return axios.post(loginToStoreFunctionPath, {
+          email: JSON.stringify(email),
+          accountNumber: JSON.stringify(accountNumber),
+          storeId: JSON.stringify(storeId)
+        })
+        .then(res=> {
+          const response = Response.create(res.data.value, res.data.wasExecption);
+          return response;
+        })
+        .catch(res=> {
+          const response = Response.create(res.data.value, res.data.wasExecption);
+          return response;
+        })
     };
 

@@ -71,14 +71,14 @@ namespace Backend.Controllers
 
 
 
-        [HttpPost("getPurchaseHistory")]
+        [HttpPost("addOrder")]
         public Response<int> addOrder([FromBody] newOrderRequest request)
         {
             return Store.Instance.addOrder(request.storeId, request.memberId, request.memberName, request.description, request.cost);
         }
 
         
-        [HttpPost("getPurchaseHistory")]
+        [HttpPost("changeOrderStatus")]
         public Response<string> changeOrdersStatus([FromBody] changeOrdersStatusRequest request)
         {
             return Store.Instance.changeOrdersStatus(request.storeId, request.orderId, request.status);

@@ -4,10 +4,9 @@ import { Box } from '@mui/system'
 import Center from '../components/Center'
 import useForm from '../hooks/useFrom'
 import {useNavigate} from 'react-router-dom'
-import GetLoginService from '../services/loginService'
 import * as paths from '../services/pathes';
 import BackButton from '../components/BackButton';
-
+import GetLoginService from '../services/loginService'
 
 const getLoginModel = () => ({
     email: '',
@@ -27,7 +26,8 @@ export default function LoginUser() {
     } = useForm(getLoginModel);
 
     
-    const { user,loginToUser,loginToStore, logout, isAuthenticated }=GetLoginService()
+    const { user, loginToUser,loginToStore: LoginToStore, logout, isAuthenticated }=GetLoginService();
+
 
 
     const login = e => {
@@ -35,7 +35,7 @@ export default function LoginUser() {
         if (validate()){
             const didLoginSucsed=loginToUser(values.email,values.accountNumberber,);
             if (isAuthenticated){
-             navigate()
+             navigate(paths.member_page_path)
             }
         }
     }
