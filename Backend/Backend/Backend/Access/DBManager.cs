@@ -16,16 +16,16 @@ public class DBManager
     private async Task CreateTables()
     {
         var con = new NpgsqlConnection(
-            connectionString: "Server=localhost;Port=5432;User Id=postgres;Password=password;Database=KibbutzNet;");
+            connectionString: "Server=localhost;Port=5432;User Id=postgres;Password=omer;Database=postgres;");
         con.Open();
         using var cmd = new NpgsqlCommand();
         cmd.Connection = con;
 
         cmd.CommandText = "DROP TABLE IF EXISTS Orders";
         await cmd.ExecuteNonQueryAsync();
-        cmd.CommandText = @"CREATE TABLE `Orders` (
+        cmd.CommandText = @"CREATE TABLE Orders (
 	                        orderId INT,
-	                        date DATETIME,
+	                        date DATE,
 	                        status VARCHAR(255),
 	                        memberName VARCHAR,
 	                        memberId INT,
@@ -48,5 +48,11 @@ public class DBManager
                 return instance;
             }
         }
+    }
+
+
+    public void printTest()
+    {
+        Console.WriteLine("Test");
     }
 }
