@@ -86,8 +86,31 @@ namespace Backend.Controllers
         {
             return Store.Instance.changeOrdersStatus(request.storeId, request.orderId, request.status);
         }
+        
+        [HttpPost("addPurchase")]
+        public Response<int> addPurchase([FromBody] newPurchaseRequest request)
+        {
+            return Store.Instance.addPurchase(request.storeId, request.memberId,request.description, request.cost);
+        }
+        
 
         //int StoreId 
+        [HttpPost("SeeOrderHistoryStore")]
+        public Response<ArrayList> SeeOrderHistoryStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Store.Instance.SeeOrderHistoryStore(request.StoreId);
+        }
+
+
+
+        [HttpPost("SeeOrderHistoryUserAndStore")]
+        public Response<ArrayList> SeeOrderHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Store.Instance.SeeOrderHistoryUserAndStore(request.StoreId, request.UserId);
+        }
+        
+        
+        
         [HttpPost("SeePurchaseHistoryStore")]
         public Response<ArrayList> SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
         {

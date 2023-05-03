@@ -77,6 +77,8 @@ public class Register
         }
     }
     
+    /*
+    
     public Response<int> addPurchase(int storeId, int budgetNumber, string description, float cost)
     {
         return registers.ContainsKey(storeId) ? registers[storeId].addPurchase(budgetNumber, description, cost) : new Response<int>(true, "The register has not been opened");
@@ -111,7 +113,7 @@ public class Register
         try
         {
             if (registers.ContainsKey(storeId))
-                return new Response<ArrayList>(registers[storeId].printPurchases());
+                return new Response<ArrayList>(registers[storeId].print());
 
             return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
 
@@ -136,5 +138,7 @@ public class Register
         {
             return new Response<ArrayList>(true, e.Message);
         }
+        
     }
+    */
 }

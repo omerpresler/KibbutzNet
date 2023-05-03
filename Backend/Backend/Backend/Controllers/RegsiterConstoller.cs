@@ -25,6 +25,7 @@ namespace Backend.Controllers
         {
             return Register.Instance.CloseRegister(storeId);
         }
+        /*
 
         //float Cost string description int budget number int storeId
         [HttpPost("addPurchase")]
@@ -54,6 +55,6 @@ namespace Backend.Controllers
         {
             return Register.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }
-
+        */
     }
 }

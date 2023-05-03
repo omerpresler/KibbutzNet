@@ -45,7 +45,7 @@ namespace Backend.Business.src.StoreRegister
             return new Response<bool>(true);
         }
         
-
+        /*
         public Response<int> addPurchase(int budgetNumber ,string description, float cost)
         {
             try
@@ -137,7 +137,7 @@ namespace Backend.Business.src.StoreRegister
 	        "Cost" : Number,
 	        "Description" : "......",
         }
-         */
+         
         
         public ArrayList GetPurchasesByUser(int userId)
         {
@@ -160,6 +160,6 @@ namespace Backend.Business.src.StoreRegister
             return jsons;
         }
         
-        
+        */
     }
 }

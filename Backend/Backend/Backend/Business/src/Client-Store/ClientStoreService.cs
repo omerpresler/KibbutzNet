@@ -15,10 +15,11 @@ public class ClientStoreService
     private User employee;
     private NotificationManager notificationManager;
     private PageManager pageManager;
-
+    private List<Purchase> purchases;
     public ClientStoreService(int storeId, int userId, string email)
     {
         this.storeId = storeId;
+        purchases = new List<Purchase>();
         chatManager = new ChatManager();
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
@@ -64,8 +65,15 @@ public class ClientStoreService
 
     }
     
+    public Response<int> addPurchase(int memberID, string description, float cost)
+    {
+        Purchase p = new Purchase(storeId, memberID, cost, description);
+        purchases.Add(p);
+        return new Response<int>(p.purchaseId);
+    }
     
-    public ArrayList GetPurchasesByUser(int userId)
+    
+    public ArrayList GetOrderByUser(int userId)
     {
         ArrayList jsons = new ArrayList();
         foreach (Order order in OrderManager.Instance.orders[storeId])
@@ -85,7 +93,7 @@ public class ClientStoreService
         return jsons;
     }
     
-    public ArrayList printPurchases()
+    public ArrayList printOrders()
     {
         
         ArrayList jsons = new ArrayList();
@@ -105,7 +113,44 @@ public class ClientStoreService
         
         return jsons;
     }
+    
+    public ArrayList GetPurchasesByUser(int userId)
+    {
+        ArrayList jsons = new ArrayList();
+        foreach (Purchase p in purchases)
+            if (p.memberId == userId)
+            {
+                var purchase = new
+                {
+                    PurchaseID = p.purchaseId,
+                    Date = p.date,
+                    memberId = p.memberId,
+                    Cost = p.cost,
+                    Description = p.description
+                };
+                jsons.Add(JsonConvert.SerializeObject(purchase));
+            }
 
+        return jsons;
+    }
 
+    public ArrayList printPurchases()
+    {
+        ArrayList jsons = new ArrayList();
+        foreach (Purchase p in purchases)
+        {
+            var purchase = new
+            {
+                PurchaseID = p.purchaseId,
+                Date = p.date,
+                memberId = p.memberId,
+                Cost = p.cost,
+                Description = p.description
+            };
+            jsons.Add(JsonConvert.SerializeObject(purchase));
+        }
+
+        return jsons;
+    }
 
 }

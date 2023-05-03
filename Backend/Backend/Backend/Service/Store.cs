@@ -139,7 +139,77 @@ public class Store
         }
     }
     
+    public Response<int> addPurchase(int storeId, int memberId, string description, float cost)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].addPurchase(memberId, description, cost);
+            }
+
+            return new Response<int>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<int>(true, e.Message);
+        }
+    }
     
+    
+    public Response<ArrayList> SeeOrderHistoryUser(int userId)
+    {
+        try
+        {
+            ArrayList jsons = new ArrayList();
+            foreach(ClientStoreService store in stores.Values)
+            {
+                foreach (string purchase in store.GetOrderByUser(userId))
+                {
+                    jsons.Add(purchase);
+                }
+            }
+
+            return new Response<ArrayList>(jsons);
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
+        
+    }
+
+    public Response<ArrayList> SeeOrderHistoryStore(int storeId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+                return new Response<ArrayList>(stores[storeId].printOrders());
+
+            return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
+
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
+    }
+
+    public Response<ArrayList> SeeOrderHistoryUserAndStore(int storeId, int userId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+                return new Response<ArrayList>(stores[storeId].GetOrderByUser(userId));
+
+            return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
+
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
+    }
     
     public Response<ArrayList> SeePurchaseHistoryUser(int userId)
     {
@@ -162,9 +232,7 @@ public class Store
         }
         
     }
-    //register -add new purchse see purchse history
-    //store-client-get report
-    
+
     public Response<ArrayList> SeePurchaseHistoryStore(int storeId)
     {
         try
@@ -196,5 +264,6 @@ public class Store
             return new Response<ArrayList>(true, e.Message);
         }
     }
+    
 
 }

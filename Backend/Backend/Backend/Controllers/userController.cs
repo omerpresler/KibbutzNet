@@ -35,6 +35,7 @@ namespace Backend.Controllers
             //Console.WriteLine(request.email);
             return true;
         }
+        
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
         public Response<List<String>> getAllchats([FromBody] storeLoginRequest request)
@@ -44,10 +45,10 @@ namespace Backend.Controllers
             return res ;
         }
         
-        [HttpPost("SeePurchaseHistoryUser")]
-        public Response<ArrayList> SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("SeeOrderHistoryUser")]
+        public Response<ArrayList> SeeOrderHistoryUser([FromBody] PurchaseHistoryRequest request)
         {
-            return Store.Instance.SeePurchaseHistoryUser(request.UserId);
+            return Store.Instance.SeeOrderHistoryUser(request.UserId);
         }
 
     }
