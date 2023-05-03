@@ -164,13 +164,13 @@ public class Store
     }
     //register -add new purchse see purchse history
     //store-client-get report
-    /*
+    
     public Response<ArrayList> SeePurchaseHistoryStore(int storeId)
     {
         try
         {
-            if (.ContainsKey(storeId))
-                return new Response<ArrayList>(registers[storeId].printPurchases());
+            if (stores.ContainsKey(storeId))
+                return new Response<ArrayList>(stores[storeId].printPurchases());
 
             return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
 
@@ -180,13 +180,13 @@ public class Store
             return new Response<ArrayList>(true, e.Message);
         }
     }
-    
+
     public Response<ArrayList> SeePurchaseHistoryUserAndStore(int storeId, int userId)
     {
         try
         {
-            if (registers.ContainsKey(storeId))
-                return new Response<ArrayList>(registers[storeId].GetPurchasesByUser(userId));
+            if (stores.ContainsKey(storeId))
+                return new Response<ArrayList>(stores[storeId].GetPurchasesByUser(userId));
 
             return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
 
@@ -195,5 +195,6 @@ public class Store
         {
             return new Response<ArrayList>(true, e.Message);
         }
-        */
+    }
+
 }

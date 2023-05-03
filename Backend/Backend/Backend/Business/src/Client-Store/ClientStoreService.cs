@@ -10,7 +10,6 @@ public class ClientStoreService
 {
     private int storeId;
     private ChatManager chatManager;
-    private OrderManager orderManager;
     private OutputManager outputManager;
     private WorkerManager workerManager;
     private User employee;
@@ -21,7 +20,6 @@ public class ClientStoreService
     {
         this.storeId = storeId;
         chatManager = new ChatManager();
-        orderManager = new OrderManager();
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
@@ -57,12 +55,12 @@ public class ClientStoreService
 
     public Response<int> addOrder(int memberID, string memberName, string description, float cost)
     {
-        return orderManager.addOrder(storeId, memberID, memberName, description, cost);
+        return OrderManager.Instance.addOrder(storeId, memberID, memberName, description, cost);
     }
 
     public Response<string> changeOrdersStatus (int orderID, string status)
     {
-        return orderManager.changeOrdersStatus(storeId, orderID, status);
+        return OrderManager.Instance.changeOrdersStatus(storeId, orderID, status);
 
     }
     
@@ -70,11 +68,41 @@ public class ClientStoreService
     public ArrayList GetPurchasesByUser(int userId)
     {
         ArrayList jsons = new ArrayList();
-        foreach (Order o in orderManager.orders[storeId])
-            if (o.memberId == userId)
+        foreach (Order order in OrderManager.Instance.orders[storeId])
+            if (order.memberId == userId)
             {
-                jsons.Add(JsonConvert.SerializeObject(o));
+                var purchase = new
+                {
+                    orderID = order.orderID,
+                    date = order.date,
+                    status = order.status,
+                    memberName = order.memberName,
+                    cost = order.cost,
+                    description = order.description
+                };
+                jsons.Add(JsonConvert.SerializeObject(purchase));
             }
+        return jsons;
+    }
+    
+    public ArrayList printPurchases()
+    {
+        
+        ArrayList jsons = new ArrayList();
+        foreach (Order order in OrderManager.Instance.orders[storeId])
+        {
+            var purchase = new
+            {
+                orderID = order.orderID,
+                date = order.date,
+                status = order.status,
+                memberName = order.memberName,
+                cost = order.cost,
+                description = order.description
+            };
+            jsons.Add(JsonConvert.SerializeObject(purchase));
+        }
+        
         return jsons;
     }
 

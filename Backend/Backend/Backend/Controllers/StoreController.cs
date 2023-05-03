@@ -91,7 +91,7 @@ namespace Backend.Controllers
         [HttpPost("SeePurchaseHistoryStore")]
         public Response<ArrayList> SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
         {
-            return Register.Instance.SeePurchaseHistoryStore(request.StoreId);
+            return Store.Instance.SeePurchaseHistoryStore(request.StoreId);
         }
 
 
@@ -99,7 +99,7 @@ namespace Backend.Controllers
         [HttpPost("SeePurchaseHistoryUserAndStore")]
         public Response<ArrayList> SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
         {
-            return Register.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
+            return Store.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }
 
 
