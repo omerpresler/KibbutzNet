@@ -34,7 +34,7 @@ export default function Regsiter() {
      <Center>
         <Card sx={{ width: 1000 }}>
             <CardContent sx={{ textAlign: 'center' }}>
-                <Typography variant="h1" sx={{ my: 3 }}>
+                <Typography variant="h2" sx={{ my: 3 }}>
                     kibbutzNet
                 </Typography>
                 <Box sx={{

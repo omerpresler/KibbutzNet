@@ -1,8 +1,10 @@
 // src/services/orderService.js
 import { Response } from "./Response";
 import axios from "axios";
+import * as paths from './pathes';
+
 export default function GetOrderService() {
-const apiBaseURL = "https://your-backend-url.com/api/";
+const apiBaseURL=""
 const fakeData = [
     {
       orderID: 1,
@@ -42,7 +44,9 @@ const fakeData = [
 
 
   function addOrder(storeID, memberID, memberName, description, cost) {
-    return axios.post(apiBaseURL + "addOrder", { storeID, memberID, memberName, description, cost })
+    return axios.post(paths.addOrderPath, 
+      { storeid:storeID,memberID: memberID,memberName: memberName,
+      description: description, cost:cost })
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
         return response;
@@ -54,7 +58,7 @@ const fakeData = [
   }
   
   function changeOrdersStatus(storeID, orderID, status) {
-    return axios.post(apiBaseURL + "changeOrdersStatus", { storeID, orderID, status })
+    return axios.post(paths.changeOrderStatus, { storeId:storeID, orderId:orderID, status:status })
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
         return response;
@@ -65,24 +69,12 @@ const fakeData = [
       });
   }
   
-  function ordersByStoreID(storeID) {
-    return axios.post(apiBaseURL + "ordersByStoreID/" + storeID)
-      .then(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
-        return response;
-      })
-      .catch(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
-        return response;
-      });
-    
-  }
   
   function getAllOrdersStore(storeID) {
-    return Response.create(fakeData,false)
-    return axios.post(apiBaseURL + "ordersByStoreID/" + storeID)
+    return axios.post( paths.getAllOrderStore,{storeId:storeID}  )
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
+        console.log(response)
         return response;
       })
       .catch(res => {
@@ -91,16 +83,16 @@ const fakeData = [
       });
   }
   
-  function getAllOrdersuser(UserId) {
-    return Response.create(fakeData,false)
-    try {
-      const filteredData = fakeData.filter((order) => order.memberId === UserId);
-      const response = Response.create(filteredData, false);
+  function getAllOrdersUser(UserId) {
+    return axios.post(paths.getAllOrderUser + UserId)
+    .then(res => {
+      const response = Response.create(res.data.value, res.data.wasExecption);
       return response;
-    } catch (error) {
-      const response = Response.create(error, true);
+    })
+    .catch(res => {
+      const response = Response.create(res.data.value, res.data.wasExecption);
       return response;
-    }
+    });
   }
-return {addOrder,changeOrdersStatus,ordersByStoreID,getAllOrdersStore,getAllOrdersuser}  
+return {addOrder,changeOrdersStatus,getAllOrdersStore,getAllOrdersUser}  
 }

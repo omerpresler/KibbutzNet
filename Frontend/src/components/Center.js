@@ -9,7 +9,7 @@ export default function Center(props) {
       alignItems="center"
       justifyContent="center"
       sx={{
-        minHeight: '50vh',
+        minHeight: '100vh',
         padding: '10rem',
         width: '100%',
       }}

@@ -31,7 +31,7 @@ import GetOrderService from "../services/OrderService";
 
 
 export default function OrderManager() {
-  const {addOrder,changeOrdersStatus,ordersByStoreID,getAllOrdersStore,getAllOrdersuser} =GetOrderService() 
+  const {addOrder,changeOrdersStatus,getAllOrdersStore,getAllOrdersuser} =GetOrderService() 
   const initialFormValues = () => ({
     storeId: '',
     userId: '',
@@ -44,14 +44,10 @@ export default function OrderManager() {
 
   const userType=localStorage.getItem("userType")
   const handleSubmit = (values) => {
-    console.log("handle submit")
     setIsFormSubmitted(true);
   };
 
   useEffect(() => {
-    console.log(localStorage.getItem("storeid")
-    )
-    console.log("useEffect")
     const fetchData = async () => {
       try {
         let response;
@@ -60,7 +56,7 @@ export default function OrderManager() {
         } else {
           response = await getAllOrdersuser(localStorage.getItem("userId")); 
         }
-        setData(response.value);
+        setData(response.value.map(JSON.parse));;
       } catch (error) {
         setData(null);
         console.error(error);

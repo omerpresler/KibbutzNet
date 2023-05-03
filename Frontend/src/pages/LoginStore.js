@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom'
 import GetLoginService from '../services/loginService'
 import * as paths from '../services/pathes';
 import BackButton from '../components/BackButton';
+import { useLocation  } from 'react-router-dom';
 
 
 const getLoginModel = () => ({
@@ -14,10 +15,9 @@ const getLoginModel = () => ({
     accountNumberber: ''
 })
 
-export default function LoginStore(nextPage) {
+export default function LoginStore() {
     const navigate=useNavigate()
-
-
+     
     const {
         values,
         setValues,
@@ -35,7 +35,7 @@ export default function LoginStore(nextPage) {
             const didLoginSucsed=await loginToStore(values.email,values.accountNumber,values.storeId);
             console.log(didLoginSucsed)
             if (didLoginSucsed){
-             navigate(paths.member_page_path)
+             navigate(paths.store_page_path)
             }
         }
     }

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import Center from '../components/Center'
-import useForm from '../hooks/useFrom'
 import {useNavigate} from 'react-router-dom'
 import GetLoginService from '../services/loginService'
 import * as paths from '../services/pathes';
@@ -30,7 +29,7 @@ function move_to_store(){
         <Center>
         <Card sx={{ width: 1000 }}>
             <CardContent sx={{ textAlign: 'center' }}>
-                <Typography variant="h1" sx={{ my: 3 }}>
+                <Typography variant="h2" sx={{ my: 3 }}>
                     kibbutzNet
                 </Typography>
                 <Box sx={{
