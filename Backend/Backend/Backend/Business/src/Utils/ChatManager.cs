@@ -20,12 +20,12 @@ namespace Backend.Business.src.Utils
             return Interlocked.Increment(ref _nextSession);
         }
 
-        public Response<int> StartChat(int sender, int target)
+        public Response<int> StartChat(int store, int user)
         {
             Chat chat;
             try
             {
-                chat = new Chat(AssignSession(), sender, target, true, DateTime.Now);
+                chat = new Chat(AssignSession(), store, user, true, DateTime.Now);
                 chats.Add(chat);
             }
             catch (Exception e)
@@ -79,9 +79,22 @@ namespace Backend.Business.src.Utils
             return new Response<bool>(true);
         }
 
-        public Response<List<String>> GetAllChats(int storeId)
+        public Response<List<String>> GetAllStoreChats(int id)
         {
-            List<Chat> allChats = chats.FindAll(x => x.source == storeId | x.target == storeId);
+            List<Chat> allChats = chats.FindAll(x => x.store == id);
+            List<string> allJsons = new List<string>();
+
+            foreach (Chat chat in allChats)
+            {
+                allJsons.Add(chat.ToString());
+            }
+
+            return new Response<List<string>>(allJsons);
+        }
+        
+        public Response<List<String>> GetAllUserChats(int id)
+        {
+            List<Chat> allChats = chats.FindAll(x => x.user == id);
             List<string> allJsons = new List<string>();
 
             foreach (Chat chat in allChats)

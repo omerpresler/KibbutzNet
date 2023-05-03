@@ -1,4 +1,5 @@
-﻿using Backend.Business.src.Client_Store;
+﻿using System.Collections;
+using Backend.Business.src.Client_Store;
 using Backend.Business.src.Utils;
 
 
@@ -92,7 +93,7 @@ public class Store
         {
             if (stores.ContainsKey(storeId))
             {
-                return stores[storeId].GetAllchats(storeId);
+                return stores[storeId].GetAllchats();
             }
 
             return new  Response<List<String>>(true, $"The is no store with the id of {storeId}");
@@ -110,7 +111,7 @@ public class Store
         {
             if (stores.ContainsKey(storeId))
             {
-                return stores[storeId].addOrder(storeId, memberId, memberName, description, cost);
+                return stores[storeId].addOrder(memberId, memberName, description, cost);
             }
 
             return new Response<int>(true, $"The is no store with the id of {storeId}");
@@ -127,7 +128,7 @@ public class Store
         {
             if (stores.ContainsKey(storeId))
             {
-                return stores[storeId].changeOrdersStatus(storeId, orderId, status);
+                return stores[storeId].changeOrdersStatus(orderId, status);
             }
 
             return new Response<string>(true, $"The is no store with the id of {storeId}");
@@ -137,4 +138,62 @@ public class Store
             return new Response<string>(true, e.Message);
         }
     }
+    
+    
+    
+    public Response<ArrayList> SeePurchaseHistoryUser(int userId)
+    {
+        try
+        {
+            ArrayList jsons = new ArrayList();
+            foreach(ClientStoreService store in stores.Values)
+            {
+                foreach (string purchase in store.GetPurchasesByUser(userId))
+                {
+                    jsons.Add(purchase);
+                }
+            }
+
+            return new Response<ArrayList>(jsons);
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
+        
+    }
+    //register -add new purchse see purchse history
+    //store-client-get report
+    /*
+    public Response<ArrayList> SeePurchaseHistoryStore(int storeId)
+    {
+        try
+        {
+            if (.ContainsKey(storeId))
+                return new Response<ArrayList>(registers[storeId].printPurchases());
+
+            return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
+
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
+    }
+    
+    public Response<ArrayList> SeePurchaseHistoryUserAndStore(int storeId, int userId)
+    {
+        try
+        {
+            if (registers.ContainsKey(storeId))
+                return new Response<ArrayList>(registers[storeId].GetPurchasesByUser(userId));
+
+            return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
+
+        }
+        catch (Exception e)
+        {
+            return new Response<ArrayList>(true, e.Message);
+        }
+        */
 }

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
 using Backend.Service;
+using System.Collections;
+
 
 namespace Backend.Controllers
 {
@@ -84,11 +86,21 @@ namespace Backend.Controllers
         {
             return Store.Instance.changeOrdersStatus(request.storeId, request.orderId, request.status);
         }
-        // [HttpPost("closeChatStore")]
-        // public Response<int> closeChat([FromBody] openChatRequest request)
-        // {
 
-        // }
+        //int StoreId 
+        [HttpPost("SeePurchaseHistoryStore")]
+        public Response<ArrayList> SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Register.Instance.SeePurchaseHistoryStore(request.StoreId);
+        }
+
+
+
+        [HttpPost("SeePurchaseHistoryUserAndStore")]
+        public Response<ArrayList> SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Register.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
+        }
 
 
 

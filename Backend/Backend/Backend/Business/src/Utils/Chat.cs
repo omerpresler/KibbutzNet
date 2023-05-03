@@ -11,17 +11,17 @@ namespace Backend.Business.src.Utils
     {
         public List<IMessage> messages;
         public int sessionId { get; set;}
-        public int source;
-        public int target;
+        public int store;
+        public int user;
         public bool active { get; set;}
         private DateTime start;
 
-        public Chat(int sessionId, int source, int target, bool active, DateTime start)
+        public Chat(int sessionId, int store, int user, bool active, DateTime start)
         {
             messages = new List<IMessage>();
             this.sessionId = sessionId;
-            this.source = source;
-            this.target = target;
+            this.store = store;
+            this.user = user;
             this.active = active;
             this.start = start;
         }

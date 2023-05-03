@@ -1,10 +1,14 @@
-﻿using Backend.Business.src.Utils;
+﻿using System.Collections;
+using Backend.Business.src.Utils;
 using Backend.Business.src.Reports;
 using Backend.Business.Utils;
+using Newtonsoft.Json;
+
 namespace Backend.Business.src.Client_Store;
 
 public class ClientStoreService
 {
+    private int storeId;
     private ChatManager chatManager;
     private OrderManager orderManager;
     private OutputManager outputManager;
@@ -15,6 +19,7 @@ public class ClientStoreService
 
     public ClientStoreService(int storeId, int userId, string email)
     {
+        this.storeId = storeId;
         chatManager = new ChatManager();
         orderManager = new OrderManager();
         outputManager = new OutputManager();
@@ -24,10 +29,7 @@ public class ClientStoreService
 
         String storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
         if (storeName == null)
-        {
-            //TODO: Stop and raise an exception
-            return;
-        }
+            throw new Exception($"User {userId} does not work at {storeId}");
         
         pageManager = new PageManager(storeName);
     }
@@ -40,28 +42,40 @@ public class ClientStoreService
 
     public Response<int> OpenChat(int userId)
     {
-        return chatManager.StartChat(employee.UserId, userId);
+        return chatManager.StartChat(storeId, userId);
     }
 
     public Response<string> SendMessage(int sessionId, string msg)
     {
-        return chatManager.SendMessage(sessionId, new Message<string>(employee.UserId, msg));
+        return chatManager.SendMessage(sessionId, new Message<string>(storeId, msg));
     }
 
-    public Response<List<String>> GetAllchats(int storeId)
+    public Response<List<String>> GetAllchats()
     {
-        return chatManager.GetAllChats(storeId);
+        return chatManager.GetAllStoreChats(storeId);
     }
 
-    public Response<int> addOrder(int storeID, int memberID, string memberName, string description, float cost)
+    public Response<int> addOrder(int memberID, string memberName, string description, float cost)
     {
-        return orderManager.addOrder(storeID, memberID, memberName, description, cost);
+        return orderManager.addOrder(storeId, memberID, memberName, description, cost);
     }
 
-    public Response<string> changeOrdersStatus (int storeID, int orderID, string status)
+    public Response<string> changeOrdersStatus (int orderID, string status)
     {
-        return orderManager.changeOrdersStatus(storeID, orderID, status);
+        return orderManager.changeOrdersStatus(storeId, orderID, status);
 
+    }
+    
+    
+    public ArrayList GetPurchasesByUser(int userId)
+    {
+        ArrayList jsons = new ArrayList();
+        foreach (Order o in orderManager.orders[storeId])
+            if (o.memberId == userId)
+            {
+                jsons.Add(JsonConvert.SerializeObject(o));
+            }
+        return jsons;
     }
 
 

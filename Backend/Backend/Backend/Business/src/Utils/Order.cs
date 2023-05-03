@@ -1,7 +1,7 @@
 using System;
 using Backend.Business.src.Utils;
 
-namespace Backend.Business.src.Client_Store
+namespace Backend.Business.src.Utils
 {
     public class Order
     {
@@ -9,7 +9,7 @@ namespace Backend.Business.src.Client_Store
         private DateTime date;
         private string status { get; set; }
         private string memberName { get; set; }
-        private int memberId { get; set; }
+        public int memberId { get; set; }
         private bool active { get; set; }
         private Chat Chat { get; set; }
         private float cost;

@@ -1,6 +1,8 @@
+using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
+using Backend.Service;
 
 namespace Backend.Controllers
 {
@@ -41,5 +43,12 @@ namespace Backend.Controllers
             Response<List<string>> res = new(result);
             return res ;
         }
+        
+        [HttpPost("SeePurchaseHistoryUser")]
+        public Response<ArrayList> SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
+        {
+            return Store.Instance.SeePurchaseHistoryUser(request.UserId);
+        }
+
     }
 }
