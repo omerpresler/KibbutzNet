@@ -30,11 +30,12 @@ export default function LoginUser() {
 
 
 
-    const login = e => {
+    async function login(e){
         e.preventDefault();
         if (validate()){
-            const didLoginSucsed=loginToUser(values.email,values.accountNumberber,);
-            if (isAuthenticated){
+            const didLoginSucsed=await loginToUser(values.email,values.accountNumberber);
+            console.log(didLoginSucsed)
+            if (didLoginSucsed){
              navigate(paths.member_page_path)
             }
         }

@@ -28,12 +28,14 @@ export default function LoginStore(nextPage) {
 
     
     const { user,loginToUser,loginToStore, logout, isAuthenticated }=GetLoginService()
-    const login = e => {
+    
+    async function login(e){
         e.preventDefault();
         if (validate()){
-            const didLoginSucsed=loginToStore(values.email,values.accountNumber,values.storeId);
-            if (isAuthenticated){
-             navigate(nextPage.nextPage)
+            const didLoginSucsed=await loginToStore(values.email,values.accountNumber,values.storeId);
+            console.log(didLoginSucsed)
+            if (didLoginSucsed){
+             navigate(paths.member_page_path)
             }
         }
     }

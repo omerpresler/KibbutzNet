@@ -8,36 +8,44 @@ import { Response } from "./Response";
 const loginToUserFunctionPath=paths.back_path+paths.login_controller_path+paths.login_to_user 
 const loginToStoreFunctionPath=paths.back_path+paths.login_controller_path+paths.login_to_store 
 
-
-
-
+let accountNumberSaver = null;
+let storeIdSaver = null;
 
 export default function GetLoginService() {
   const navigate=useNavigate();
-  const [user, setUser] = useState(null);
-  const [storeId, setStoreID] = useState(-1);
-  const [serverAns, setServerAns] = useState(undefined);
+  const [user, setUser] = useState(accountNumberSaver);
+  const [storeId, setStoreID] = useState(storeIdSaver);
 
  
 
 async function loginToUser(email, accountNumber) {
-    setStoreId(-1)
-    setUser(null)
+    clearData()
     const ServerAns=await sendLoginRequestAsUser(email,accountNumber);
-    if (ServerAns)
+    console.log(ServerAns)
+    console.log(ServerAns.value)
+    console.log("check1")
+    if (ServerAns.value==true){
+    console.log("check")
     localStorage.clear();
     localStorage.setItem('email',email);
     localStorage.setItem('userId',accountNumber)
     localStorage.setItem('userType','user');
     accountNumberSaver = { accountNumber };
     setUser(accountNumberSaver);
+    }
+    return ServerAns.value
   }
 
+  function clearData(){
+    setUser(null)
+    setStoreID(-1)
+    localStorage.clear()
+  }
    async function LoginToStore(email, accountNumber,storeId) {
-        setStoreId(-1)
-        setUser(null)
+        clearData()
         const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
-        if(serverAns.value){
+        console.log(serverAns.value)
+        if(serverAns.value==true){
         localStorage.clear();
         localStorage.setItem('email',email);
         localStorage.setItem('userId',accountNumber)
@@ -48,13 +56,13 @@ async function loginToUser(email, accountNumber) {
         setUser(accountNumberSaver);
         setStoreID(storeIdSaver);
    }
+      return serverAns.value
   }
 
   async function LoginToRegister(email, accountNumber,storeId) {
-    setStoreId(-1)
-    setUser(null)
+    clearData()
     const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
-    if (serverAns.value){
+    if (serverAns.value===true){
     localStorage.clear();
     localStorage.setItem('email',email);
     localStorage.setItem('accountNumber',accountNumber)
@@ -77,7 +85,8 @@ async function loginToUser(email, accountNumber) {
   }
 
   function isAuthenticated() {
-    return !!user ||storeId!=-1;
+    console.log(user!=null)
+    return user!=null
   }
 
   return { user, loginToUser,loginToStore: LoginToStore, logout, isAuthenticated };
