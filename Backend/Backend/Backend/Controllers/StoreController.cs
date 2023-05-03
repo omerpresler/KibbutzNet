@@ -95,32 +95,32 @@ namespace Backend.Controllers
         
 
         //int StoreId 
-        [HttpPost("SeeOrderHistoryStore")]
-        public Response<ArrayList> SeeOrderHistoryStore([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("seeOrderHistoryStore")]
+        public Response<ArrayList> seeOrderHistoryStore([FromBody] PurchaseHistoryRequest request)
         {
             return Store.Instance.SeeOrderHistoryStore(request.StoreId);
         }
 
 
 
-        [HttpPost("SeeOrderHistoryUserAndStore")]
-        public Response<ArrayList> SeeOrderHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("seeOrderHistoryUserAndStore")]
+        public Response<ArrayList> seeOrderHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
         {
             return Store.Instance.SeeOrderHistoryUserAndStore(request.StoreId, request.UserId);
         }
         
         
         
-        [HttpPost("SeePurchaseHistoryStore")]
-        public Response<ArrayList> SeePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("seePurchaseHistoryStore")]
+        public Response<ArrayList> seePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
         {
             return Store.Instance.SeePurchaseHistoryStore(request.StoreId);
         }
 
 
 
-        [HttpPost("SeePurchaseHistoryUserAndStore")]
-        public Response<ArrayList> SeePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("seePurchaseHistoryUserAndStore")]
+        public Response<ArrayList> seePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
         {
             return Store.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }

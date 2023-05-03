@@ -24,7 +24,6 @@ namespace Backend.Controllers
             return Service.User.Instance.Login(request.accountNumber, request.email);
         }
 
-        /// <param name="request.email" example="amit@gmail.com"></param>
         [HttpPost("loginToStore")]
         public Response<bool> loginStore([FromBody] storeLoginRequest request)
         {
@@ -37,14 +36,5 @@ namespace Backend.Controllers
         {
             return Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
         }
-
-
-
-        //register -add new purchse see purchse history
-        //store-client-get report 
-
-
-
-
     }
 }

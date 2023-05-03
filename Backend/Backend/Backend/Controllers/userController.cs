@@ -28,7 +28,7 @@ namespace Backend.Controllers
 
         //list Json
         //PurchaseID" : Number,"Date": "dd/mm/yyy","BudgetNumber" : Number,"EmployeeID" : Number,"Cost" : Number,"Description" : "......"
-        [HttpPost("SeeReports")]
+        [HttpPost("seeReports")]
         public bool SeeReports([FromBody] PurchaseHistoryRequest request)
         {
             Console.WriteLine("yess!!!");
@@ -45,14 +45,14 @@ namespace Backend.Controllers
             return res ;
         }
         
-        [HttpPost("SeeOrderHistoryUser")]
-        public Response<ArrayList> SeeOrderHistoryUser([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("seeOrderHistoryUser")]
+        public Response<ArrayList> seeOrderHistoryUser([FromBody] PurchaseHistoryRequest request)
         {
             return Store.Instance.SeeOrderHistoryUser(request.UserId);
         }
         
-        [HttpPost("SeePurchaseHistoryUser")]
-        public Response<ArrayList> SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
+        [HttpPost("seePurchaseHistoryUser")]
+        public Response<ArrayList> seePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
         {
             return Store.Instance.SeePurchaseHistoryUser(request.UserId);
         }
