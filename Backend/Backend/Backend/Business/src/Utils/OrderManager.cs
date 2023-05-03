@@ -8,12 +8,31 @@ using System.Collections.Generic;
     public class OrderManager
     {
         // orders is a dictionary that the key is the storeID, and the value is a list of orders
-        public Dictionary<int, List<Order>> orders;
+        public static Dictionary<int, List<Order>> orders;
         private static int orderNum = 0;
+        private static OrderManager instance;
+        private static readonly object padlock = new object();
 
         public OrderManager()
         {
             orders = new Dictionary<int, List<Order>>();
+        }
+        
+        public static OrderManager Instance {
+            get {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new OrderManager();
+                        
+                        //init
+                        orders.Add(0, new List<Order>());
+                        orders[0].Add(new Order(Interlocked.Increment(ref orderNum), "Amit", 0, false, (float)1105.7, "init purchase"));
+                    }
+                    return instance;
+                }
+            }
         }
 
         public Response<int> addOrder(int storeID, int memberID, string memberName, string description, float cost)
