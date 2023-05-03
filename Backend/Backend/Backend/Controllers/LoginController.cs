@@ -11,17 +11,15 @@ namespace Backend.Controllers
     public class loginController : ControllerBase
     {
 
-      
-
         public loginController()
         {
 
 
         }
-
         [HttpPost("loginToUser")]
         public Response<bool> loginUser([FromBody] userLoginRequest request)
         {
+            Console.WriteLine("test");
             Console.WriteLine(request);
             return Service.User.Instance.Login(request.accountNumber, request.email);
         }

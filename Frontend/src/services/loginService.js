@@ -8,20 +8,23 @@ import { Response } from "./Response";
 const loginToUserFunctionPath=paths.back_path+paths.login_controller_path+paths.login_to_user 
 const loginToStoreFunctionPath=paths.back_path+paths.login_controller_path+paths.login_to_store 
 
-let accountNumberSaver = null;
-let storeIdSaver = null;
+
+
+
 
 export default function GetLoginService() {
   const navigate=useNavigate();
-  const [user, setUser] = useState(accountNumberSaver);
-  const [storeId, setStoreID] = useState(storeIdSaver);
+  const [user, setUser] = useState(null);
+  const [storeId, setStoreID] = useState(-1);
   const [serverAns, setServerAns] = useState(undefined);
 
  
 
 async function loginToUser(email, accountNumber) {
+    setStoreId(-1)
+    setUser(null)
     const ServerAns=await sendLoginRequestAsUser(email,accountNumber);
-    if (ServerAns===true)
+    if (ServerAns)
     localStorage.clear();
     localStorage.setItem('email',email);
     localStorage.setItem('userId',accountNumber)
@@ -31,9 +34,10 @@ async function loginToUser(email, accountNumber) {
   }
 
    async function LoginToStore(email, accountNumber,storeId) {
+        setStoreId(-1)
+        setUser(null)
         const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
-        console.log(serverAns)
-        if(serverAns.value=true){
+        if(serverAns.value){
         localStorage.clear();
         localStorage.setItem('email',email);
         localStorage.setItem('userId',accountNumber)
@@ -47,8 +51,10 @@ async function loginToUser(email, accountNumber) {
   }
 
   async function LoginToRegister(email, accountNumber,storeId) {
+    setStoreId(-1)
+    setUser(null)
     const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
-    if (serverAns.value=true){
+    if (serverAns.value){
     localStorage.clear();
     localStorage.setItem('email',email);
     localStorage.setItem('accountNumber',accountNumber)
@@ -71,16 +77,15 @@ async function loginToUser(email, accountNumber) {
   }
 
   function isAuthenticated() {
-    return !!user ||storeId!=0;
+    return !!user ||storeId!=-1;
   }
 
   return { user, loginToUser,loginToStore: LoginToStore, logout, isAuthenticated };
 
-  function sendLoginRequestAsUser(email, accountNumber, ) {
-      console.log(email,accountNumber)
+  function sendLoginRequestAsUser(email, accountNumber ) {
     return axios.post(loginToUserFunctionPath, {
-        email: JSON.stringify(email),
-        accountNumber: JSON.stringify(accountNumber),
+        email: email,
+        accountNumber: accountNumber,
       })
       .then(res=> {
         const response = Response.create(res.data.value, res.data.wasExecption);
@@ -95,9 +100,9 @@ async function loginToUser(email, accountNumber) {
 
   function sendLoginRequestAsStore(email, accountNumber, storeId) {
       return axios.post(loginToStoreFunctionPath, {
-          email: JSON.stringify(email),
-          accountNumber: JSON.stringify(accountNumber),
-          storeId: JSON.stringify(storeId)
+          email: email,
+          accountNumber: accountNumber,
+          storeId: storeId
         })
         .then(res=> {
           const response = Response.create(res.data.value, res.data.wasExecption);
