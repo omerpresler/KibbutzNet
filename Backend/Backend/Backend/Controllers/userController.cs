@@ -50,6 +50,11 @@ namespace Backend.Controllers
         {
             return Store.Instance.SeeOrderHistoryUser(request.UserId);
         }
-
+        
+        [HttpPost("SeePurchaseHistoryUser")]
+        public Response<ArrayList> SeePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
+        {
+            return Store.Instance.SeePurchaseHistoryUser(request.UserId);
+        }
     }
 }

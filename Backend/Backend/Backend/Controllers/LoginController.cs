@@ -24,6 +24,7 @@ namespace Backend.Controllers
             return Service.User.Instance.Login(request.accountNumber, request.email);
         }
 
+        /// <param name="request.email" example="amit@gmail.com"></param>
         [HttpPost("loginToStore")]
         public Response<bool> loginStore([FromBody] storeLoginRequest request)
         {

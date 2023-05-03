@@ -16,9 +16,6 @@ using System.Collections.Generic;
         public OrderManager()
         {
             orders = new Dictionary<int, List<Order>>();
-            //init
-            orders.Add(0, new List<Order>());
-            orders[0].Add(new Order(Interlocked.Increment(ref orderNum), "Amit", 0, false, (float)1105.7, "init purchase"));
         }
         
         public static OrderManager Instance {
