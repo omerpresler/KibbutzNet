@@ -9,7 +9,7 @@ import LoginStore from './pages/LoginStore';
 import PurchseHistoryPage from './pages/PurchseHistoryPage';
 import ChatManagerPage from './pages/ChatsManger'
 import OrderManger from './pages/OrderManager';
-import pageManager from './pages/PageManger';
+import PageManager from './pages/PageManger';
 import {
   BrowserRouter as Router,
   Routes,
@@ -37,7 +37,7 @@ function App() {
           <Route path={paths.purchse_history_page_path} element={<PurchseHistoryPage  />} />
           <Route path={paths.chat_manager_page_path} element={<ChatManagerPage  />} />
           <Route path={paths.order_manager_page_path} element={<OrderManger  />} />
-          <Route path={paths.page_manager_page_path} element={<pageManager  />} />
+          <Route path={paths.page_manager_page_path} element={<PageManager  />} />
           
 
         </Routes>

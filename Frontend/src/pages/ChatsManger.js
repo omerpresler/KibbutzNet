@@ -26,7 +26,7 @@ export default function ChatManagerPage() {
       <Box sx={{ mt: 4 }}>
         <Typography variant="h4">Chat</Typography>
       </Box>
-      {userId && userType ? (
+      {userType ? (
         <ChatDisplay userId={userId} userType={userType} />
       ) : (
         <Typography variant="body1">

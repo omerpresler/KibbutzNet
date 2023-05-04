@@ -1,4 +1,6 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
+
 
 const StoreButton = ({ store, onClick }) => {
   return (
@@ -8,5 +10,4 @@ const StoreButton = ({ store, onClick }) => {
     </button>
   );
 };
-
 export default StoreButton;

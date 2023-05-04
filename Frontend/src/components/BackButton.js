@@ -9,8 +9,15 @@ const BackButton = ({ text = 'Back', ...props }) => {
     navigate(-1);
   };
 
+  const buttonStyle = {
+    position: 'fixed',
+    bottom: '20px',
+    right: '20px',
+    zIndex: 100,
+  };
+
   return (
-    <Button onClick={goBack} {...props}>
+    <Button style={buttonStyle} onClick={goBack} {...props}>
       {text}
     </Button>
   );

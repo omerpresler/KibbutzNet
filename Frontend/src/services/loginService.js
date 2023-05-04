@@ -78,10 +78,9 @@ async function loginToUser(email, accountNumber) {
   function logout() {
     localStorage.clear();
     accountNumberSaver = null;
-    storeId=null;
+    storeId=-1;
     setUser(accountNumberSaver);
     setStoreID(storeId);
-    navigate(paths.front_path)
   }
 
   function isAuthenticated() {
@@ -89,7 +88,21 @@ async function loginToUser(email, accountNumber) {
     return user!=null
   }
 
-  return { user, loginToUser,loginToStore: LoginToStore, logout, isAuthenticated };
+  function sendLoginRequestAsStore(email, accountNumber, storeId) {
+    return axios.post(loginToStoreFunctionPath, {
+        email: email,
+        accountNumber: accountNumber,
+        storeId: storeId
+      })
+      .then(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        return response;
+      })
+      .catch(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        return response;
+      })
+  };
 
   function sendLoginRequestAsUser(email, accountNumber ) {
     return axios.post(loginToUserFunctionPath, {
@@ -105,21 +118,8 @@ async function loginToUser(email, accountNumber) {
         return response;
       })
   };
+  return { user, loginToUser,loginToStore: LoginToStore, logout, isAuthenticated };
 }
 
-  function sendLoginRequestAsStore(email, accountNumber, storeId) {
-      return axios.post(loginToStoreFunctionPath, {
-          email: email,
-          accountNumber: accountNumber,
-          storeId: storeId
-        })
-        .then(res=> {
-          const response = Response.create(res.data.value, res.data.wasExecption);
-          return response;
-        })
-        .catch(res=> {
-          const response = Response.create(res.data.value, res.data.wasExecption);
-          return response;
-        })
-    };
+ 
 

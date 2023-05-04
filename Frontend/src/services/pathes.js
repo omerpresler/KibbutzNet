@@ -23,7 +23,7 @@ export const page_manager_page_path="/pageManager"
 export const login_controller_path="/login"
 export const home_controller_path="/Home"
 export const store_controller_path="/Store"
-export const user_controller_path="/Store"
+export const user_controller_path="/User"
 export const register_controller_path="/Store"
 
 

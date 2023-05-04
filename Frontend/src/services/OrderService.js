@@ -43,7 +43,7 @@ const fakeData = [
 
 
 
-  function addOrder(storeID, memberID, memberName, description, cost) {
+  async function addOrder(storeID, memberID, memberName, description, cost) {
     return axios.post(paths.addOrderPath, 
       { storeid:storeID,memberID: memberID,memberName: memberName,
       description: description, cost:cost })
@@ -57,7 +57,7 @@ const fakeData = [
       });
   }
   
-  function changeOrdersStatus(storeID, orderID, status) {
+  async function changeOrdersStatus(storeID, orderID, status) {
     return axios.post(paths.changeOrderStatus, { storeId:storeID, orderId:orderID, status:status })
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
@@ -70,7 +70,8 @@ const fakeData = [
   }
   
   
-  function getAllOrdersStore(storeID) {
+  async function getAllOrdersStore(storeID) {
+    console.log("get all order store")
     return axios.post( paths.getAllOrderStore,{storeId:storeID}  )
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
@@ -83,8 +84,9 @@ const fakeData = [
       });
   }
   
-  function getAllOrdersUser(UserId) {
-    return axios.post(paths.getAllOrderUser + UserId)
+  async function getAllOrdersUser(StoreId) {
+    console.log("get all order user",StoreId)
+    return axios.post(paths.getAllOrderUser,{ StoreId: StoreId})
     .then(res => {
       const response = Response.create(res.data.value, res.data.wasExecption);
       return response;

@@ -33,6 +33,7 @@ export default function PurchaseHistoryDisplayer() {
     storeId: '',
     userId: '',
 })
+
   const {values, setValues,errors,setErrors,handleInputChange}=useForm(initialFormValues)
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -79,9 +80,9 @@ export default function PurchaseHistoryDisplayer() {
       <Card>
       <CardContent>     
       <Typography variant="h5" gutterBottom>
-          Enter Store and User ID
+          Enter ID
         </Typography>
-        {userType === 'store' && (
+        {userType != 'store' && (
           <TextField
             name="storeId"
             label="Store ID"
