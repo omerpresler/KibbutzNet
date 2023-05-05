@@ -5,19 +5,19 @@ namespace Backend.Business.src.Utils
 {
     public class Order
     {
-        public int orderID;
-        public DateTime date;
+        public int orderId { get; set; }
+        public DateTime date { get; set; }
         public string status { get; set; }
         public string memberName { get; set; }
         public int memberId { get; set; }
         public bool active { get; set; }
         public Chat Chat { get; set; }
-        public float cost;
-        public string description;
+        public float cost { get; set; }
+        public string description { get; set; }
 
         public Order(int orderId, string memberName, int memberId, bool active, float cost, string description)
         {
-            orderID = orderId;
+            this.orderId = orderId;
             date = DateTime.Now;
             status = "received";
             this.memberId = memberId;
@@ -31,15 +31,11 @@ namespace Backend.Business.src.Utils
         {
             return $"{memberName}\t{memberId}\t{cost}\t{description}\t{status}";
         }
-
-        public int getID()
+        
+        public Backend.Access.Order ToDalObject()
         {
-            return orderID;
-        }
-
-        public void setStatus(string status)
-        {
-            this.status = status;
+            //TODO implement chat id
+            return new Backend.Access.Order(orderId, date, cost, description, status, memberName, memberId, active, 0);
         }
 
     }

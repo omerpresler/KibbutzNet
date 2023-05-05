@@ -20,7 +20,6 @@ namespace Backend.Controllers
         [HttpPost("loginToUser")]
         public Response<bool> loginUser([FromBody] userLoginRequest request)
         {
-            DBManager.Instance.printTest();
             Console.WriteLine("test");
             Console.WriteLine(request);
             return Service.User.Instance.Login(request.accountNumber, request.email);

@@ -1,4 +1,5 @@
 using System.Runtime.ExceptionServices;
+using Backend.Access;
 using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
 
@@ -25,8 +26,6 @@ using System.Collections.Generic;
                     if (instance == null)
                     {
                         instance = new OrderManager();
-                        
-                       
                     }
                     return instance;
                 }
@@ -44,14 +43,17 @@ using System.Collections.Generic;
                 newOrderList.Add(order);
                 orders.Add(storeID, newOrderList);
             }
-            return new Response<int>(order.getID());
+
+
+            DBManager.Instance.AddProduct(order.ToDalObject());
+            return new Response<int>(order.orderId);
         }
 
         public Response<string> changeOrdersStatus (int storeID, int orderID, string status)
         {
-            foreach (var o in from order in orders where order.Key == storeID from o in order.Value where o.getID() == orderID select o)
+            foreach (var o in from order in orders where order.Key == storeID from o in order.Value where o.orderId == orderID select o)
             {
-                o.setStatus(status);
+                o.status = status;
             }
 
             return new Response<string>(status);

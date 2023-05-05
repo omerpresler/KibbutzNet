@@ -81,7 +81,7 @@ public class ClientStoreService
             {
                 var purchase = new
                 {
-                    orderID = order.orderID,
+                    orderID = order.orderId,
                     date = order.date,
                     status = order.status,
                     memberName = order.memberName,
@@ -101,7 +101,7 @@ public class ClientStoreService
         {
             var purchase = new
             {
-                orderID = order.orderID,
+                orderID = order.orderId,
                 date = order.date,
                 status = order.status,
                 memberName = order.memberName,

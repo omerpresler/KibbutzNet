@@ -1,3 +1,4 @@
+using System.Drawing.Drawing2D;
 using Npgsql;
 
 namespace Backend.Access;
@@ -7,54 +8,44 @@ public class DBManager
     
     private static DBManager instance;
     private static readonly object padlock = new object();
-    private NpgsqlCommand cmd;
 
     public DBManager()
     {
         CreateTables();
     }
 
-    private async void CreateTables()
+    private void CreateTables()
     {
-        var con = new NpgsqlConnection(
-            connectionString: "Server=localhost;Port=5432;User Id=postgres;Password=omer;Database=KibbutzNet;");
-        con.Open();
-        cmd = new NpgsqlCommand();
-        cmd.Connection = con;
-
+        
         CreateOrderTable();
         CreatePurchaseTable();
     }
     
-    private async void CreateOrderTable()
+    private void CreateOrderTable()
     {
-        cmd.CommandText = "DROP TABLE IF EXISTS Orders";
-        await cmd.ExecuteNonQueryAsync();
-        cmd.CommandText = @"CREATE TABLE Orders (
+        ExecuteCommand("DROP TABLE IF EXISTS Orders");
+        ExecuteCommand( @"CREATE TABLE Orders (
 	                        orderId INT,
 	                        date DATE,
 	                        status VARCHAR(255),
-	                        memberName VARCHAR,
+	                        memberName VARCHAR(255),
 	                        memberId INT,
 	                        active BOOLEAN,
 	                        chatId INT,
 	                        cost INT,
-	                        description INT);";
-        await cmd.ExecuteNonQueryAsync();
+	                        description VARCHAR(255));" );
     }
     
-    private async void CreatePurchaseTable()
+    private void CreatePurchaseTable()
     {
-        cmd.CommandText = "DROP TABLE IF EXISTS Orders";
-        await cmd.ExecuteNonQueryAsync();
-        cmd.CommandText = @"CREATE TABLE Orders (
+        ExecuteCommand("DROP TABLE IF EXISTS Purchases");
+        ExecuteCommand( @"CREATE TABLE Purchases (
                             purchaseId INT,
 	                        memberId INT,
 	                        storeId INT,
 	                        cost FLOAT,
 	                        description VARCHAR(255),
-	                        date DATE);";
-        await cmd.ExecuteNonQueryAsync();
+	                        date DATE);" );
     }
     
         
@@ -71,9 +62,29 @@ public class DBManager
         }
     }
 
-
-    public void printTest()
+    public void AddProduct(Order order)
     {
-        Console.WriteLine("Test");
+        string commandText = $@"insert into Orders (orderId, date, status, memberName, memberId, active, chatId, cost, description) values ({order.orderID}, '{order.date.Date}', '{order.status}', '{order.memberName}', {order.memberId}, {order.active}, {order.chatId}, {order.cost}, '{order.description}')";
+        Console.WriteLine(commandText);
+        ExecuteCommand(commandText);
+    }
+
+
+    public void ExecuteCommand(string commandText)
+    {
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = "localhost";
+        sb.Port = 5432;
+        sb.Username = "postgres";
+        sb.Password = "omer";
+        sb.Database = "KibbutzNet";
+        
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+            using (NpgsqlCommand cmd = new NpgsqlCommand(commandText, conn))
+                cmd.ExecuteNonQuery();
+            
+        }
     }
 }
