@@ -30,6 +30,26 @@ public class Store
             }
         }
     }
+    
+    public void LoadData()
+    {
+        LoadStores();
+        LoadOrders();
+    }
+
+    public void LoadStores()
+    {
+        foreach (Access.Store DALStore in Access.DBManager.Instance.LoadStores())
+            stores.Add(DALStore.storeId, new ClientStoreService(DALStore));
+    }
+    
+    public void LoadOrders()
+    {
+        foreach (Access.Order DALOrders in Access.DBManager.Instance.LoadOrders())
+        {
+            OrderManager.Instance.addOrder(DALOrders);
+        }
+    }
 
     public Response<bool> Login(int userId, int storeId, string email)
     {

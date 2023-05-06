@@ -6,6 +6,7 @@ namespace Backend.Access;
 public class Order
 {
     public int orderID { get; set; }
+    public int storeId { get; set; }
     public DateTime date { get; set; }
     public string status { get; set; }
     public string memberName { get; set; }
@@ -15,9 +16,10 @@ public class Order
     public float cost { get; set; }
     public string description { get; set; }
     
-    public Order(int orderId, DateTime date, float cost, string description, string status, string memberName, int memberId, bool active, int chatId)
+    public Order(int orderId, int storeId, DateTime date, float cost, string description, string status, string memberName, int memberId, bool active, int chatId)
     {
         orderID = orderId;
+        this.storeId = storeId;
         this.date = date;
         this.cost = cost;
         this.description = description;

@@ -32,6 +32,23 @@ using System.Collections.Generic;
             }
         }
 
+        public Response<int> addOrder(Access.Order DALOrder)
+        {
+            Order order = new Order(DALOrder.orderID, DALOrder.memberName, DALOrder.memberId, DALOrder.active, DALOrder.cost, DALOrder.description);
+            if (orders.ContainsKey(DALOrder.storeId))
+                orders[DALOrder.storeId].Add(order);
+            else
+            {
+                var newOrderList = new List<Order>();
+                newOrderList.Add(order);
+                orders.Add(DALOrder.storeId, newOrderList);
+            }
+
+
+            DBManager.Instance.AddOrder(order.ToDalObject(DALOrder.storeId));
+            return new Response<int>(order.orderId);
+        }
+
         public Response<int> addOrder(int storeID, int memberID, string memberName, string description, float cost)
         {
             Order order = new Order(Interlocked.Increment(ref orderNum), memberName, memberID, true, cost, description);
@@ -45,7 +62,7 @@ using System.Collections.Generic;
             }
 
 
-            DBManager.Instance.AddProduct(order.ToDalObject());
+            DBManager.Instance.AddOrder(order.ToDalObject(storeID));
             return new Response<int>(order.orderId);
         }
 

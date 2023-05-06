@@ -29,7 +29,7 @@ namespace Backend.Controllers
         public Response<bool> loginStore([FromBody] storeLoginRequest request)
         {
             Console.WriteLine(request);
-            return Store.Instance.Login(request.accountNumber, request.storeId, request.email);
+            return Service.Store.Instance.Login(request.accountNumber, request.storeId, request.email);
         }
         
         [HttpPost("loginToRegister")]
@@ -37,5 +37,7 @@ namespace Backend.Controllers
         {
             return Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
         }
+        
+        
     }
 }

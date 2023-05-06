@@ -16,6 +16,8 @@ public class ClientStoreService
     private NotificationManager notificationManager;
     private PageManager pageManager;
     private List<Purchase> purchases;
+    private String storeName;
+    
     public ClientStoreService(int storeId, int userId, string email)
     {
         this.storeId = storeId;
@@ -26,10 +28,24 @@ public class ClientStoreService
         notificationManager = new NotificationManager();
         employee = AuthenticationManager.Instance.Login(userId, email);
 
-        String storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
+        storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
         if (storeName == null)
             throw new Exception($"User {userId} does not work at {storeId}");
         
+        pageManager = new PageManager(storeName);
+    }
+    
+    public ClientStoreService(Access.Store DALStore)
+    {
+        storeId = DALStore.storeId;
+        storeName = DALStore.storeName;
+        
+        purchases = new List<Purchase>();
+        chatManager = new ChatManager();
+        outputManager = new OutputManager();
+        workerManager = new WorkerManager();
+        notificationManager = new NotificationManager();
+
         pageManager = new PageManager(storeName);
     }
 

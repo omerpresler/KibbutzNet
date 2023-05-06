@@ -26,16 +26,28 @@ namespace Backend.Business.src.Utils
             this.cost = cost;
             this.description = description;
         }
+        
+        public Order(Access.Order order)
+        {
+            orderId = order.orderID;
+            date = order.date;
+            status = order.status;
+            memberId = order.memberId;
+            memberName = order.memberName;
+            active = order.active;
+            cost = order.cost;
+            description = order.description;
+        }
 
         public override string ToString()
         {
             return $"{memberName}\t{memberId}\t{cost}\t{description}\t{status}";
         }
         
-        public Backend.Access.Order ToDalObject()
+        public Backend.Access.Order ToDalObject(int storeId)
         {
             //TODO implement chat id
-            return new Backend.Access.Order(orderId, date, cost, description, status, memberName, memberId, active, 0);
+            return new Backend.Access.Order(orderId, storeId, date, cost, description, status, memberName, memberId, active, 0);
         }
 
     }
