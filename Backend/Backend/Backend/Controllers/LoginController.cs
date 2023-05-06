@@ -28,7 +28,6 @@ namespace Backend.Controllers
         [HttpPost("loginToStore")]
         public Response<bool> loginStore([FromBody] storeLoginRequest request)
         {
-            Console.WriteLine(request);
             return Service.Store.Instance.Login(request.accountNumber, request.storeId, request.email);
         }
         

@@ -48,4 +48,21 @@ public class User
 
         return new Response<bool>(true);
     }
+    
+    public Response<List<String>> GetAllchats(int userId)
+    {
+        try
+        {
+            if (users.ContainsKey(userId))
+            {
+                return users[userId].GetAllchats();
+            }
+
+            return new  Response<List<String>>(true, $"The is no user with the id of {userId}");
+        }
+        catch (Exception e)
+        {
+            return new  Response<List<String>>(true, e.Message);
+        }
+    }
 }

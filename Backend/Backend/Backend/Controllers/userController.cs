@@ -36,13 +36,11 @@ namespace Backend.Controllers
             return true;
         }
         
-        //list(json.stringfy(chats)
+        
         [HttpPost("getAllchats")]
-        public Response<List<String>> getAllchats([FromBody] storeLoginRequest request)
+        public Response<List<String>> getAllchats(int userId)
         {
-            List<string> result = new List<string>();
-            Response<List<string>> res = new(result);
-            return res ;
+            return Service.User.Instance.GetAllchats(userId);
         }
         
         [HttpPost("seeOrderHistoryUser")]

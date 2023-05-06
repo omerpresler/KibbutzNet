@@ -28,8 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    Backend.Service.Store.Instance.LoadStores();
-    Backend.Service.Store.Instance.LoadOrders();
+    Backend.Service.Store.Instance.LoadData();
 }
 
 app.UseHttpsRedirection();
