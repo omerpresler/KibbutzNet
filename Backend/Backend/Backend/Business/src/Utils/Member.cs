@@ -13,5 +13,10 @@ namespace Backend.Business.Utils
             this.CurrHouse = new House(-1, "TODO: pass parameter");
         }
 
+        public Member(Access.Member DALMember) : base(DALMember.UserId, DALMember.Name, DALMember.PhoneNumber, DALMember.email)
+        {
+            CurrHouse = new House(DALMember.CurrHouse, "Future Work");
+            houseHistoryList = new List<House>();
+        }
     }
 }

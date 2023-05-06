@@ -18,9 +18,12 @@ public class DBManager
     private void CreateTables()
     {
         
-        //CreateOrderTable();
-        //CreatePurchaseTable();
-        //CreateStoreTable();
+        CreateOrderTable();
+        CreatePurchaseTable();
+        CreateStoreTable();
+        CreateMemberTable();
+
+        initBasicData();
     }
     
     private void CreateOrderTable()
@@ -57,10 +60,29 @@ public class DBManager
         ExecuteCommandNonQuery( @"CREATE TABLE Stores (
                             storeId INT,
 	                        storeName VARCHAR(255));" );
-        
+    }
+    
+    private void CreateMemberTable()
+    {
+        ExecuteCommandNonQuery("DROP TABLE IF EXISTS Members");
+        ExecuteCommandNonQuery( @"CREATE TABLE Members (
+                            userId INT,
+	                        memberName VARCHAR(255),
+	                        phoneNumber VARCHAR(255),
+	                        email VARCHAR(255),
+	                        house INT);" );
+    }
+
+    private void initBasicData()
+    {
         string commandText = $@"insert into Stores (storeId, storeName) values (0, 'Flower Shop')";
         ExecuteCommandNonQuery(commandText);
-
+        
+        commandText = $@"insert into Members (userId, memberName, phoneNumber, email, house) values (0, 'amit', '054-444-4444', 'amit@gmail.com', 1)";
+        ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into Members (userId, memberName, phoneNumber, email, house) values (1, 'omer', '054-333-3333', 'omer@gmail.com', 2)";
+        ExecuteCommandNonQuery(commandText);
     }
     
     public List<Store> LoadStores()
@@ -139,6 +161,45 @@ public class DBManager
             conn.Close();
         }
         return orders;
+    }
+    
+    public List<Member> LoadMembers()
+    {
+        List<Member> members = new List<Member>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = "localhost";
+        sb.Port = 5432;
+        sb.Username = "postgres";
+        sb.Password = "omer";
+        sb.Database = "KibbutzNet";
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand("SELECT userId, memberName, phoneNumber, email, house FROM Members", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int userId = reader.GetInt32(0);
+                string memberName = reader.GetString(1);
+                string phoneNumber = reader.GetString(2);
+                string email = reader.GetString(3);
+                int house = reader.GetInt32(4);
+
+                members.Add(new Member(userId, memberName, phoneNumber, email, new List<int>(), house));
+            }
+            
+            conn.Close();
+        }
+        return members;
     }
         
     public static DBManager Instance {

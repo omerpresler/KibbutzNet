@@ -1,5 +1,6 @@
 using Backend.Business.MemberController;
 using Backend.Business.src.Utils;
+using Backend.Business.Utils;
 using Backend.Controllers;
 
 namespace Backend.Service;
@@ -26,6 +27,15 @@ public class User
                 }
                 return instance;
             }
+        }
+    }
+    
+    public void LoadMembers()
+    {
+        foreach (Access.Member DALMember in Access.DBManager.Instance.LoadMembers())
+        {
+            users.Add(DALMember.UserId, new MemberController(DALMember));
+            AuthenticationManager.Instance.AddUser(DALMember.UserId, DALMember.email);
         }
     }
 

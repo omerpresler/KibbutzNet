@@ -31,16 +31,14 @@ public class Store
         }
     }
     
-    public void LoadData()
-    {
-        LoadStores();
-        LoadOrders();
-    }
-
     public void LoadStores()
     {
         foreach (Access.Store DALStore in Access.DBManager.Instance.LoadStores())
+        {
             stores.Add(DALStore.storeId, new ClientStoreService(DALStore));
+            AuthenticationManager.Instance.AddStore(DALStore.storeId, DALStore.storeName);
+        }
+            
     }
     
     public void LoadOrders()

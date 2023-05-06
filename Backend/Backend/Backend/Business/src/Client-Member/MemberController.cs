@@ -15,6 +15,12 @@ namespace Backend.Business.MemberController
             cm = new ChatManager();
         }
         
+        public MemberController(Backend.Access.Member DALMember)
+        {
+            member = new Member(DALMember);
+            cm = new ChatManager();
+        }
+        
         public Response<int> OpenChat(int storeId)
         {
             return cm.StartChat(storeId, member.UserId);

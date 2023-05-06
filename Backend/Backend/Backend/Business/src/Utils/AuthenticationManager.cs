@@ -7,13 +7,19 @@ namespace Backend.Business.src.Utils
 {
     public sealed class AuthenticationManager
     {
-        private AuthenticationManager() { }
+        private AuthenticationManager()
+        {
+            store_registers = new Dictionary<KeyValuePair<int, string>, int>();
+            stores = new Dictionary<int, string>();
+            _storeRegisters = new List<StoreRegister.StoreRegister>();
+            idToEmail = new Dictionary<int, string>();
+        }
 
-        private Dictionary<KeyValuePair<int, string>, int> store_registers = new Dictionary<KeyValuePair<int, string>, int>();
-        private Dictionary<int, string> stores = new Dictionary<int, string>();
-        private List<Business.src.StoreRegister.StoreRegister> _storeRegisters = new List<StoreRegister.StoreRegister>();
+        private Dictionary<KeyValuePair<int, string>, int> store_registers;
+        public Dictionary<int, string> stores;
+        private List<Business.src.StoreRegister.StoreRegister> _storeRegisters;
 
-        private static Dictionary<int, string> idToEmail = new Dictionary<int, string>();
+        public static Dictionary<int, string> idToEmail;
         private static AuthenticationManager? instance;
         private static readonly object padlock = new object();
 
@@ -24,19 +30,22 @@ namespace Backend.Business.src.Utils
                     if (instance == null)
                     {
                         instance = new AuthenticationManager();
-                        instance.loadData();
                     }
                     return instance;
                 }
             }
         }
 
-        public void loadData()
+        public void AddUser(int userId, string email)
         {
-            
-            idToEmail.Add(0, "amit@gmail.com");
-            stores.Add(0, "Store one");
+            idToEmail.Add(userId, email);
         }
+        
+        public void AddStore(int storeId, string storeName)
+        {
+            stores.Add(storeId, storeName);
+        }
+
 
         public Response<int> logIn(string name, string email, int Id)
         {
