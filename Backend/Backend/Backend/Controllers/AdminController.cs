@@ -21,7 +21,7 @@ namespace Backend.Controllers
         }
 
         [HttpPost("createNewStore")]
-        public Response<bool> createNewStore([FromBody] createNewStoreRequest request)
+        public Response<int> createNewStore([FromBody] createNewStoreRequest request)
         {
             return Admin.Instance.CreateNewStore(request.adminId, request.storeName);
         }

@@ -46,9 +46,8 @@ public class Store
         foreach (Access.Store DALStore in Access.DBManager.Instance.LoadStores())
         {
             stores.Add(DALStore.storeId, new ClientStoreService(DALStore));
-            AuthenticationManager.Instance.AddStore(DALStore.storeId, DALStore.storeName);
+            OrderManager.Instance.orders.Add(DALStore.storeId, new List<Order>());
         }
-            
     }
     
     public void LoadOrders()
@@ -64,7 +63,7 @@ public class Store
         try
         {
             AuthenticationManager.Instance.Login(userId, email);
-            if(AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId) == null)
+            if(!AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId))
                 return new Response<bool>(true, $"User {userId} does not work at {storeId}");
         }
         catch (Exception e)

@@ -22,17 +22,16 @@ namespace Backend.Business.src.StoreRegister
             purchases = new List<Purchase>();
         }
 
-        public Response<string> login(int employeeId)
+        public Response<bool> login(int employeeId)
         {
-            String? storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, employeeId);
-            if (storeName == null)
+            if (AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, employeeId))
             {
-                return new Response<string>(true, "This employee does not have Working Privileges");
+                return new Response<bool>(true, "This employee does not have Working Privileges");
             }
 
             this.employeeId = employeeId;
 
-            return new Response<string>(storeName);
+            return new Response<bool>(true);
         }
 
         public Response<bool> logout()

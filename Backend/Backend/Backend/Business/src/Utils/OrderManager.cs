@@ -17,7 +17,14 @@ using System.Collections.Generic;
         public OrderManager()
         {
             orders = new Dictionary<int, List<Order>>();
-            orderNum = DBManager.Instance.getMaxOrderId()+1;
+            try
+            {
+                orderNum = DBManager.Instance.getMaxOrderId()+1;
+            }
+            catch (Exception e)
+            {
+                orderNum = 0;
+            }
         }
         
         public static OrderManager Instance {

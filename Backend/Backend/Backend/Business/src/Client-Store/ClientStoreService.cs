@@ -15,7 +15,7 @@ public class ClientStoreService
     private NotificationManager notificationManager;
     private PageManager pageManager;
     private List<Purchase> purchases;
-    private String? storeName;
+    public String? storeName;
     
     public ClientStoreService(int storeId)
     {

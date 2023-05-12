@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Backend.Access;
+using Backend.Business.MemberController;
 using Backend.Business.src.Client_Store;
 using Backend.Business.src.Utils;
 using Backend.Business.src.StoreRegister;
@@ -77,22 +78,25 @@ public class Admin
         return new Response<bool>(true);
     }
     
-    // storeId is the budgetId of the original owner
-    public Response<bool> CreateNewStore(int adminId, string storeName)
+    public Response<int> CreateNewStore(int adminId, string storeName)
     {
         try
         {
+            
             if (!admins.ContainsKey(adminId))
-                return new Response<bool>(true, $"Admin {adminId} does not exist");
+                return new Response<int>(true, $"Admin {adminId} does not exist");
 
-            Store.Instance.addNewStore(admins[adminId].CreateStore(storeName));
+            ClientStoreService store = admins[adminId].CreateStore(storeName);
+            Store.Instance.addNewStore(store);
+            AuthenticationManager.StoreToEmployees[store.storeId] = new List<int>();
+            return new Response<int>(store.storeId);
         }
         catch (Exception e)
         {
-            return new Response<bool>(true, e.Message);
+            return new Response<int>(true, e.Message);
         }
         
-        return new Response<bool>(true);
+        
     }
     
     //budget number also serve as system id
@@ -105,8 +109,10 @@ public class Admin
 
             if (User.Instance.userExist(userId))
                 return new Response<bool>(true, $"User {userId} already exists");
-            
-            User.Instance.addNewMember(admins[adminId].CreateNewMember(userId, name,phoneNumber, email));
+
+            MemberController mc = admins[adminId].CreateNewMember(userId, name, phoneNumber, email);
+            User.Instance.addNewMember(mc);
+            AuthenticationManager.Instance.AddUser(mc.getMemberId(), mc.getMemberEmail());
         }
         catch (Exception e)
         {

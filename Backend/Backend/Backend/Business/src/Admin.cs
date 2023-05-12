@@ -19,7 +19,15 @@ public class Admin
     {
         this.UserId = admin.UserId;
         this.email = admin.email;
-        _nextStoreId = DBManager.Instance.getMaxStoreId()+1;
+        try
+        {
+            _nextStoreId = DBManager.Instance.getMaxStoreId() + 1;
+        }
+        catch (Exception e)
+        {
+            _nextStoreId = 0;
+        }
+        
     }
 
 

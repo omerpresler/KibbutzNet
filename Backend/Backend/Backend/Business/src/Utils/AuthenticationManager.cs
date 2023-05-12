@@ -9,7 +9,6 @@ namespace Backend.Business.src.Utils
     public sealed class AuthenticationManager
     {
         
-        public Dictionary<int, string> stores;
         public static Dictionary<int, string> idToEmail;
         public static Dictionary<int, List<int>> StoreToEmployees;        
         
@@ -19,7 +18,6 @@ namespace Backend.Business.src.Utils
         
         private AuthenticationManager()
         {
-            stores = new Dictionary<int, string>();
             idToEmail = new Dictionary<int, string>();
             StoreToEmployees = new Dictionary<int, List<int>>();
 
@@ -60,11 +58,6 @@ namespace Backend.Business.src.Utils
 
             StoreToEmployees[storeId].Add(userId);
         }
-        
-        public void AddStore(int storeId, string storeName)
-        {
-            stores.Add(storeId, storeName);
-        }
 
         public void Login(int id, string email)
         {
@@ -75,12 +68,9 @@ namespace Backend.Business.src.Utils
         /*
          * Return the store name upon success, otherwise returns null
          */
-        public String? CheckWorkingPrivilege(int storeID, int employeeID)
+        public bool CheckWorkingPrivilege(int storeID, int employeeID)
         {
-            if(StoreToEmployees[storeID].Contains(employeeID))
-                return stores[storeID];
-
-            return null;
+            return (StoreToEmployees[storeID].Contains(employeeID));
         }
 
     }

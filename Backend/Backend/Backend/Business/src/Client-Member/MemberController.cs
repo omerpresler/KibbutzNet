@@ -26,6 +26,11 @@ namespace Backend.Business.MemberController
             return member.UserId;
         }
         
+        public string getMemberEmail()
+        {
+            return member.email;
+        }
+        
         public Response<int> OpenChat(int storeId)
         {
             return cm.StartChat(storeId, member.UserId);
