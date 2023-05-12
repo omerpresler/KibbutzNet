@@ -23,10 +23,7 @@ async function loginToUser(email, accountNumber) {
     const ServerAns=await sendLoginRequestAsUser(email,accountNumber);
     console.log(ServerAns)
     console.log(ServerAns.value)
-    console.log("check1")
-    if (ServerAns.value==true){
-    console.log("check")
-    localStorage.clear();
+    if (ServerAns.value=="user" || ServerAns.value=="admin"){
     localStorage.setItem('email',email);
     localStorage.setItem('userId',accountNumber)
     localStorage.setItem('userType','user');
@@ -37,16 +34,17 @@ async function loginToUser(email, accountNumber) {
   }
 
   function clearData(){
+    const nextPage=localStorage.getItem("nextPage")
     setUser(null)
     setStoreID(-1)
     localStorage.clear()
+    localStorage.setItem("nextPage",nextPage)
   }
    async function LoginToStore(email, accountNumber,storeId) {
         clearData()
         const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
         console.log(serverAns.value)
         if(serverAns.value==true){
-        localStorage.clear();
         localStorage.setItem('email',email);
         localStorage.setItem('userId',accountNumber)
         localStorage.setItem('storeId',storeId)
@@ -63,7 +61,6 @@ async function loginToUser(email, accountNumber) {
     clearData()
     const serverAns = await sendLoginRequestAsStore(email, accountNumber, storeId);
     if (serverAns.value===true){
-    localStorage.clear();
     localStorage.setItem('email',email);
     localStorage.setItem('accountNumber',accountNumber)
     localStorage.setItem('storeId',storeId)

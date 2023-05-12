@@ -14,6 +14,7 @@ const BackButton = ({ text = 'Back', ...props }) => {
     bottom: '20px',
     right: '20px',
     zIndex: 100,
+    color: "black"
   };
 
   return (

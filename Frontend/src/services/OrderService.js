@@ -71,7 +71,6 @@ const fakeData = [
   
   
   async function getAllOrdersStore(storeID) {
-    console.log("get all order store")
     return axios.post( paths.getAllOrderStore,{storeId:storeID}  )
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
@@ -79,20 +78,19 @@ const fakeData = [
         return response;
       })
       .catch(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create([], res.data.wasExecption);
         return response;
       });
   }
   
   async function getAllOrdersUser(StoreId) {
-    console.log("get all order user",StoreId)
     return axios.post(paths.getAllOrderUser,{ StoreId: StoreId})
     .then(res => {
       const response = Response.create(res.data.value, res.data.wasExecption);
       return response;
     })
     .catch(res => {
-      const response = Response.create(res.data.value, res.data.wasExecption);
+      const response = Response.create([], res.data.wasExecption);
       return response;
     });
   }

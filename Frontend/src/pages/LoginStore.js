@@ -35,7 +35,9 @@ export default function LoginStore() {
             const didLoginSucsed=await loginToStore(values.email,values.accountNumber,values.storeId);
             console.log(didLoginSucsed)
             if (didLoginSucsed){
-             navigate(paths.store_page_path)
+            const nextPage=localStorage.getItem("nextPage")
+            console.log(nextPage)
+             navigate(localStorage.getItem("nextPage"))
             }
         }
     }
