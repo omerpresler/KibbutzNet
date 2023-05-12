@@ -33,10 +33,12 @@ export default function LoginUser() {
     async function login(e){
         e.preventDefault();
         if (validate()){
-            const didLoginSucsed=await loginToUser(values.email,values.accountNumberber);
-            console.log(didLoginSucsed)
-            if (didLoginSucsed){
+            const user_type=await loginToUser(values.email,values.accountNumberber);
+            if (user_type=="user"){
              navigate(paths.member_page_path)
+            }
+            if(user_type=="admin"){
+                navigate(paths.admin_page_path)
             }
         }
     }

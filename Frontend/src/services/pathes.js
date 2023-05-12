@@ -18,6 +18,9 @@ export const purchse_history_page_path="/purchseHistory"
 export const chat_manager_page_path="/chatManager"
 export const order_manager_page_path="/orderManager"
 export const page_manager_page_path="/pageManager"
+export const admin_page_path="/admin"
+
+
 
 //controller pathes
 export const login_controller_path="/login"
@@ -25,6 +28,7 @@ export const home_controller_path="/Home"
 export const store_controller_path="/Store"
 export const user_controller_path="/User"
 export const register_controller_path="/Store"
+export const admin_controller_path="/Admin"
 
 
 //store function pathes
@@ -53,5 +57,12 @@ export const getAllOrderStore=back_path+store_controller_path+"/seeOrderHistoryS
 export const getAllOrderStoreUser=back_path+store_controller_path+"/seeOrderHistoryUserAndStore"
 export const getAllOrderUser=back_path+user_controller_path+"/seeOrderHistoryUser"
 export const changeOrderStatus=back_path+store_controller_path+"/changeOrderStatus"
+
+
+//admin function pathes
+
+export const addUser=back_path+admin_controller_path+"/createNewMember"
+export const addStore=back_path+admin_controller_path+"/createNewStore"
+export const connectStoreUser=back_path+admin_controller_path+"/assignEmployeeToStore"
 
 
