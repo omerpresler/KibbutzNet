@@ -44,15 +44,15 @@ namespace Backend.Controllers
         }
         
         [HttpPost("seeOrderHistoryUser")]
-        public Response<ArrayList> seeOrderHistoryUser([FromBody] PurchaseHistoryRequest request)
+        public Response<ArrayList> seeOrderHistoryUser(int userId)
         {
-            return Store.Instance.SeeOrderHistoryUser(request.UserId);
+            return Store.Instance.SeeOrderHistoryUser(userId);
         }
         
         [HttpPost("seePurchaseHistoryUser")]
-        public Response<ArrayList> seePurchaseHistoryUser([FromBody] PurchaseHistoryRequest request)
+        public Response<ArrayList> seePurchaseHistoryUser(int userId)
         {
-            return Store.Instance.SeePurchaseHistoryUser(request.UserId);
+            return Store.Instance.SeePurchaseHistoryUser(userId);
         }
     }
 }

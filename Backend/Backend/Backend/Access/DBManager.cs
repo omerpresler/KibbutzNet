@@ -112,6 +112,9 @@ public class DBManager
         
         commandText = $@"insert into StoreEmployees (userId, storeId) values (0, 0)";
         ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'In the oven', 'Amit', 0, TRUE, 0, 15, 'a cake')";
+        ExecuteCommandNonQuery(commandText);
     }
     
     public List<Store> LoadStores()
@@ -318,7 +321,7 @@ public class DBManager
 
     public void AddOrder(Order order)
     {
-        string commandText = $@"insert into Members (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values ({order.orderID}, {order.storeId},'{order.date.Date}', '{order.status}', '{order.memberName}', {order.memberId}, {order.active}, {order.chatId}, {order.cost}, '{order.description}')";
+        string commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values ({order.orderID}, {order.storeId},'{order.date.Date}', '{order.status}', '{order.memberName}', {order.memberId}, {order.active}, {order.chatId}, {order.cost}, '{order.description}')";
         ExecuteCommandNonQuery(commandText);
     }
     
