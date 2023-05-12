@@ -30,6 +30,11 @@ public class User
         }
     }
     
+    public bool userExist(int userId)
+    {
+        return users.ContainsKey(userId);
+    }
+    
     public void LoadMembers()
     {
         foreach (Access.Member DALMember in Access.DBManager.Instance.LoadMembers())
@@ -44,11 +49,7 @@ public class User
     {
         try
         {
-            if(!users.ContainsKey(userId))
-                users.Add(userId, new MemberController(userId, email));
-            else
-                AuthenticationManager.Instance.Login(userId, email);
-            
+            AuthenticationManager.Instance.Login(userId, email);
         }
         catch (Exception e)
         {

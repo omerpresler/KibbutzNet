@@ -17,11 +17,12 @@ public class DBManager
 
     private void CreateTables()
     {
-        
         CreateOrderTable();
         CreatePurchaseTable();
         CreateStoreTable();
         CreateMemberTable();
+        CreateAdminTable();
+        CreateStoreEmployeeTable();
 
         initBasicData();
     }
@@ -72,6 +73,22 @@ public class DBManager
 	                        email VARCHAR(255),
 	                        house INT);" );
     }
+    
+    private void CreateAdminTable()
+    {
+        ExecuteCommandNonQuery("DROP TABLE IF EXISTS Admins");
+        ExecuteCommandNonQuery( @"CREATE TABLE Admins (
+                            userId INT,
+	                        email VARCHAR(255));" );
+    }
+    
+    private void CreateStoreEmployeeTable()
+    {
+        ExecuteCommandNonQuery("DROP TABLE IF EXISTS StoreEmployees");
+        ExecuteCommandNonQuery( @"CREATE TABLE StoreEmployees (
+                            userId INT,
+	                        storeId INT);" );
+    }
 
     private void initBasicData()
     {
@@ -82,6 +99,12 @@ public class DBManager
         ExecuteCommandNonQuery(commandText);
         
         commandText = $@"insert into Members (userId, memberName, phoneNumber, email, house) values (1, 'omer', '054-333-3333', 'omer@gmail.com', 2)";
+        ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into Admins (userId, email) values (0, 'admin@gmail.com')";
+        ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into StoreEmployees (userId, storeId) values (0, 0)";
         ExecuteCommandNonQuery(commandText);
     }
     
@@ -201,6 +224,78 @@ public class DBManager
         }
         return members;
     }
+    
+    public List<Admin> LoadAdmins()
+    {
+        List<Admin> admins = new List<Admin>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = "localhost";
+        sb.Port = 5432;
+        sb.Username = "postgres";
+        sb.Password = "omer";
+        sb.Database = "KibbutzNet";
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand("SELECT userId, email FROM Admins", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int userId = reader.GetInt32(0);
+                string email = reader.GetString(1);
+
+                admins.Add(new Admin(userId, email));
+            }
+            
+            conn.Close();
+        }
+        return admins;
+    }
+    
+    public List<StoreEmployee> LoadStoreEmployees()
+    {
+        List<StoreEmployee> StoreEmployees = new List<StoreEmployee>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = "localhost";
+        sb.Port = 5432;
+        sb.Username = "postgres";
+        sb.Password = "omer";
+        sb.Database = "KibbutzNet";
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand("SELECT userId, storeId FROM StoreEmployees", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int userId = reader.GetInt32(0);
+                int storeId = reader.GetInt32(1);
+
+                StoreEmployees.Add(new StoreEmployee(userId, storeId));
+            }
+            
+            conn.Close();
+        }
+        return StoreEmployees;
+    }
         
     public static DBManager Instance {
         get {
@@ -217,8 +312,25 @@ public class DBManager
 
     public void AddOrder(Order order)
     {
-        string commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values ({order.orderID}, {order.storeId},'{order.date.Date}', '{order.status}', '{order.memberName}', {order.memberId}, {order.active}, {order.chatId}, {order.cost}, '{order.description}')";
-        Console.WriteLine(commandText);
+        string commandText = $@"insert into Members (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values ({order.orderID}, {order.storeId},'{order.date.Date}', '{order.status}', '{order.memberName}', {order.memberId}, {order.active}, {order.chatId}, {order.cost}, '{order.description}')";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void AddStore(int storeId, string storeName)
+    {
+        string commandText = $@"insert into Stores (storeId, storeName) values ({storeId}, '{storeName}')";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void AddMember(int userId, string name,string phoneNumber, string email)
+    {
+        string commandText = $@"insert into Members (userId, memberName, phoneNumber, email, house) values ({userId}, '{name}', '{phoneNumber}', '{email}', {0})";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void AddStoreEmployees(StoreEmployee storeEmployee)
+    {
+        string commandText = $@"insert into StoreEmployees (userId, storeId) values ({storeEmployee.UserId}, {storeEmployee.storeId})";
         ExecuteCommandNonQuery(commandText);
     }
 

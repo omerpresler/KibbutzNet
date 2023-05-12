@@ -9,12 +9,6 @@ namespace Backend.Business.MemberController
         private ChatManager cm;
         
         
-        public MemberController(int userId, string email)
-        {
-            member = AuthenticationManager.Instance.Login(userId, email);
-            cm = new ChatManager();
-        }
-        
         public MemberController(Backend.Access.Member DALMember)
         {
             member = new Member(DALMember);

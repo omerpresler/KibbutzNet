@@ -30,6 +30,11 @@ public class Store
             }
         }
     }
+
+    public bool storeExist(int storeId)
+    {
+        return stores.ContainsKey(storeId);
+    }
     
     public void LoadStores()
     {
@@ -53,14 +58,9 @@ public class Store
     {
         try
         {
-            if(!stores.ContainsKey(userId))
-                stores.Add(userId, new ClientStoreService(storeId, userId, email));
-            else
-            {
-                AuthenticationManager.Instance.Login(userId, email);
-                AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
-            }
-            
+            AuthenticationManager.Instance.Login(userId, email);
+            if(AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId) == null)
+                return new Response<bool>(true, $"User {userId} does not work at {storeId}");
         }
         catch (Exception e)
         {

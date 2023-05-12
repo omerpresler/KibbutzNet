@@ -10,13 +10,17 @@ namespace Backend.Controllers
     [ApiController]
     [Route("[controller]")]
     public class loginController : ControllerBase
-    {
-
-        public loginController()
+    { 
+        public loginController() { }
+        
+        
+        
+        [HttpPost("loginToAdmin")]
+        public Response<bool> loginToAdmin([FromBody] userLoginRequest request)
         {
-
-
+            return Service.Admin.Instance.Login(request.accountNumber, request.email);
         }
+        
         [HttpPost("loginToUser")]
         public Response<bool> loginUser([FromBody] userLoginRequest request)
         {
@@ -30,13 +34,6 @@ namespace Backend.Controllers
         {
             return Service.Store.Instance.Login(request.accountNumber, request.storeId, request.email);
         }
-        
-        [HttpPost("loginToRegister")]
-        public Response<String> loginRegister([FromBody] RegisterInfoRequest request)
-        {
-            return Register.Instance.OpenRegister(request.StoreId, request.EmployeeId);
-        }
-        
         
     }
 }

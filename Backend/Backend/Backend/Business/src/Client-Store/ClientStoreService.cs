@@ -12,11 +12,10 @@ public class ClientStoreService
     private ChatManager chatManager;
     private OutputManager outputManager;
     private WorkerManager workerManager;
-    private User employee;
     private NotificationManager notificationManager;
     private PageManager pageManager;
     private List<Purchase> purchases;
-    private String storeName;
+    private String? storeName;
     
     public ClientStoreService(int storeId, int userId, string email)
     {
@@ -26,7 +25,7 @@ public class ClientStoreService
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
-        employee = AuthenticationManager.Instance.Login(userId, email);
+        AuthenticationManager.Instance.Login(userId, email);
 
         storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
         if (storeName == null)
