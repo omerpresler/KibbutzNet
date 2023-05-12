@@ -13,7 +13,8 @@ export default function Home() {
    
 
 function move_register(){
-    navigate(paths.login_to_register)
+    localStorage.setItem("nextPage",paths.register_page_path)
+    navigate(paths.login_to_store)
 }
 
 function move_to_member(){
@@ -21,6 +22,7 @@ function move_to_member(){
 }
 
 function move_to_store(){
+    localStorage.setItem("nextPage",paths.store_page_path)
     navigate(paths.login_to_store)
 }
 

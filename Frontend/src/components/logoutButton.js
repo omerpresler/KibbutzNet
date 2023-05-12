@@ -12,6 +12,7 @@ const LogoutButton = ({ onClick, ...props }) => {
     bottom: '20px',
     right: '100px', // Change the position to avoid overlapping with the back button
     zIndex: 100,
+    color: "black"
   };
 
   function do_logout(){

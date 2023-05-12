@@ -9,7 +9,6 @@ import BackButton from '../components/BackButton';
 export default function ChatManagerPage() {
   const [userId, setUserId] = useState(null);
   const [userType, setUserType] = useState(null);
-  const chatService = ChatService();
 
   useEffect(() => {
     // Fetch user ID and user type from local storage or other sources

@@ -10,11 +10,26 @@ export default function Center(props) {
       justifyContent="center"
       sx={{
         minHeight: '100vh',
-        padding: '10rem',
+        padding: '5rem',
         width: '100%',
+        backgroundColor: '#add8e6',  // Light blue background
       }}
     >
-      <Grid item xs={12} sm={10} md={8} lg={6} xl={4} rowSpacing={3}>
+      <Grid 
+        item 
+        xs={12} 
+        sm={10} 
+        md={8} 
+        lg={6} 
+        xl={4} 
+        rowSpacing={3} 
+        sx={{
+          boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.1)',  // Box shadow for items
+          borderRadius: '10px',  // Rounded corners
+          backgroundColor: '#fff',  // White background for items
+          padding: '1rem',  // Padding inside items
+        }}
+      >
         {props.children}
       </Grid>
     </Grid>
