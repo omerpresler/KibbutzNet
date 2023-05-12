@@ -9,6 +9,12 @@ public class DBManager
     
     private static DBManager instance;
     private static readonly object padlock = new object();
+    
+    private string Host = "localhost";
+    private int Port = 5432;
+    private string Username = "postgres";
+    private string  Password = "omer";
+    private string Database = "KibbutzNet";
 
     public DBManager()
     {
@@ -113,11 +119,11 @@ public class DBManager
         List<Store> stores = new List<Store>();
         
         NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
-        sb.Host = "localhost";
-        sb.Port = 5432;
-        sb.Username = "postgres";
-        sb.Password = "omer";
-        sb.Database = "KibbutzNet";
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
 
         List<string> rows = new List<string>();
 
@@ -146,11 +152,11 @@ public class DBManager
         List<Order> orders = new List<Order>();
         
         NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
-        sb.Host = "localhost";
-        sb.Port = 5432;
-        sb.Username = "postgres";
-        sb.Password = "omer";
-        sb.Database = "KibbutzNet";
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
 
         List<string> rows = new List<string>();
 
@@ -191,11 +197,11 @@ public class DBManager
         List<Member> members = new List<Member>();
         
         NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
-        sb.Host = "localhost";
-        sb.Port = 5432;
-        sb.Username = "postgres";
-        sb.Password = "omer";
-        sb.Database = "KibbutzNet";
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
 
         List<string> rows = new List<string>();
 
@@ -230,11 +236,11 @@ public class DBManager
         List<Admin> admins = new List<Admin>();
         
         NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
-        sb.Host = "localhost";
-        sb.Port = 5432;
-        sb.Username = "postgres";
-        sb.Password = "omer";
-        sb.Database = "KibbutzNet";
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
 
         List<string> rows = new List<string>();
 
@@ -266,11 +272,11 @@ public class DBManager
         List<StoreEmployee> StoreEmployees = new List<StoreEmployee>();
         
         NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
-        sb.Host = "localhost";
-        sb.Port = 5432;
-        sb.Username = "postgres";
-        sb.Password = "omer";
-        sb.Database = "KibbutzNet";
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
 
         List<string> rows = new List<string>();
 
@@ -338,11 +344,11 @@ public class DBManager
     public void ExecuteCommandNonQuery(string commandText)
     {
         NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
-        sb.Host = "localhost";
-        sb.Port = 5432;
-        sb.Username = "postgres";
-        sb.Password = "omer";
-        sb.Database = "KibbutzNet";
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
         
         using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
         {
