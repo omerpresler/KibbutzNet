@@ -90,14 +90,14 @@ export default function PurchaseHistoryDisplayer() {
             onChange={handleInputChange}
           />
         )}
-        <TextField
+        {userType!='user' &&(   <TextField
           name="userId"
           label="User ID"
           value={values.userId}
           onChange={handleInputChange}
-        />
-
+        />)}
         <Button onClick={handleSubmit}>Submit</Button>
+        <BackButton sx={{ mt: 2 }} />
         </CardContent>   
         </Card>    
           </Box>
@@ -132,7 +132,6 @@ export default function PurchaseHistoryDisplayer() {
               </Table>
             </TableContainer>
           </Paper>
-          <BackButton sx={{ mt: 2 }} />
         </Center>
       )}
     </Center>

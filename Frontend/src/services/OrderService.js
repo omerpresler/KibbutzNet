@@ -43,9 +43,10 @@ const fakeData = [
 
 
 
-  async function addOrder(storeID, memberID, memberName, description, cost) {
+  async function addOrder( memberID, memberName, description, cost) {
+    console.log("add order")
     return axios.post(paths.addOrderPath, 
-      { storeid:storeID,memberID: memberID,memberName: memberName,
+      { storeid:localStorage.getItem("storeId"),memberID: memberID,memberName: memberName,
       description: description, cost:cost })
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
