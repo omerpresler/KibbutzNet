@@ -15,15 +15,6 @@ namespace Backend.Business.src.Client_Store
         public List<string> files;
         private static int _nextProdId;
 
-
-
-        public Product(int productId, string name, string description, List<string> files)
-        {
-            this.productId = productId;
-            this.description = description;
-            this.files = files;
-            this.name = name;
-        }
         
         public Product(string name, string description, List<string> files)
         {

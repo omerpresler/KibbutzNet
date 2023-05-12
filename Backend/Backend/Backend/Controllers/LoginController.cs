@@ -16,16 +16,14 @@ namespace Backend.Controllers
         
         
         [HttpPost("loginToAdmin")]
-        public Response<bool> loginToAdmin([FromBody] userLoginRequest request)
+        public Response<string> loginToAdmin([FromBody] userLoginRequest request)
         {
             return Service.Admin.Instance.Login(request.accountNumber, request.email);
         }
         
         [HttpPost("loginToUser")]
-        public Response<bool> loginUser([FromBody] userLoginRequest request)
+        public Response<string> loginUser([FromBody] userLoginRequest request)
         {
-            Console.WriteLine("test");
-            Console.WriteLine(request);
             return Service.User.Instance.Login(request.accountNumber, request.email);
         }
 

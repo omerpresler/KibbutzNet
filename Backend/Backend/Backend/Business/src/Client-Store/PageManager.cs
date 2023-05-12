@@ -6,22 +6,27 @@ namespace Backend.Business.src.Client_Store
 {
     public class PageManager
     {
-        public string StoreName;
+        public int storeId;
         private List<Post> posts;
         private List<Product> products;
+        private static int _nextId;
 
    
-        public PageManager(string storeName)
+        public PageManager(int storeId)
         {
-            this.StoreName = storeName;
+            this.storeId = storeId;
             this.posts = new List<Post>();
             this.products = new List<Product>();
         }
-
-        public Response<Post> AddPost(Post post)
+        
+        private static int AssignId()
         {
-            if (posts.Find(x => x.Postid == post.Postid) != null)
-                return new Response<Post>(true, "Post with the same id already exist");
+            return Interlocked.Increment(ref _nextId);
+        }
+
+        public Response<Post> AddPost(string header)
+        {
+            Post post = new Post(AssignId(), header);
             posts.Add(post);
             return new Response<Post>(post);
         }

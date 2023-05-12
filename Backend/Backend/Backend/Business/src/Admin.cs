@@ -1,4 +1,5 @@
 ﻿using Backend.Access;
+using Backend.Business.src.Client_Store;
 using Backend.Business.src.Utils;
 
 namespace Backend.Business.src;
@@ -7,11 +8,18 @@ public class Admin
 {
     public int UserId { get; set; }
     public string email { get; set; }
+    private static int _nextStoreId;
+
+    private static int AssignStoreId()
+    {
+        return Interlocked.Increment(ref _nextStoreId);
+    }
 
     public Admin(Access.Admin admin)
     {
         this.UserId = admin.UserId;
         this.email = admin.email;
+        _nextStoreId = DBManager.Instance.getMaxStoreId()+1;
     }
 
 
@@ -21,13 +29,16 @@ public class Admin
         AuthenticationManager.Instance.AddStoreEmployee(userId, storeId);
     }
 
-    public void CreateNewMember(int userId, string name,string phoneNumber, string email)
+    public MemberController.MemberController CreateNewMember(int userId, string name,string phoneNumber, string email)
     {
         DBManager.Instance.AddMember(userId, name, phoneNumber, email);
+        return new MemberController.MemberController(userId, name, phoneNumber, email);
     }
     
-    public void CreateStore(int storeId, string storeName)
+    public ClientStoreService CreateStore(string storeName)
     {
+        int storeId = AssignStoreId();
         DBManager.Instance.AddStore(storeId, storeName);
+        return new ClientStoreService(storeId);
     }
 }

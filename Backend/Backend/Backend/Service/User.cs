@@ -35,6 +35,11 @@ public class User
         return users.ContainsKey(userId);
     }
     
+    public void addNewMember(MemberController member)
+    {
+        users.Add(member.getMemberId(), member);
+    }
+    
     public void LoadMembers()
     {
         foreach (Access.Member DALMember in Access.DBManager.Instance.LoadMembers())
@@ -45,7 +50,7 @@ public class User
     }
 
 
-    public Response<bool> Login(int userId, string email)
+    public Response<string> Login(int userId, string email)
     {
         try
         {
@@ -53,11 +58,11 @@ public class User
         }
         catch (Exception e)
         {
-            return new Response<bool>(true, e.Message);
+            return new Response<string>(true, e.Message);
         }
 
 
-        return new Response<bool>(true);
+        return new Response<string>("user");
     }
     
     public Response<List<String>> GetAllchats(int userId)

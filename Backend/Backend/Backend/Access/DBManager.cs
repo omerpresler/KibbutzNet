@@ -340,6 +340,88 @@ public class DBManager
         ExecuteCommandNonQuery(commandText);
     }
 
+    public void updateOrderActiveField(int orderId, bool active)
+    {
+        string commandText = $@"UPDATE Orders SET active={active} WHERE orderId={orderId};";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void updateOrderStatusField(int orderId, string status)
+    {
+        string commandText = $@"UPDATE Orders SET status={status} WHERE orderId={orderId};";
+        ExecuteCommandNonQuery(commandText);
+    }
+
+    public int getMaxStoreId()
+    {
+        List<Store> stores = new List<Store>();
+        int maxStoreId = 0;
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT MAX(storeId) FROM Stores;", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                maxStoreId = reader.GetInt32(0);
+            }
+            
+            conn.Close();
+        }
+        
+        return maxStoreId;
+    }
+    
+    public int getMaxOrderId()
+    {
+        List<Store> stores = new List<Store>();
+        int maxOrderId = 0;
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT MAX(orderId) FROM Orders;", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                maxOrderId = reader.GetInt32(0);
+            }
+            
+            conn.Close();
+        }
+        
+        return maxOrderId;
+    }
+
 
     public void ExecuteCommandNonQuery(string commandText)
     {

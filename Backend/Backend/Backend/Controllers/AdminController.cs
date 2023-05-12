@@ -23,7 +23,7 @@ namespace Backend.Controllers
         [HttpPost("createNewStore")]
         public Response<bool> createNewStore([FromBody] createNewStoreRequest request)
         {
-            return Admin.Instance.CreateNewStore(request.adminId, request.storeId, request.storeName);
+            return Admin.Instance.CreateNewStore(request.adminId, request.storeName);
         }
         
         [HttpPost("createNewMember")]
@@ -33,3 +33,4 @@ namespace Backend.Controllers
         }
     }
 }
+
