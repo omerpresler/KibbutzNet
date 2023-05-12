@@ -40,7 +40,6 @@ export const getAllChatsPath = '/path/to/get/all/chats/endpoint';
 //regsiter function path
 export const addPurchasePath= back_path+register_controller_path+"/addPurchase"
 export const seePurchaseHistoryStorePath =back_path+register_controller_path+"/SeePurchaseHistoryStore"
-// export const seePurchaseHistoryAllStorePath=back_path+paths.register_controller_path+"/addPurchase"
 export const seePurchaseHistoryUserAndStorePath=back_path+register_controller_path+"/SeePurchaseHistoryUserAndStore"
 export const seePurchaseHistoryUserPath=back_path+register_controller_path+"/SeePurchaseHistoryUser"
 
