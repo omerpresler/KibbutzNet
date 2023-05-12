@@ -36,6 +36,11 @@ public class Store
         return stores.ContainsKey(storeId);
     }
     
+    public void addNewStore(ClientStoreService store)
+    {
+        stores.Add(store.storeId, store);
+    }
+    
     public void LoadStores()
     {
         foreach (Access.Store DALStore in Access.DBManager.Instance.LoadStores())
@@ -154,6 +159,40 @@ public class Store
         catch (Exception e)
         {
             return new Response<string>(true, e.Message);
+        }
+    }
+    
+    public Response<bool> closeOrder(int storeId, int orderId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].closeOrder(orderId, orderId);
+            }
+
+            return new Response<bool>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<bool>(true, e.Message);
+        }
+    }
+    
+    public Response<bool> reOpenOrder(int storeId, int orderId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].reOpenOrder(orderId, orderId);
+            }
+
+            return new Response<bool>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<bool>(true, e.Message);
         }
     }
     
@@ -280,6 +319,74 @@ public class Store
         catch (Exception e)
         {
             return new Response<ArrayList>(true, e.Message);
+        }
+    }
+    
+    public Response<Post> AddPost(int storeId, String header)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].AddPost(header);
+            }
+
+            return new Response<Post>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<Post>(true, e.Message);
+        }
+    }
+
+    public Response<Post> RemovePost(int storeId, int postId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].RemovePost(postId);
+            }
+
+            return new Response<Post>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<Post>(true, e.Message);
+        }
+    }
+
+    public Response<Product> AddProduct(int storeId, string name, string description)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].AddProduct(name, description);
+            }
+
+            return new Response<Product>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<Product>(true, e.Message);
+        }
+    }
+        
+    public Response<Product> RemoveProduct(int storeId, int productId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+            {
+                return stores[storeId].RemoveProduct(productId);
+            }
+
+            return new Response<Product>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<Product>(true, e.Message);
         }
     }
     

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Backend.Access;
+using Backend.Business.src.Client_Store;
 using Backend.Business.src.Utils;
 using Backend.Business.src.StoreRegister;
 
@@ -35,18 +36,21 @@ public class Admin
         }
     }
 
-    public Response<bool> Login(int userId, string email)
+    public Response<string> Login(int userId, string email)
     {
         try
         {
             if (!admins.ContainsKey(userId))
-                return new Response<bool>(false);
+                return new Response<string>(true, $"No admin with the id of {userId}");
             
-            return new Response<bool>(admins[userId].email.Equals(email));
+            if(!admins[userId].email.Equals(email))
+                return new Response<string>(true, $"Email does not match the id");
+
+            return new Response<string>("admin");
         }
         catch (Exception e)
         {
-            return new Response<bool>(true, e.Message);
+            return new Response<string>(true, e.Message);
         }
     }
 
@@ -74,18 +78,14 @@ public class Admin
     }
     
     // storeId is the budgetId of the original owner
-    public Response<bool> CreateNewStore(int adminId, int storeId, string storeName)
+    public Response<bool> CreateNewStore(int adminId, string storeName)
     {
         try
         {
             if (!admins.ContainsKey(adminId))
                 return new Response<bool>(true, $"Admin {adminId} does not exist");
-            
-            if (Store.Instance.storeExist(storeId))
-                return new Response<bool>(true, $"Store {storeId} already exists");
-            
-            
-            admins[adminId].CreateStore(storeId, storeName);
+
+            Store.Instance.addNewStore(admins[adminId].CreateStore(storeName));
         }
         catch (Exception e)
         {
@@ -106,7 +106,7 @@ public class Admin
             if (User.Instance.userExist(userId))
                 return new Response<bool>(true, $"User {userId} already exists");
             
-            admins[adminId].CreateNewMember(userId, name,phoneNumber, email);
+            User.Instance.addNewMember(admins[adminId].CreateNewMember(userId, name,phoneNumber, email));
         }
         catch (Exception e)
         {

@@ -17,6 +17,7 @@ using System.Collections.Generic;
         public OrderManager()
         {
             orders = new Dictionary<int, List<Order>>();
+            orderNum = DBManager.Instance.getMaxOrderId()+1;
         }
         
         public static OrderManager Instance {
@@ -70,10 +71,33 @@ using System.Collections.Generic;
         {
             foreach (var o in from order in orders where order.Key == storeID from o in order.Value where o.orderId == orderID select o)
             {
+                DBManager.Instance.updateOrderStatusField(o.orderId, status);
                 o.status = status;
             }
 
             return new Response<string>(status);
+        }
+        
+        public Response<bool> closeOrder(int storeId, int orderId)
+        {
+            foreach (var o in from order in orders where order.Key == storeId from o in order.Value where o.orderId == orderId select o)
+            {
+                DBManager.Instance.updateOrderActiveField(o.orderId, false);
+                o.active = false;
+            }
+
+            return new Response<bool>(false);
+        }
+    
+        public Response<bool> reOpenOrder(int storeId, int orderId)
+        {
+            foreach (var o in from order in orders where order.Key == storeId from o in order.Value where o.orderId == orderId select o)
+            {
+                DBManager.Instance.updateOrderActiveField(o.orderId, true);
+                o.active = true;
+            }
+
+            return new Response<bool>(true);
         }
 
         public List<string>? ordersByStoreID(int storeID)

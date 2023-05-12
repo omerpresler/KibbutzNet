@@ -8,7 +8,7 @@ namespace Backend.Business.src.Client_Store;
 
 public class ClientStoreService
 {
-    private int storeId;
+    public int storeId;
     private ChatManager chatManager;
     private OutputManager outputManager;
     private WorkerManager workerManager;
@@ -17,7 +17,7 @@ public class ClientStoreService
     private List<Purchase> purchases;
     private String? storeName;
     
-    public ClientStoreService(int storeId, int userId, string email)
+    public ClientStoreService(int storeId)
     {
         this.storeId = storeId;
         purchases = new List<Purchase>();
@@ -25,13 +25,7 @@ public class ClientStoreService
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
-        AuthenticationManager.Instance.Login(userId, email);
-
-        storeName = AuthenticationManager.Instance.CheckWorkingPrivilege(storeId, userId);
-        if (storeName == null)
-            throw new Exception($"User {userId} does not work at {storeId}");
-        
-        pageManager = new PageManager(storeName);
+        pageManager = new PageManager(storeId);
     }
     
     public ClientStoreService(Access.Store DALStore)
@@ -45,15 +39,9 @@ public class ClientStoreService
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
 
-        pageManager = new PageManager(storeName);
+        pageManager = new PageManager(storeId);
     }
-
-    public Response<Product> AddProduct(string name, string description)
-    {
-        Product prod = new Product(name, description);
-        return pageManager.AddProduct(prod);
-    }
-
+    
     public Response<int> OpenChat(int userId)
     {
         return chatManager.StartChat(storeId, userId);
@@ -77,7 +65,16 @@ public class ClientStoreService
     public Response<string> changeOrdersStatus (int orderID, string status)
     {
         return OrderManager.Instance.changeOrdersStatus(storeId, orderID, status);
-
+    }
+    
+    public Response<bool> closeOrder(int storeId, int orderId)
+    {
+        return OrderManager.Instance.closeOrder(storeId, orderId);
+    }
+    
+    public Response<bool> reOpenOrder(int storeId, int orderId)
+    {
+        return OrderManager.Instance.reOpenOrder(storeId, orderId);
     }
     
     public Response<int> addPurchase(int memberID, string description, float cost)
@@ -166,6 +163,26 @@ public class ClientStoreService
         }
 
         return jsons;
+    }
+    
+    public Response<Post> AddPost(String header)
+    {
+        return pageManager.AddPost(header);
+    }
+
+    public Response<Post> RemovePost(int postId)
+    {
+        return pageManager.RemovePost(postId);
+    }
+
+    public Response<Product> AddProduct(string name, string description)
+    {
+        return pageManager.AddProduct(new Product(name, description));
+    }
+        
+    public Response<Product> RemoveProduct(int productId)
+    {
+        return pageManager.RemoveProduct(productId);
     }
 
 }

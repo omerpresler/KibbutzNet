@@ -3,6 +3,7 @@ using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
 using Backend.Service;
 using System.Collections;
+using Backend.Business.src.Client_Store;
 
 
 namespace Backend.Controllers
@@ -74,12 +75,23 @@ namespace Backend.Controllers
             return Store.Instance.addOrder(request.storeId, request.memberId, request.memberName, request.description, request.cost);
         }
 
-        
-
         [HttpPost("changeOrdersStatus")]
         public Response<string> changeOrdersStatus([FromBody] changeOrdersStatusRequest request)
         {
             return Store.Instance.changeOrdersStatus(request.storeId, request.orderId, request.status);
+        }
+
+        
+        [HttpPost("closeOrder")]
+        public Response<bool> closeOrder([FromBody] changeOrdersActiveStateRequest request)
+        {
+            return Store.Instance.closeOrder(request.storeId, request.orderId);
+        }
+
+        [HttpPost("reOpenOrder")]
+        public Response<bool> reOpenOrder([FromBody] changeOrdersActiveStateRequest request)
+        {
+            return Store.Instance.reOpenOrder(request.storeId, request.orderId);
         }
         
         [HttpPost("addPurchase")]
@@ -120,7 +132,29 @@ namespace Backend.Controllers
             return Store.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }
 
-
+        [HttpPost("addPost")]
+        public Response<Post> AddPost(int storeId, String header)
+        {
+            return Store.Instance.AddPost(storeId, header);
+        }
+        
+        [HttpPost("removePost")]
+        public Response<Post> RemovePost(int storeId, int postId)
+        {
+            return Store.Instance.RemovePost(storeId, postId);
+        }
+        
+        [HttpPost("addProduct")]
+        public Response<Product> AddProduct(int storeId, string name, string description)
+        {
+            return Store.Instance.AddProduct(storeId, name, description);
+        }
+        
+        [HttpPost("removeProduct")]
+        public Response<Product> RemoveProduct(int storeId, int productId)
+        {
+            return Store.Instance.RemoveProduct(storeId, productId);
+        }
 
     }
 }
