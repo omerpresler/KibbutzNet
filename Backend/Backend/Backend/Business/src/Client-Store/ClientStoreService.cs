@@ -93,18 +93,8 @@ public class ClientStoreService
         ArrayList jsons = new ArrayList();
         foreach (Order order in OrderManager.Instance.orders[storeId])
             if (order.memberId == userId)
-            {
-                var purchase = new
-                {
-                    orderID = order.orderId,
-                    date = order.date,
-                    status = order.status,
-                    memberName = order.memberName,
-                    cost = order.cost,
-                    description = order.description
-                };
-                jsons.Add(JsonConvert.SerializeObject(purchase));
-            }
+                jsons.Add(order);
+            
         return jsons;
     }
     
@@ -114,16 +104,7 @@ public class ClientStoreService
         ArrayList jsons = new ArrayList();
         foreach (Order order in OrderManager.Instance.orders[storeId])
         {
-            var purchase = new
-            {
-                orderID = order.orderId,
-                date = order.date,
-                status = order.status,
-                memberName = order.memberName,
-                cost = order.cost,
-                description = order.description
-            };
-            jsons.Add(JsonConvert.SerializeObject(purchase));
+            jsons.Add(JsonConvert.SerializeObject(order));
         }
         
         return jsons;
@@ -134,17 +115,8 @@ public class ClientStoreService
         ArrayList jsons = new ArrayList();
         foreach (Purchase p in purchases)
             if (p.memberId == userId)
-            {
-                var purchase = new
-                {
-                    PurchaseID = p.purchaseId,
-                    Date = p.date,
-                    memberId = p.memberId,
-                    Cost = p.cost,
-                    Description = p.description
-                };
-                jsons.Add(JsonConvert.SerializeObject(purchase));
-            }
+                jsons.Add(JsonConvert.SerializeObject(p));
+            
 
         return jsons;
     }
@@ -153,17 +125,8 @@ public class ClientStoreService
     {
         ArrayList jsons = new ArrayList();
         foreach (Purchase p in purchases)
-        {
-            var purchase = new
-            {
-                PurchaseID = p.purchaseId,
-                Date = p.date,
-                memberId = p.memberId,
-                Cost = p.cost,
-                Description = p.description
-            };
-            jsons.Add(JsonConvert.SerializeObject(purchase));
-        }
+            jsons.Add(JsonConvert.SerializeObject(p));
+        
 
         return jsons;
     }
