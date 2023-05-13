@@ -42,7 +42,6 @@ function show_add_order(){
 }
 async function add_order(event){
     event.preventDefault();
-    console.log("addorder")
     await addOrder(values.memberId,values.memberName,values.description,values.cost)
 }
 

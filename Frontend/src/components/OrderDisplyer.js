@@ -15,10 +15,11 @@ import {
   DialogActions
 } from '@mui/material';
 
-const OrderDisplyer = ({ orders, handleChangeStatus }) => {
+const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) => {
   const [statusInput, setStatusInput] = useState('');
   const [open, setOpen] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [sortDirection, setSortDirection] = useState('asc');
 
   const handleStatusInputChange = (event) => {
     setStatusInput(event.target.value);
@@ -40,6 +41,16 @@ const OrderDisplyer = ({ orders, handleChangeStatus }) => {
     handleCloseDialog();
   };
 
+  const handleSortByStatus = () => {
+    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    orders.sort((a, b) => {
+      if (a.active && !b.active) return sortDirection === 'asc' ? -1 : 1;
+      if (!a.active && b.active) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+  };
+  
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 1000 }} aria-label="simple table">
@@ -50,11 +61,12 @@ const OrderDisplyer = ({ orders, handleChangeStatus }) => {
             <TableCell>Status</TableCell>
             <TableCell>Member Name</TableCell>
             <TableCell>Member ID</TableCell>
-            <TableCell>Active</TableCell>
+            <TableCell onClick={handleSortByStatus} style={{cursor: 'pointer'}}>Active</TableCell>
             <TableCell>Chat</TableCell>
             <TableCell>Cost</TableCell>
             <TableCell>Description</TableCell>
             <TableCell>Change Status</TableCell>
+            <TableCell>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -63,7 +75,7 @@ const OrderDisplyer = ({ orders, handleChangeStatus }) => {
               <TableCell component="th" scope="row">
                 {order.orderID}
               </TableCell>
-              <TableCell>{order.date}</TableCell>
+              <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
               <TableCell>{order.status}</TableCell>
               <TableCell>{order.memberName}</TableCell>
               <TableCell>{order.memberId}</TableCell>
@@ -78,6 +90,15 @@ const OrderDisplyer = ({ orders, handleChangeStatus }) => {
                   color="primary"
                 >
                   Change Status
+                </Button>
+              </TableCell>
+              <TableCell>
+                <Button
+                  onClick={() => handleToggleOrderActive(order.orderID)}
+                  variant="contained"
+                  color={order.active ? "secondary" : "primary"}
+                >
+                  {order.active ? 'Close' : 'Reopen'}
                 </Button>
               </TableCell>
             </TableRow>

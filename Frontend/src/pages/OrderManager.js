@@ -7,7 +7,7 @@ import useForm from '../hooks/useFrom';
 import OrderDisplyer from "../components/OrderDisplyer";
 
 const OrderManager = () => {
-  const { addOrder, changeOrdersStatus, getAllOrdersStore, getAllOrdersUser } = GetOrderService();
+  const { addOrder, changeOrdersStatus, getAllOrdersStore, getAllOrdersUser, closeOrder, reOpenOrder } = GetOrderService();
   const initialFormValues = () => ({
     storeId: '',
     userId: '',
@@ -37,8 +37,20 @@ const OrderManager = () => {
     }
   };
 
-  const handleChangeStatus = async (orderId, newStatus, statusMessage) => {
-    console.log(`Order ID: ${orderId}, New Status: ${newStatus}, Status Message: ${statusMessage}`);
+  const handleChangeStatus = async (orderId, statusMessage) => {
+    await changeOrdersStatus(localStorage.getItem("storeId"), orderId, statusMessage)
+  };
+
+  const handleToggleOrderActive = async (orderId) => {
+    let order = data.find(order => order.orderID === orderId);
+    if (order.active) {
+      await closeOrder(orderId);
+    } else {
+      await reOpenOrder(orderId);
+    }
+    // Update the local copy of the data
+    order.active = !order.active;
+    setData([...data]);
   };
 
   return (
@@ -75,7 +87,7 @@ const OrderManager = () => {
             <Typography variant="h5" gutterBottom>
               Order History
             </Typography>
-            {isLoading ? <div>Loading...</div> : <OrderDisplyer orders={data} handleChangeStatus={handleChangeStatus} />}
+            {isLoading ? <div>Loading...</div> : <OrderDisplyer orders={data} handleChangeStatus={handleChangeStatus} handleToggleOrderActive={handleToggleOrderActive} />}
           </Paper>
           <BackButton sx={{ mt: 2 }} />
         </Center>

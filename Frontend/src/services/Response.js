@@ -1,13 +1,14 @@
 export class Response {
     constructor(response) {
         this.value = response.value;
-        this.wasExecption = response.wasExecption;
+        this.exceptionHasOccured = response.exceptionHasOccured;
+        this.errorMessage=response.errorMessage
     }
-    static create(value, wasExecption) {
-
+    static create(value, exceptionHasOccured,errorMessage) {
         const res= new Response({
             value: value,
-            wasExecption: wasExecption,
+            exceptionHasOccured: exceptionHasOccured,
+            errorMessage:errorMessage
         })
         return res
 
