@@ -10,6 +10,7 @@ import PurchseHistoryPage from './pages/PurchseHistoryPage';
 import ChatManagerPage from './pages/ChatsManger'
 import OrderManger from './pages/OrderManager';
 import PageManager from './pages/PageManger';
+import AdminPage from './pages/Admin'
 import {
   BrowserRouter as Router,
   Routes,
@@ -38,6 +39,8 @@ function App() {
           <Route path={paths.chat_manager_page_path} element={<ChatManagerPage  />} />
           <Route path={paths.order_manager_page_path} element={<OrderManger  />} />
           <Route path={paths.page_manager_page_path} element={<PageManager  />} />
+          <Route path={paths.admin_page_path} element={<AdminPage />} />
+
           
 
         </Routes>

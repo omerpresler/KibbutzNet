@@ -5,8 +5,9 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { Box } from '@mui/system';
 import { useState } from 'react';
-import useForm from '../hooks/useForm';
+import useForm from '../hooks/useFrom';
 import getAdminService from '../services/AdminService';
+import BackButton from "../components/BackButton";
 
 export default function AdminPage() {
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ export default function AdminPage() {
   const [showConnectStoreUserForm, setShowConnectStoreUserForm] = useState(false);
 
   const userFormModel = () => ({
-    adminId: '',
     userId: '',
     name: '',
     phoneNumber: '',
@@ -25,13 +25,12 @@ export default function AdminPage() {
   });
 
   const storeFormModel = () => ({
-    adminId: '',
     storeId: '',
-    storeName: ''
+    storeName: '',
+    photoLink: ''
   });
 
   const connectStoreUserFormModel = () => ({
-    adminId: '',
     userId: '',
     storeId: ''
   });
@@ -62,20 +61,17 @@ export default function AdminPage() {
 
   const handleSubmitUserForm = async (event) => {
     event.preventDefault();
-    const ServerAns=addNewUser(userFormValues.adminId,userFormValues.userId,userFormValues.name,userFormValues.phoneNumber,userFormValues.email)
+    const ServerAns=await addNewUser(userFormValues.userId,userFormValues.name,userFormValues.phoneNumber,userFormValues.email)
   };
 
-
-
-  const handleSubmitStoreForm = async (event) => {
+   const handleSubmitStoreForm = async (event) => {
     event.preventDefault();
-    const ServerAns=addNewStore(storeFormValues.adminId,storeFormValues.storeName)
-
+    const ServerAns=await addNewStore(storeFormValues.userId,storeFormValues.storeName,storeFormValues.photoLink)
   };
 
-  const handleSubmitConnectForm = async (event) => {
+   const handleSubmitConnectForm = async (event) => {
     event.preventDefault();
-    const ServerAns=connectStoreUser(connectFormValues.adminId,connectFormValues.userId,connectFormValues.storeId)
+    const ServerAns=await connectStoreUser(connectFormValues.userId,connectFormValues.storeId)
   };
 
   return (
@@ -86,36 +82,118 @@ export default function AdminPage() {
             Admin Page
           </Typography>
 
-          <Button onClick={() => setShowAddUserForm(true)}>Add User</Button>
-          <Button onClick={() => setShowAddStoreForm(true)}>Add Store</Button>
-          <Button onClick={() => setShowConnectStoreUserForm(true)}>Connect Store and User</Button>
+          <Button onClick={() => {
+            setShowAddUserForm(true);
+            setShowAddStoreForm(false);
+            setShowConnectStoreUserForm(false);
+          }}>Add User</Button>
+
+          <Button onClick={() => {
+            setShowAddStoreForm(true);
+            setShowAddUserForm(false);
+            setShowConnectStoreUserForm(false);
+          }}>Add Store</Button>
+
+          <Button onClick={() => {
+            setShowConnectStoreUserForm(true);
+            setShowAddUserForm(false);
+            setShowAddStoreForm(false);
+          }}>Connect Store and User</Button>
+
 
           {showAddUserForm && (
-            <form onSubmit={handleSubmitUserForm}>
-              {/* Render the fields of the user form using TextField components */}
-              {/* Call handleUserFormInputChange for the onChange prop of the TextField components */}
-              {/* Bind the TextField component values to the userFormValues */}
-              <Button type="submit">Submit</Button>
-            </form>
-          )}
+  <form onSubmit={handleSubmitUserForm}>
+   
+    <TextField
+      label="User ID"
+      name="userId"
+      value={userFormValues.userId}
+      onChange={handleUserFormInputChange}
+      variant="outlined"
+      {...(userFormErrors.userId && { error: true, helperText: userFormErrors.userId })}
+    />
+    <TextField
+      label="Name"
+      name="name"
+      value={userFormValues.name}
+      onChange={handleUserFormInputChange}
+      variant="outlined"
+      {...(userFormErrors.name && { error: true, helperText: userFormErrors.name })}
+    />
+    <TextField
+      label="Phone Number"
+      name="phoneNumber"
+      value={userFormValues.phoneNumber}
+      onChange={handleUserFormInputChange}
+      variant="outlined"
+      {...(userFormErrors.phoneNumber && { error: true, helperText: userFormErrors.phoneNumber })}
+    />
+    <TextField
+      label="Email"
+      name="email"
+      value={userFormValues.email}
+      onChange={handleUserFormInputChange}
+      variant="outlined"
+      {...(userFormErrors.email && { error: true, helperText: userFormErrors.email })}
+    />
+    <Button type="submit">Submit</Button>
+  </form>
+)}
 
-          {showAddStoreForm && (
-            <form onSubmit={handleSubmitStoreForm}>
-              {/* Render the fields of the store form using TextField components */}
-              {/* Call handleStoreFormInputChange for the onChange prop of the TextField components */}
-              {/* Bind the TextField component values to the storeFormValues */}
-              <Button type="submit">Submit</Button>
-            </form>
-          )}
 
-          {showConnectStoreUserForm && (
-            <form onSubmit={handleSubmitConnectForm}>
-              {/* Render the fields of the connect form using TextField components */}
-              {/* Call handleConnectFormInputChange for the onChange prop of the TextField components */}
-              {/* Bind the TextField component values to the connectFormValues */}
-              <Button type="submit">Submit</Button>
-            </form>
-          )}
+{showAddStoreForm && (
+  <form onSubmit={handleSubmitStoreForm}>
+    <TextField
+      label="Store ID"
+      name="storeId"
+      value={storeFormValues.storeId}
+      onChange={handleStoreFormInputChange}
+      variant="outlined"
+      {...(storeFormErrors.storeId && { error: true, helperText: storeFormErrors.storeId })}
+    />
+    <TextField
+      label="Store Name"
+      name="storeName"
+      value={storeFormValues.storeName}
+      onChange={handleStoreFormInputChange}
+      variant="outlined"
+      {...(storeFormErrors.storeName && { error: true, helperText: storeFormErrors.storeName })}
+    />
+     <TextField
+      label="photo link"
+      name="photoLink"
+      value={storeFormValues.photoLink}
+      onChange={handleStoreFormInputChange}
+      variant="outlined"
+      {...(storeFormErrors.storeName && { error: true, helperText: storeFormErrors.storeName })}
+    />
+    <Button type="submit">Submit</Button>
+  </form>
+)}
+
+
+{showConnectStoreUserForm && (
+  <form onSubmit={handleSubmitConnectForm}>
+    <TextField
+      label="User ID"
+      name="userId"
+      value={connectFormValues.userId}
+      onChange={handleConnectFormInputChange}
+      variant="outlined"
+      {...(connectFormErrors.userId && { error: true, helperText: connectFormErrors.userId })}
+    />
+    <TextField
+      label="Store ID"
+      name="storeId"
+      value={connectFormValues.storeId}
+      onChange={handleConnectFormInputChange}
+      variant="outlined"
+      {...(connectFormErrors.storeId && { error: true, helperText: connectFormErrors.storeId })}
+    />
+    <Button type="submit">Submit</Button>
+  </form>
+)}
+  <BackButton back></BackButton>
         </CardContent>
       </Card>
     </Center>
