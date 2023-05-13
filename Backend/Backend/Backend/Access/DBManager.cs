@@ -14,11 +14,11 @@ public class DBManager
     private int Port = 5432;
     private string Username = "postgres";
     private string  Password = "omer";
-    private string Database = "KibbutzN et";
+    private string Database = "KibbutzNet";
 
     public DBManager()
     {
-        //CreateTables();
+        CreateTables();
     }
 
     private void CreateTables()
@@ -110,7 +110,7 @@ public class DBManager
 
     private void initBasicData()
     {
-        string commandText = $@"insert into Stores (storeId, storeName) values (0, 'Flower Shop')";
+        string commandText = $@"insert into Stores (storeId, storeName, photoLink) values (0, 'Flower Shop', 'None')";
         ExecuteCommandNonQuery(commandText);
         
         commandText = $@"insert into Members (userId, memberName, phoneNumber, email, house) values (0, 'amit', '054-444-4444', 'amit@gmail.com', 1)";
@@ -317,6 +317,44 @@ public class DBManager
         }
         return StoreEmployees;
     }
+    
+    public List<Message> LoadMessages()
+    {
+        List<Message> Messages = new List<Message>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand("SELECT placeInChat, chat, fromStore, message FROM Messages", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int placeInChat = reader.GetInt32(0);
+                int chat = reader.GetInt32(1);
+                bool fromStore = reader.GetBoolean(2);
+                string message = reader.GetString(3);
+
+                Messages.Add(new Message(placeInChat, chat, fromStore, message));
+            }
+            
+            conn.Close();
+        }
+        return Messages;
+    }
         
     public static DBManager Instance {
         get {
@@ -352,6 +390,12 @@ public class DBManager
     public void AddStoreEmployees(StoreEmployee storeEmployee)
     {
         string commandText = $@"insert into StoreEmployees (userId, storeId) values ({storeEmployee.UserId}, {storeEmployee.storeId})";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void AddMessages(Message msg)
+    {
+        string commandText = $@"insert into Messages (placeInChat, chat, fromStore, message) values ({msg.placeInChat}, {msg.chat}, {msg.fromStore}, '{msg.message}')";
         ExecuteCommandNonQuery(commandText);
     }
 

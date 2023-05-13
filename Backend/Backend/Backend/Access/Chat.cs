@@ -6,7 +6,7 @@ public class Chat
     public int store { get; set;}
     public int user { get; set;}
     public bool active { get; set;}
-    private DateTime start;
+    public DateTime start { get; set;}
     
     public Chat(DateTime start, int sessionId, int store, int user, bool active)
     {
