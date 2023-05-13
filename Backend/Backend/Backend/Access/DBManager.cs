@@ -30,6 +30,7 @@ public class DBManager
         CreateAdminTable();
         CreateStoreEmployeeTable();
         CreateMessageTable();
+        CreateChatTable();
         
         initBasicData();
     }
@@ -106,6 +107,17 @@ public class DBManager
                             chat INT,
                             fromStore BIT,
 	                        message VARCHAR(255));" );
+    }
+    
+    private void CreateChatTable()
+    {
+        ExecuteCommandNonQuery("DROP TABLE IF EXISTS Chats");
+        ExecuteCommandNonQuery( @"CREATE TABLE Chats (
+                            sessionId INT,
+                            storeId INT,
+                            userId INT,
+                            active BIT,
+                            start VARCHAR(255));" );
     }
 
     private void initBasicData()
