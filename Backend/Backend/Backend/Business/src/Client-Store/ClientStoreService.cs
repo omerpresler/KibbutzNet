@@ -22,7 +22,7 @@ public class ClientStoreService
     {
         this.storeId = storeId;
         purchases = new List<Purchase>();
-        chatManager = new ChatManager(this.storeId, true);
+        chatManager = new ChatManager();
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
@@ -37,7 +37,7 @@ public class ClientStoreService
         photoLink = DALStore.photoLink;
         
         purchases = new List<Purchase>();
-        chatManager = new ChatManager(DALStore.storeId, true);
+        chatManager = new ChatManager();
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();

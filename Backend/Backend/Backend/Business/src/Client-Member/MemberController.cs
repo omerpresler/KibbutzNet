@@ -12,13 +12,13 @@ namespace Backend.Business.MemberController
         public MemberController(int userId, string name,string phoneNumber, string email)
         {
             member = new Member(userId, name, phoneNumber, email);
-            cm = new ChatManager(userId, false);
+            cm = new ChatManager();
         }
         
         public MemberController(Backend.Access.Member DALMember)
         {
             member = new Member(DALMember);
-            cm = new ChatManager(DALMember.UserId, false);
+            cm = new ChatManager();
         }
 
         public int getMemberId()

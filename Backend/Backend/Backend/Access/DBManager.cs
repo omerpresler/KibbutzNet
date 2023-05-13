@@ -13,8 +13,8 @@ public class DBManager
     private string Host = "localhost";
     private int Port = 5432;
     private string Username = "postgres";
-    private string  Password = "1106";
-    private string Database = "kibbutznet";
+    private string  Password = "omer";
+    private string Database = "KibbutzNet";
 
     public DBManager()
     {
@@ -105,7 +105,7 @@ public class DBManager
         ExecuteCommandNonQuery( @"CREATE TABLE Messages (
                             placeInChat INT,
                             chat INT,
-                            fromStore BIT,
+                            fromStore BOOLEAN,
 	                        message VARCHAR(255));" );
     }
     
@@ -116,8 +116,8 @@ public class DBManager
                             sessionId INT,
                             storeId INT,
                             userId INT,
-                            active BIT,
-                            startDate VARCHAR(255));" );
+                            active BOOLEAN,
+                            startDate DATE);" );
     }
 
     private void initBasicData()
@@ -435,7 +435,8 @@ public class DBManager
                 int store = reader.GetInt32(1); 
                 int user = reader.GetInt32(2); 
                 bool active = reader.GetBoolean(3); 
-                DateTime start = reader.GetDateTime(4);
+                int dateAsInt = reader.GetInt32(4);
+                DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateAsInt).ToLocalTime();
 
                 Chats.Add(new Chat(sessionId, store, user, active, start));
             }
@@ -473,8 +474,9 @@ public class DBManager
                 int sessionId = reader.GetInt32(0); 
                 int store = reader.GetInt32(1); 
                 int user = reader.GetInt32(2); 
-                bool active = reader.GetBoolean(3); 
-                DateTime start = reader.GetDateTime(4);
+                bool active = reader.GetBoolean(3);
+                int dateAsInt = reader.GetInt32(4);
+                DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateAsInt).ToLocalTime();
 
                 Chats.Add(new Chat(sessionId, store, user, active, start));
             }
@@ -513,7 +515,8 @@ public class DBManager
                 int store = reader.GetInt32(1); 
                 int user = reader.GetInt32(2); 
                 bool active = reader.GetBoolean(3); 
-                DateTime start = reader.GetDateTime(4);
+                int dateAsInt = reader.GetInt32(4);
+                DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateAsInt).ToLocalTime();
 
                 Chats.Add(new Chat(sessionId, store, user, active, start));
             }

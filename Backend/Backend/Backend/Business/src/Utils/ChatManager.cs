@@ -11,17 +11,15 @@ namespace Backend.Business.src.Utils
 {
     public class ChatManager
     {
-        public static List<Chat> chats;
+        public static List<Chat> chats = new List<Chat>();
         private static int _nextSession = DBManager.Instance.getMaxChatId();
 
-        public ChatManager(int id, bool isStore)
+        public ChatManager() { }
+
+        public static void LoadChats()
         {
-            chats = new List<Chat>();
             List<Backend.Access.Chat> DALChats;
-            if (isStore)
-                DALChats = DBManager.Instance.LoadChatsPerStore(id);
-            else
-                DALChats = DBManager.Instance.LoadChatsPerUser(id);
+            DALChats = DBManager.Instance.LoadChats();
 
             foreach (Backend.Access.Chat chat in DALChats)
             {
