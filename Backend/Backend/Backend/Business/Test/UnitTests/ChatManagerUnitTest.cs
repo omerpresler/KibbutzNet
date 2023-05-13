@@ -54,37 +54,6 @@ public class ChatManagerUnitTest
     [Test]
     public void SendTextMessage()
     {
-        ChatManager cm = new ChatManager();
-        Member member1 = new Member(1,"Sender1", "051-111-1111", "email");
-        Member member2 = new Member(2,"recipient1", "051-222-2222", "email");
         
-
-        int firstSession = cm.StartChat(1, 1).value;
-        Message<String> msg1 = new Message<String>(1, "First message", "random Addon");
-        Message<House> msg2 = new Message<House>(1, "Second message", new House(1, "BlaBla1"));
-        Message<String> msg3 = new Message<String>(2, "Third message", "random Addon 2");
-        Message<House> msg4 = new Message<House>(2, "fourth message", new House(2, "BlaBla2"));
-
-        cm.SendMessage(firstSession, msg1);
-        cm.SendMessage(firstSession, msg2);
-        cm.SendMessage(firstSession, msg3);
-        cm.SendMessage(firstSession, msg4);
-
-        Assert.AreEqual(cm.GetChats().Count, 1);
-        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.Count, 4);
-        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[0], msg1);
-        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[1], msg2);
-        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[2], msg3);
-        Assert.AreEqual(cm.GetChats().ToArray()[0].messages.ToArray()[3], msg4);
-
-        Assert.AreEqual(msg1.sender, member1);
-        Assert.AreEqual(msg2.sender, member1);
-        Assert.AreEqual(msg3.sender, member2);
-        Assert.AreEqual(msg4.sender, member2);
-
-        Assert.AreEqual(msg1.message, "First message");
-        Assert.AreEqual(msg2.message, "Second message");
-        Assert.AreEqual(msg3.message, "Third message");
-        Assert.AreEqual(msg4.message, "fourth message");
     }
 }

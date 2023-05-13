@@ -16,8 +16,9 @@ public class ClientStoreService
     private PageManager pageManager;
     private List<Purchase> purchases;
     public String? storeName;
+    public String? photoLink;
     
-    public ClientStoreService(int storeId)
+    public ClientStoreService(int storeId, string photoLink)
     {
         this.storeId = storeId;
         purchases = new List<Purchase>();
@@ -26,12 +27,14 @@ public class ClientStoreService
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
         pageManager = new PageManager(storeId);
+        this.photoLink = photoLink;
     }
     
     public ClientStoreService(Access.Store DALStore)
     {
         storeId = DALStore.storeId;
         storeName = DALStore.storeName;
+        photoLink = DALStore.photoLink;
         
         purchases = new List<Purchase>();
         chatManager = new ChatManager();
@@ -49,7 +52,7 @@ public class ClientStoreService
 
     public Response<string> SendMessage(int sessionId, string msg)
     {
-        return chatManager.SendMessage(sessionId, new Message<string>(storeId, msg));
+        return chatManager.SendMessage(sessionId, new Message<string>(true, msg));
     }
 
     public Response<List<String>> GetAllchats()

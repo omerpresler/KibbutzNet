@@ -38,7 +38,7 @@ namespace Backend.Business.MemberController
 
         public Response<string> SendMessage(int sessionId, string msg)
         {
-            return cm.SendMessage(sessionId, new Message<string>(member.UserId, msg));
+            return cm.SendMessage(sessionId, new Message<string>(false, msg));
         }
 
         public Response<List<String>> GetAllchats()
