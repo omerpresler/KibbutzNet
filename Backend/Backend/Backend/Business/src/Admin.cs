@@ -43,10 +43,10 @@ public class Admin
         return new MemberController.MemberController(userId, name, phoneNumber, email);
     }
     
-    public ClientStoreService CreateStore(string storeName)
+    public ClientStoreService CreateStore(string storeName, string photoLink)
     {
         int storeId = AssignStoreId();
-        DBManager.Instance.AddStore(storeId, storeName);
-        return new ClientStoreService(storeId);
+        DBManager.Instance.AddStore(storeId, storeName, photoLink);
+        return new ClientStoreService(storeId, photoLink);
     }
 }

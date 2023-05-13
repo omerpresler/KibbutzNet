@@ -13,8 +13,8 @@ public class DBManager
     private string Host = "localhost";
     private int Port = 5432;
     private string Username = "postgres";
-    private string  Password = "1106";
-    private string Database = "kibbutznet";
+    private string  Password = "omer";
+    private string Database = "KibbutzN et";
 
     public DBManager()
     {
@@ -29,7 +29,8 @@ public class DBManager
         CreateMemberTable();
         CreateAdminTable();
         CreateStoreEmployeeTable();
-
+        CreateMessageTable();
+        
         initBasicData();
     }
     
@@ -66,7 +67,8 @@ public class DBManager
         ExecuteCommandNonQuery("DROP TABLE IF EXISTS Stores");
         ExecuteCommandNonQuery( @"CREATE TABLE Stores (
                             storeId INT,
-	                        storeName VARCHAR(255));" );
+	                        storeName VARCHAR(255),
+	                        photoLink VARCHAR(255));" );
     }
     
     private void CreateMemberTable()
@@ -94,6 +96,16 @@ public class DBManager
         ExecuteCommandNonQuery( @"CREATE TABLE StoreEmployees (
                             userId INT,
 	                        storeId INT);" );
+    }
+    
+    private void CreateMessageTable()
+    {
+        ExecuteCommandNonQuery("DROP TABLE IF EXISTS Messages");
+        ExecuteCommandNonQuery( @"CREATE TABLE Messages (
+                            placeInChat INT,
+                            chat INT,
+                            fromStore BIT,
+	                        message VARCHAR(255));" );
     }
 
     private void initBasicData()
@@ -135,14 +147,14 @@ public class DBManager
             conn.Open();
 
             // Define a query
-            NpgsqlCommand command = new NpgsqlCommand("SELECT storeId, storeName FROM Stores", conn);
+            NpgsqlCommand command = new NpgsqlCommand("SELECT storeId, storeName, photoLink FROM Stores", conn);
 
             // Execute the query and obtain a result set
             NpgsqlDataReader reader = command.ExecuteReader();
             
             while (reader.Read())
             {
-                stores.Add(new Store(reader.GetInt32(0), reader.GetString(1)));
+                stores.Add(new Store(reader.GetInt32(0), reader.GetString(1), reader.GetString(2)));
             }
             
             conn.Close();
@@ -325,9 +337,9 @@ public class DBManager
         ExecuteCommandNonQuery(commandText);
     }
     
-    public void AddStore(int storeId, string storeName)
+    public void AddStore(int storeId, string storeName, string photoLink)
     {
-        string commandText = $@"insert into Stores (storeId, storeName) values ({storeId}, '{storeName}')";
+        string commandText = $@"insert into Stores (storeId, storeName, photoLink) values ({storeId}, '{storeName}', '{photoLink}')";
         ExecuteCommandNonQuery(commandText);
     }
     

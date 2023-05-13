@@ -78,7 +78,7 @@ public class Admin
         return new Response<bool>(true);
     }
     
-    public Response<int> CreateNewStore(int adminId, string storeName)
+    public Response<int> CreateNewStore(int adminId, string storeName, string photoLink)
     {
         try
         {
@@ -86,7 +86,7 @@ public class Admin
             if (!admins.ContainsKey(adminId))
                 return new Response<int>(true, $"Admin {adminId} does not exist");
 
-            ClientStoreService store = admins[adminId].CreateStore(storeName);
+            ClientStoreService store = admins[adminId].CreateStore(storeName, photoLink);
             Store.Instance.addNewStore(store);
             AuthenticationManager.StoreToEmployees[store.storeId] = new List<int>();
             return new Response<int>(store.storeId);

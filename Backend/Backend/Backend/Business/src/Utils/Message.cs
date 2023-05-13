@@ -5,20 +5,21 @@ namespace Backend.Business.src.Utils
 {
     public class Message<T> : IMessage
     {
-        public int sender { get; set; }
+        //represent if the store or the user sent it
+        public bool fromStore { get; set; }
         public string message { get; set; }
         public T addon { get; set; }
         
-        public Message(int sender, string message)
+        public Message(bool fromStore, string message)
         {
             
-            this.sender = sender;
+            this.fromStore = fromStore;
             this.message = message;
         }
         
-        public Message(int sender, string message, T addon)
+        public Message(bool fromStore, string message, T addon)
         {
-            this.sender = sender;
+            this.fromStore = fromStore;
             this.message = message;
             this.addon = addon;
         }
