@@ -167,7 +167,7 @@ public class Store
         {
             if (stores.ContainsKey(storeId))
             {
-                return stores[storeId].closeOrder(orderId, orderId);
+                return stores[storeId].closeOrder(storeId, orderId);
             }
 
             return new Response<bool>(true, $"The is no store with the id of {storeId}");
@@ -184,7 +184,7 @@ public class Store
         {
             if (stores.ContainsKey(storeId))
             {
-                return stores[storeId].reOpenOrder(orderId, orderId);
+                return stores[storeId].reOpenOrder(storeId, orderId);
             }
 
             return new Response<bool>(true, $"The is no store with the id of {storeId}");

@@ -90,7 +90,8 @@ using System.Collections.Generic;
         
         public Response<bool> closeOrder(int storeId, int orderId)
         {
-            Order? order = orders[storeId].Find(x => x.orderId == orderId);
+            Order order = orders[storeId].Find(x => x.orderId == orderId);
+            Console.WriteLine("Found order: " + (order != null ? order.orderId.ToString() : "null"));
             
             if (order == null)
             {
