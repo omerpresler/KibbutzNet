@@ -14,7 +14,6 @@ export default function Store() {
 const [showAddOrderForm, setShowAddOrderForm] = useState(false);
 const {addOrder,changeOrdersStatus,ordersByStoreID,getAllOrdersStore,getAllOrdersuser}= GetOrderService()
 const getOrderModel = () => ({
-    storeId: '',
     memberId: '',
     memberName:'',
     description:'',
@@ -41,8 +40,10 @@ function see_all_orders(){
 function show_add_order(){
     setShowAddOrderForm(true)
 }
-function add_order(){
-    addOrder(values.storeId,values.memberId,values.memberName,values.description,values.cost)
+async function add_order(event){
+    event.preventDefault();
+    console.log("addorder")
+    await addOrder(localStorage.getItem("storeId"),values.memberId,values.memberName,values.description,values.cost)
 }
     
   return (
@@ -74,14 +75,7 @@ function add_order(){
           {showAddOrderForm && (
   <Box>
                             <form noValidate autoComplete="off" onSubmit={add_order}>
-                            <TextField
-                        label="storeId"
-                        name="storeId"
-                        value={values.storeId}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.storeId && { error: true, helperText: errors.storeId })}
-                        />
+                            
                         <TextField
                         label="memberId"
                         name="memberId"
