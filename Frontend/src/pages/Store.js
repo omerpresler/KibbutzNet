@@ -43,9 +43,9 @@ function show_add_order(){
 async function add_order(event){
     event.preventDefault();
     console.log("addorder")
-    await addOrder(localStorage.getItem("storeId"),values.memberId,values.memberName,values.description,values.cost)
+    await addOrder(values.memberId,values.memberName,values.description,values.cost)
 }
-    
+
   return (
   <Center>
   <Card sx={{ width: 1000 }}>
