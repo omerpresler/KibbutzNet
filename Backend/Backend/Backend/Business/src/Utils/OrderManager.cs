@@ -74,48 +74,46 @@ using System.Collections.Generic;
             return new Response<int>(order.orderId);
         }
 
-        public Response<string> changeOrdersStatus (int storeID, int orderID, string status)
+        public Response<string> changeOrdersStatus (int storeId, int orderId, string status)
         {
-            foreach (var o in from order in orders where order.Key == storeID from o in order.Value where o.orderId == orderID select o)
+            Order? order = orders[storeId].Find(x => x.orderId == orderId);
+            
+            if (order == null)
             {
-                DBManager.Instance.updateOrderStatusField(o.orderId, status);
-                o.status = status;
+                return new Response<string>(true, "No such order");
             }
+            DBManager.Instance.updateOrderStatusField(order.orderId, status);
+            order.status = status;
 
             return new Response<string>(status);
         }
         
         public Response<bool> closeOrder(int storeId, int orderId)
         {
-            foreach (var o in from order in orders where order.Key == storeId from o in order.Value where o.orderId == orderId select o)
+            Order? order = orders[storeId].Find(x => x.orderId == orderId);
+            
+            if (order == null)
             {
-                DBManager.Instance.updateOrderActiveField(o.orderId, false);
-                o.active = false;
+                return new Response<bool>(true, "No such order");
             }
+            DBManager.Instance.updateOrderActiveField(order.orderId, false);
+            order.active = false;
 
-            return new Response<bool>(false);
+            return new Response<bool>(true);
         }
     
         public Response<bool> reOpenOrder(int storeId, int orderId)
         {
-            foreach (var o in from order in orders where order.Key == storeId from o in order.Value where o.orderId == orderId select o)
+            Order? order = orders[storeId].Find(x => x.orderId == orderId);
+            
+            if (order == null)
             {
-                DBManager.Instance.updateOrderActiveField(o.orderId, true);
-                o.active = true;
+                return new Response<bool>(true, "No such order");
             }
+            DBManager.Instance.updateOrderActiveField(order.orderId, true);
+            order.active = true;
 
             return new Response<bool>(true);
-        }
-
-        public List<string>? ordersByStoreID(int storeID)
-        {
-            var ordersInString = new List<string>();
-            foreach (var order in orders.Where(order => order.Key == storeID))
-            {
-                ordersInString.AddRange(order.Value.Select(o => o.ToString()));
-                return ordersInString;
-            }
-            return null;
         }
 
     }

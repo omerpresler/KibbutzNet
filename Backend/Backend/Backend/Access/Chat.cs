@@ -8,7 +8,7 @@ public class Chat
     public bool active { get; set;}
     public DateTime start { get; set;}
     
-    public Chat(DateTime start, int sessionId, int store, int user, bool active)
+    public Chat(int sessionId, int store, int user, bool active, DateTime start)
     {
         this.start = start;
         this.sessionId = sessionId;

@@ -19,7 +19,7 @@ namespace Backend.Business.src.Utils
         {
             this.orderId = orderId;
             date = DateTime.Now;
-            status = "received";
+            status = "";
             this.memberId = memberId;
             this.memberName = memberName;
             this.active = active;

@@ -10,6 +10,13 @@ namespace Backend.Business.src.Utils
         public string message { get; set; }
         public T addon { get; set; }
         
+        public Message(Access.Message msg)
+        {
+            
+            this.fromStore = msg.fromStore;
+            this.message = msg.message;
+        }
+        
         public Message(bool fromStore, string message)
         {
             
@@ -22,6 +29,11 @@ namespace Backend.Business.src.Utils
             this.fromStore = fromStore;
             this.message = message;
             this.addon = addon;
+        }
+
+        public Access.Message toDal(int placeInChat, int sessionId)
+        {
+            return new Access.Message(placeInChat, sessionId, fromStore, message);
         }
 
         public override string ToString()

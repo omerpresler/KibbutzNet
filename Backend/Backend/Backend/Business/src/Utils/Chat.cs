@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using Backend.Business.Utils;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Newtonsoft.Json;
 
 namespace Backend.Business.src.Utils
@@ -11,10 +13,10 @@ namespace Backend.Business.src.Utils
     {
         public List<IMessage> messages;
         public int sessionId { get; set;}
-        public int store;
-        public int user;
+        public int store { get; set;}
+        public int user { get; set;}
         public bool active { get; set;}
-        private DateTime start;
+        public DateTime start { get; set;}
 
         public Chat(int sessionId, int store, int user, bool active, DateTime start)
         {
@@ -24,6 +26,22 @@ namespace Backend.Business.src.Utils
             this.user = user;
             this.active = active;
             this.start = start;
+        }
+        
+        public Chat(Access.Chat chat, List<Access.Message> messages)
+        {
+            this.sessionId = chat.sessionId;
+            this.store = chat.store;
+            this.user = chat.user;
+            this.active = chat.active;
+            this.start = chat.start;
+            this.messages = new List<IMessage>();
+
+            foreach (Access.Message msg in messages.OrderBy(x => x.placeInChat))
+            {
+                Message<string> msgToAdd = new Message<string>(msg);
+                this.messages.Add(msgToAdd);
+            }
         }
         
 

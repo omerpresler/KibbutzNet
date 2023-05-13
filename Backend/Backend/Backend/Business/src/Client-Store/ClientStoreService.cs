@@ -22,7 +22,7 @@ public class ClientStoreService
     {
         this.storeId = storeId;
         purchases = new List<Purchase>();
-        chatManager = new ChatManager();
+        chatManager = new ChatManager(this.storeId, true);
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
@@ -37,7 +37,7 @@ public class ClientStoreService
         photoLink = DALStore.photoLink;
         
         purchases = new List<Purchase>();
-        chatManager = new ChatManager();
+        chatManager = new ChatManager(DALStore.storeId, true);
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
@@ -52,7 +52,7 @@ public class ClientStoreService
 
     public Response<string> SendMessage(int sessionId, string msg)
     {
-        return chatManager.SendMessage(sessionId, new Message<string>(true, msg));
+        return chatManager.SendMessage(sessionId, new Message<string>(true, msg), true);
     }
 
     public Response<List<String>> GetAllchats()
