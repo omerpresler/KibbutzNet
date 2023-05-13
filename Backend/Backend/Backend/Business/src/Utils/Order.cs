@@ -11,7 +11,6 @@ namespace Backend.Business.src.Utils
         public string memberName { get; set; }
         public int memberId { get; set; }
         public bool active { get; set; }
-        public Chat Chat { get; set; }
         public float cost { get; set; }
         public string description { get; set; }
 
