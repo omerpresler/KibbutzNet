@@ -7,6 +7,7 @@ import { Response } from "./Response";
 
 const loginToUserFunctionPath=paths.back_path+paths.login_controller_path+paths.login_to_user 
 const loginToStoreFunctionPath=paths.back_path+paths.login_controller_path+paths.login_to_store 
+const loginToAdaminFunctionPath=paths.back_path+paths.login_controller_path+"/loginToAdmin" 
 
 let accountNumberSaver = null;
 let storeIdSaver = null;
@@ -18,9 +19,14 @@ export default function GetLoginService() {
 
  
 
-async function loginToUser(email, accountNumber) {
+async function loginToUser(email, accountNumber,asAdmin) {
     clearData()
-    const ServerAns=await sendLoginRequestAsUser(email,accountNumber);
+    let ServerAns=null
+    if (asAdmin){
+    ServerAns=await sendLoginRequestAsAdamin(email,accountNumber);
+    }else{
+    ServerAns=await sendLoginRequestAsUser(email,accountNumber);
+    }
     console.log(ServerAns)
     console.log(ServerAns.value)
     if (ServerAns.value=="user" || ServerAns.value=="admin"){
@@ -103,6 +109,22 @@ async function loginToUser(email, accountNumber) {
 
   function sendLoginRequestAsUser(email, accountNumber ) {
     return axios.post(loginToUserFunctionPath, {
+        email: email,
+        accountNumber: accountNumber,
+      })
+      .then(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        return response;
+      })
+      .catch(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        return response;
+      })
+  };
+
+  
+  function sendLoginRequestAsAdamin(email, accountNumber ) {
+    return axios.post(loginToAdaminFunctionPath, {
         email: email,
         accountNumber: accountNumber,
       })

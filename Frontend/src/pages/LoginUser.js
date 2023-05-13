@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useState,useEffect } from 'react'
 import { Button, Card, CardContent, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { Switch, FormControlLabel } from '@mui/material';
 import Center from '../components/Center'
 import useForm from '../hooks/useFrom'
 import {useNavigate} from 'react-router-dom'
 import * as paths from '../services/pathes';
 import BackButton from '../components/BackButton';
 import GetLoginService from '../services/loginService'
-
 const getLoginModel = () => ({
     email: '',
     accountNumberber: ''
@@ -15,8 +15,7 @@ const getLoginModel = () => ({
 
 export default function LoginUser() {
     const navigate=useNavigate()
-
-
+    const [asAdmin, setasAdmin] = useState(false);
     const {
         values,
         setValues,
@@ -26,14 +25,14 @@ export default function LoginUser() {
     } = useForm(getLoginModel);
 
     
-    const { user, loginToUser,loginToStore: LoginToStore, logout, isAuthenticated }=GetLoginService();
+    const { user, loginToUser,LoginToStore, logout, isAuthenticated }=GetLoginService();
 
 
 
     async function login(e){
         e.preventDefault();
         if (validate()){
-            const user_type=await loginToUser(values.email,values.accountNumberber);
+            const user_type=await loginToUser(values.email,values.accountNumberber,asAdmin);
             if (user_type=="user"){
              navigate(paths.member_page_path)
             }
@@ -79,11 +78,24 @@ export default function LoginUser() {
                                 onChange={handleInputChange}
                                 variant="outlined"
                                 {...(errors.accountNumberber && { error: true, helperText: errors.accountNumberber })} />
+                                    <FormControlLabel
+                                control={
+                                    <Switch 
+                                        checked={asAdmin} 
+                                        onChange={() => setasAdmin(!asAdmin)}
+                                        name="adminToggle"
+                                        color="primary"
+                                    />
+                                }
+                                label={asAdmin ? 'Admin Login' : 'User Login'}
+                                sx={{ width: '90%', marginTop: '1rem' }}
+                            />
                             <Button
                                 type="login"
                                 variant="contained"
                                 size="large"
                                 sx={{ width: '90%' }}>Start</Button>
+                            
                         </form>
                         <BackButton sx={{ mt: 2 }} />
                     </Box>

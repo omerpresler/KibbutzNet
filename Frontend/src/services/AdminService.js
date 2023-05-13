@@ -4,9 +4,10 @@ import { Response } from './Response';
 import * as paths from '../services/pathes';
 
 export default function getAdminService() {
-  function addNewUser(adminId, userId, name, phoneNumber, email) {
+  function addNewUser(userId, name, phoneNumber, email) {
+    const adminId=localStorage.getItem("userId")
     return axios
-      .post(paths.addUser, { adminId, userId, name, phoneNumber, email })
+      .post(paths.addUser, {adminId,userId, name, phoneNumber, email })
       .then((response) => {
         return Response.create(response.data.value, response.data.wasExecption);
       })
@@ -16,9 +17,10 @@ export default function getAdminService() {
       });
   };
 
-  function addNewStore(adminId, storeName) {
+  function addNewStore(storeId, storeName,photoLink) {
+    const adminId=localStorage.getItem("userId")
     return axios
-      .post(paths.addStore, { adminId, storeName })
+      .post(paths.addStore, {adminId,storeId,storeName,photoLink})
       .then((response) => {
         return Response.create(response.data.value, response.data.wasExecption);
       })
@@ -28,7 +30,8 @@ export default function getAdminService() {
       });
   };
 
-  function connectStoreUser(adminId, userId, storeId) {
+  function connectStoreUser(userId, storeId) {
+    const adminId=localStorage.getItem("userId")
     return axios
       .post(paths.connectStoreUser, { adminId, userId, storeId })
       .then((response) => {
@@ -40,6 +43,7 @@ export default function getAdminService() {
       });
   };
 
+  
   return {
     addNewUser,
     addNewStore,

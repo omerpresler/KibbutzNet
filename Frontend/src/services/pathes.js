@@ -66,3 +66,8 @@ export const addStore=back_path+admin_controller_path+"/createNewStore"
 export const connectStoreUser=back_path+admin_controller_path+"/assignEmployeeToStore"
 
 
+//page function pathes
+
+export const getAllStores = paths.back_path + paths.store_controller_path + "/getAllStores";
+export const getStore = paths.back_path + paths.store_controller_path + "/getSpecficStore";
+

@@ -2,7 +2,7 @@
 import axios from 'axios';
 import * as paths from './pathes';
 import { Response } from './Response';
-const getAllStoresPath = paths.back_path + paths.store_controller_path + paths.get_all_stores;
+
 
 export default function getPageService() {
   const fakeData = [
@@ -22,24 +22,40 @@ export default function getPageService() {
       imageUrl: 'https://cdn.pixabay.com/photo/2023/04/29/09/43/bee-7958148_960_720.jpg',
     },
   ];
-   async function getAllStores() {
-    return fakeData;
-    try {
-      const response = await axios.get(getAllStoresPath);
-      const stores = response.data.map(store => {
-        return {
-          id: store.id,
-          name: store.name,
-          imageUrl: store.imageUrl,
-          
-        };
-      });
-      return stores;
-    } catch (error) {
-      console.error(error);
-      return [];
-    }
-  }
 
+
+  function getStore(storeId) {
+    return axios.post(paths.getAllStores,{storeId})
+      .then(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        return response
+      })
+      .catch(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        alert(res.data.wasExecption)
+        return [];
+      })
+  };
+
+  function getAllStores() {
+    return axios.post(paths.getStore)
+      .then(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        const stores = response.data.map(store => {
+          return {
+            id: store.id,
+            name: store.name,
+            imageUrl: store.imageUrl,
+            
+          };
+        });
+        return stores;
+      })
+      .catch(res=> {
+        const response = Response.create(res.data.value, res.data.wasExecption);
+        alert(res.data.wasExecption)
+        return [];
+      })
+  };
   return { getAllStores };
 }
