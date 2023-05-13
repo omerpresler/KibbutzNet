@@ -49,10 +49,22 @@ namespace Backend.Controllers
             return Store.Instance.SeeOrderHistoryUser(userId);
         }
         
+        [HttpPost("seeOrderHistoryUserAndStore")]
+        public Response<ArrayList> seeOrderHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Store.Instance.SeeOrderHistoryUserAndStore(request.StoreId, request.UserId);
+        }
+        
         [HttpPost("seePurchaseHistoryUser")]
         public Response<ArrayList> seePurchaseHistoryUser(int userId)
         {
             return Store.Instance.SeePurchaseHistoryUser(userId);
+        }
+        
+        [HttpPost("seePurchaseHistoryUserAndStore")]
+        public Response<ArrayList> seePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
+        {
+            return Store.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }
     }
 }
