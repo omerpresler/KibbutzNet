@@ -68,6 +68,6 @@ export const connectStoreUser=back_path+admin_controller_path+"/assignEmployeeTo
 
 //page function pathes
 
-export const getAllStores = paths.back_path + paths.store_controller_path + "/getAllStores";
-export const getStore = paths.back_path + paths.store_controller_path + "/getSpecficStore";
+export const getAllStores = back_path + store_controller_path + "/getAllStores";
+export const getStore = back_path + store_controller_path + "/getSpecficStore";
 

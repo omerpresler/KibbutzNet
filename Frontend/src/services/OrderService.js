@@ -71,8 +71,9 @@ const fakeData = [
   }
   
   
-  async function getAllOrdersStore(storeID) {
-    return axios.post( paths.getAllOrderStore,{storeId:storeID}  )
+  async function getAllOrdersStore(userId) {
+    const storeId=localStorage.getItem("storeId")
+    return axios.post( paths.getAllOrderStoreUser,{userId:userId,storeId:storeId}  )
       .then(res => {
         const response = Response.create(res.data.value, res.data.wasExecption);
         console.log(response)
@@ -85,7 +86,8 @@ const fakeData = [
   }
   
   async function getAllOrdersUser(StoreId) {
-    return axios.post(paths.getAllOrderUser,{ StoreId: StoreId})
+    const userId=localStorage.getItem("userId")
+    return axios.post(paths.getAllOrderStoreUser,{ userId:userId,StoreId: StoreId})
     .then(res => {
       const response = Response.create(res.data.value, res.data.wasExecption);
       return response;
