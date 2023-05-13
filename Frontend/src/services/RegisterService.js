@@ -6,10 +6,10 @@ export default function GetRegsiterService() {
   const sendRequest = async (path, data) => {
     try {
       const res = await axios.post(path, data);
-      const response = Response.create(res.data.value, res.data.wasExecption);
+      const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
       return response;
     } catch (error) {
-      const response = Response.create(error.response.data.value, error.response.data.wasExecption);
+      const response = Response.create(error.response.data.value, error.response.data.exceptionHasOccured);
       return response;
     }
   };

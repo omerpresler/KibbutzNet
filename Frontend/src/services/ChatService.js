@@ -10,7 +10,10 @@ export default function getChatService() {
     return axios
       .post(paths.startChatPath, { sender, target })
       .then((response) => {
-        return Response.create(response.data.value, response.data.wasExecption);
+        if (response.data.exceptionHasOccured){
+          alert(response.data.errorMessage)
+        }
+        return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
       .catch((error) => {
         console.log('Error starting chat:', error);
@@ -22,7 +25,10 @@ export default function getChatService() {
     return axios
       .post(paths.endChatPath, { sessionId })
       .then((response) => {
-        return Response.create(response.data.value, response.data.wasExecption);
+        if (response.data.exceptionHasOccured){
+          alert(response.data.errorMessage)
+        }
+        return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
       .catch((error) => {
         console.log('Error ending chat:', error);
@@ -34,7 +40,10 @@ export default function getChatService() {
     return axios
       .post(paths.sendMessagePath, { sessionId, message })
       .then((response) => {
-        return Response.create(response.data.value, response.data.wasExecption);
+        if (response.data.exceptionHasOccured){
+          alert(response.data.errorMessage)
+        }
+        return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
       .catch((error) => {
         console.log('Error sending message:', error);
@@ -72,7 +81,10 @@ export default function getChatService() {
     return axios
       .post(paths.getAllChatsPath, { userId })
       .then((response) => {
-        return Response.create(response.data.value, response.data.wasExecption);
+        if (response.data.exceptionHasOccured){
+          alert(response.data.errorMessage)
+        }
+        return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
       .catch((error) => {
         console.log('Error getting all chats:', error);
@@ -110,7 +122,10 @@ export default function getChatService() {
     return axios
       .post(paths.getAllChatsPath, { storeId })
       .then((response) => {
-        return Response.create(response.data.value, response.data.wasExecption);
+        if (response.data.exceptionHasOccured){
+          alert(response.data.errorMessage)
+        }
+        return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
       .catch((error) => {
         console.log('Error getting all chats:', error);

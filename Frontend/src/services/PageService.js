@@ -27,12 +27,12 @@ export default function getPageService() {
   function getStore(storeId) {
     return axios.post(paths.getAllStores,{storeId})
       .then(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
         return response
       })
       .catch(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
-        alert(res.data.wasExecption)
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
+        alert(res.data.exceptionHasOccured)
         return [];
       })
   };
@@ -40,7 +40,7 @@ export default function getPageService() {
   function getAllStores() {
     return axios.post(paths.getStore)
       .then(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
         const stores = response.data.map(store => {
           return {
             id: store.id,
@@ -52,8 +52,8 @@ export default function getPageService() {
         return stores;
       })
       .catch(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
-        alert(res.data.wasExecption)
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
+        alert(res.data.exceptionHasOccured)
         return [];
       })
   };

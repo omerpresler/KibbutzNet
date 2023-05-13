@@ -98,11 +98,15 @@ async function loginToUser(email, accountNumber,asAdmin) {
         storeId: storeId
       })
       .then(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);
+        if (res.data.exceptionHasOccured){
+          alert(res.data.errorMessage)
+        }
         return response;
       })
       .catch(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
+        alert(res.data.exceptionHasOccured)
         return response;
       })
   };
@@ -113,11 +117,15 @@ async function loginToUser(email, accountNumber,asAdmin) {
         accountNumber: accountNumber,
       })
       .then(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);
+        if (res.data.exceptionHasOccured){
+          alert(res.data.exceptionHasOccured)
+        }
         return response;
       })
       .catch(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);
+        alert(res.data.exceptionHasOccured)
         return response;
       })
   };
@@ -129,11 +137,14 @@ async function loginToUser(email, accountNumber,asAdmin) {
         accountNumber: accountNumber,
       })
       .then(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
+        if (res.data.exceptionHasOccured){
+          alert(res.data.exceptionHasOccured)
+        }
         return response;
       })
       .catch(res=> {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       })
   };

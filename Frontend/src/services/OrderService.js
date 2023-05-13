@@ -42,6 +42,7 @@ const fakeData = [
   ];
 
 
+  
 
   async function addOrder( memberID, memberName, description, cost) {
     console.log("add order")
@@ -49,11 +50,14 @@ const fakeData = [
       { storeid:localStorage.getItem("storeId"),memberID: memberID,memberName: memberName,
       description: description, cost:cost })
       .then(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        if (res.data.exceptionHasOccured){
+          alert(res.data.errorMessage)
+        }
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
         return response;
       })
       .catch(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
         return response;
       });
   }
@@ -61,11 +65,11 @@ const fakeData = [
   async function changeOrdersStatus(storeID, orderID, status) {
     return axios.post(paths.changeOrderStatus, { storeId:storeID, orderId:orderID, status:status })
       .then(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
         return response;
       })
       .catch(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
         return response;
       });
   }
@@ -75,12 +79,12 @@ const fakeData = [
     const storeId=localStorage.getItem("storeId")
     return axios.post( paths.getAllOrderStoreUser,{userId:userId,storeId:storeId}  )
       .then(res => {
-        const response = Response.create(res.data.value, res.data.wasExecption);
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
         console.log(response)
         return response;
       })
       .catch(res => {
-        const response = Response.create([], res.data.wasExecption);
+        const response = Response.create([], res.data.exceptionHasOccured);
         return response;
       });
   }
@@ -89,13 +93,45 @@ const fakeData = [
     const userId=localStorage.getItem("userId")
     return axios.post(paths.getAllOrderStoreUser,{ userId:userId,StoreId: StoreId})
     .then(res => {
-      const response = Response.create(res.data.value, res.data.wasExecption);
+      const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
       return response;
     })
     .catch(res => {
-      const response = Response.create([], res.data.wasExecption);
+      const response = Response.create([], res.data.exceptionHasOccured);
       return response;
     });
   }
-return {addOrder,changeOrdersStatus,getAllOrdersStore,getAllOrdersUser}  
+  
+  async function closeOrder(orderId) {
+    return axios.post(paths.closeOrder, {
+        storeid: localStorage.getItem("storeId"),
+        orderId: orderId
+      })
+      .then(res => {
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        return response;
+      })
+      .catch(res => {
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        return response;
+      });
+  }
+  
+  async function reOpenOrder(orderId) {
+    return axios.post(paths.reOpenOrder, {
+        storeid: localStorage.getItem("storeId"),
+        orderId: orderId
+      })
+      .then(res => {
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        return response;
+      })
+      .catch(res => {
+        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        return response;
+      });
+  }
+  
+
+return {addOrder,changeOrdersStatus,getAllOrdersStore,getAllOrdersUser, closeOrder,reOpenOrder}  
 }

@@ -56,7 +56,10 @@ export const addOrderPath=back_path+store_controller_path+"/addOrder"
 export const getAllOrderStore=back_path+store_controller_path+"/seeOrderHistoryStore"
 export const getAllOrderStoreUser=back_path+store_controller_path+"/seeOrderHistoryUserAndStore"
 export const getAllOrderUser=back_path+user_controller_path+"/seeOrderHistoryUser"
-export const changeOrderStatus=back_path+store_controller_path+"/changeOrderStatus"
+export const changeOrderStatus=back_path+store_controller_path+"/changeOrdersStatus"
+export const closeOrder=back_path+store_controller_path+"/closeOrder"
+export const reOpenOrder=back_path+store_controller_path+"/reOpenOrder"
+
 
 
 //admin function pathes
