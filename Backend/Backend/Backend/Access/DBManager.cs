@@ -13,8 +13,8 @@ public class DBManager
     private string Host = "localhost";
     private int Port = 5432;
     private string Username = "postgres";
-    private string  Password = "1106";
-    private string Database = "kibbutznet";
+    private string  Password = "omer";
+    private string Database = "KibbutzNet";
 
     public DBManager()
     {
@@ -105,7 +105,7 @@ public class DBManager
         ExecuteCommandNonQuery( @"CREATE TABLE Messages (
                             placeInChat INT,
                             chat INT,
-                            fromStore BIT,
+                            fromStore BOOLEAN,
 	                        message VARCHAR(255));" );
     }
     
@@ -116,8 +116,8 @@ public class DBManager
                             sessionId INT,
                             storeId INT,
                             userId INT,
-                            active BIT,
-                            start VARCHAR(255));" );
+                            active BOOLEAN,
+                            startDate DATE);" );
     }
 
     private void initBasicData()
@@ -367,6 +367,164 @@ public class DBManager
         }
         return Messages;
     }
+    
+    public List<Message> LoadMessagesPerChat(int chatId)
+    {
+        List<Message> Messages = new List<Message>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT placeInChat, chat, fromStore, message FROM Messages WHERE chat = {chatId}", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int placeInChat = reader.GetInt32(0);
+                int chat = reader.GetInt32(1);
+                bool fromStore = reader.GetBoolean(2);
+                string message = reader.GetString(3);
+
+                Messages.Add(new Message(placeInChat, chat, fromStore, message));
+            }
+            
+            conn.Close();
+        }
+        return Messages;
+    }
+    
+    public List<Chat> LoadChats()
+    {
+        List<Chat> Chats = new List<Chat>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand("SELECT sessionId, storeId, userId, active, startDate FROM Chats", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int sessionId = reader.GetInt32(0); 
+                int store = reader.GetInt32(1); 
+                int user = reader.GetInt32(2); 
+                bool active = reader.GetBoolean(3); 
+                int dateAsInt = reader.GetInt32(4);
+                DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateAsInt).ToLocalTime();
+
+                Chats.Add(new Chat(sessionId, store, user, active, start));
+            }
+            
+            conn.Close();
+        }
+        return Chats;
+    }
+    
+    public List<Chat> LoadChatsPerUser(int userId)
+    {
+        List<Chat> Chats = new List<Chat>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT sessionId, storeId, userId, active, startDate FROM Chats WHERE userId = {userId}", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int sessionId = reader.GetInt32(0); 
+                int store = reader.GetInt32(1); 
+                int user = reader.GetInt32(2); 
+                bool active = reader.GetBoolean(3);
+                int dateAsInt = reader.GetInt32(4);
+                DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateAsInt).ToLocalTime();
+
+                Chats.Add(new Chat(sessionId, store, user, active, start));
+            }
+            
+            conn.Close();
+        }
+        return Chats;
+    }
+    
+    public List<Chat> LoadChatsPerStore(int storeId)
+    {
+        List<Chat> Chats = new List<Chat>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT sessionId, storeId, userId, active, startDate FROM Chats WHERE storeId = {storeId}", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int sessionId = reader.GetInt32(0); 
+                int store = reader.GetInt32(1); 
+                int user = reader.GetInt32(2); 
+                bool active = reader.GetBoolean(3); 
+                int dateAsInt = reader.GetInt32(4);
+                DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateAsInt).ToLocalTime();
+
+                Chats.Add(new Chat(sessionId, store, user, active, start));
+            }
+            
+            conn.Close();
+        }
+        return Chats;
+    }
         
     public static DBManager Instance {
         get {
@@ -399,15 +557,21 @@ public class DBManager
         ExecuteCommandNonQuery(commandText);
     }
     
-    public void AddStoreEmployees(StoreEmployee storeEmployee)
+    public void AddStoreEmployee(StoreEmployee storeEmployee)
     {
         string commandText = $@"insert into StoreEmployees (userId, storeId) values ({storeEmployee.UserId}, {storeEmployee.storeId})";
         ExecuteCommandNonQuery(commandText);
     }
     
-    public void AddMessages(Message msg)
+    public void AddMessage(int placeInChat, int chat, bool fromStore, string message)
     {
-        string commandText = $@"insert into Messages (placeInChat, chat, fromStore, message) values ({msg.placeInChat}, {msg.chat}, {msg.fromStore}, '{msg.message}')";
+        string commandText = $@"insert into Messages (placeInChat, chat, fromStore, message) values ({placeInChat}, {chat}, {fromStore}, '{message}')";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void AddChat(int sessionId, int storeId, int userId, bool active, DateTime startDate)
+    {
+        string commandText = $@"insert into Chats (sessionId, storeId, userId, active, startDate) values ({sessionId}, {storeId}, {userId}, {active}, '{startDate}')";
         ExecuteCommandNonQuery(commandText);
     }
 
@@ -419,7 +583,13 @@ public class DBManager
     
     public void updateOrderStatusField(int orderId, string status)
     {
-        string commandText = $@"UPDATE Orders SET status={status} WHERE orderId={orderId};";
+        string commandText = $@"UPDATE Orders SET status='{status}' WHERE orderId={orderId};";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void updateChatActiveField(int sessionId, bool active)
+    {
+        string commandText = $@"UPDATE chats SET active={active} WHERE sessionId={sessionId};";
         ExecuteCommandNonQuery(commandText);
     }
 
@@ -491,6 +661,48 @@ public class DBManager
         }
         
         return maxOrderId;
+    }
+    
+    public int getMaxChatId()
+    {
+        try
+        {
+            int maxOrderId = 0;
+        
+            NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+            sb.Host = Host;
+            sb.Port = Port;
+            sb.Username = Username;
+            sb.Password = Password;
+            sb.Database = Database;
+
+            List<string> rows = new List<string>();
+
+            using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+            {
+                conn.Open();
+
+                // Define a query
+                NpgsqlCommand command = new NpgsqlCommand($"SELECT MAX(sessionId) FROM Chats;", conn);
+
+                // Execute the query and obtain a result set
+                NpgsqlDataReader reader = command.ExecuteReader();
+            
+                while (reader.Read())
+                {
+                    maxOrderId = reader.GetInt32(0);
+                }
+            
+                conn.Close();
+            }
+        
+            return maxOrderId;
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+        
     }
 
 

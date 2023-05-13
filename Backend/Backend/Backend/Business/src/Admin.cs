@@ -33,7 +33,7 @@ public class Admin
 
     public void ConnectEmployeeToStore(int userId, int storeId)
     {
-        DBManager.Instance.AddStoreEmployees(new StoreEmployee(userId, storeId));
+        DBManager.Instance.AddStoreEmployee(new StoreEmployee(userId, storeId));
         AuthenticationManager.Instance.AddStoreEmployee(userId, storeId);
     }
 

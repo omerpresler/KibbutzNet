@@ -31,6 +31,7 @@ if (app.Environment.IsDevelopment())
     Backend.Service.Store.Instance.LoadStores();
     Backend.Service.Store.Instance.LoadOrders();
     Backend.Service.User.Instance.LoadMembers();
+    Backend.Business.src.Utils.ChatManager.LoadChats();
 }
 
 app.UseHttpsRedirection();
