@@ -6,7 +6,6 @@ import Message from './data objects/Message';
 
 
 export default function getChatService() {
-  x=3
   function startChatUser(sender, target) {
     return axios
       .post(startChatUserPath, { sender, target })
@@ -37,9 +36,11 @@ export default function getChatService() {
       });
   }
 
-  function sendMessageUser(sessionId, message) {
+  function sendMessageUser(userId,storeId, message) {
+    console.log(storeId,userId)
+    console.log(message)
     return axios
-      .post(sendMessageUserPath, { sessionId, message })
+      .post(sendMessageUserPath, { userId,storeId,text:message })
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)
@@ -52,9 +53,10 @@ export default function getChatService() {
       });
   }
 
-  function sendMessageStore(sessionId, message) {
+  function sendMessageStore(userId,storeId, message) {
+    console.log(userId,storeId,message)
     return axios
-      .post(sendMessageStorePath, { sessionId, message })
+      .post(sendMessageStorePath, { userId,storeId,text:  message})
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)

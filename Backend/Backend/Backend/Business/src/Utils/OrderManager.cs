@@ -1,4 +1,5 @@
 using System.Runtime.ExceptionServices;
+using System.Text.Json;
 using Backend.Access;
 using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
@@ -19,7 +20,7 @@ using System.Collections.Generic;
             orders = new Dictionary<int, List<Order>>();
             try
             {
-                orderNum = DBManager.Instance.getMaxOrderId()+1;
+                orderNum = DBManager.Instance.getMaxOrderId();
             }
             catch (Exception e)
             {
@@ -115,6 +116,31 @@ using System.Collections.Generic;
             order.active = true;
 
             return new Response<bool>(true);
+        }
+        
+        public List<object> GenerateOrderReport(int storeId)
+        {
+            List<object> orderData = new List<object>();
+
+            foreach (Order order in orders[storeId])
+            {
+                string simpleTime = order.date.ToString("yyyy-MM-dd HH:mm:ss");
+                var orderObject = new
+                {
+                    order.orderId,
+                    Time = simpleTime,
+                    order.status,
+                    order.memberName,
+                    order.memberId,
+                    order.active,
+                    order.cost,
+                    order.description
+                };
+
+                orderData.Add(orderObject);
+            }
+
+            return orderData;
         }
 
     }

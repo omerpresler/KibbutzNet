@@ -27,38 +27,18 @@ namespace Backend.Controllers
         }
 
         //int StoreId 
-        [HttpPost("sendbyemail")]
-        public bool SendByEmail([FromBody] UserDataRequest request)
+        [HttpPost("sendReportByEmail")]
+        public Response<string> SendByEmail([FromBody] reportRequest request)
         {
-
-            Console.WriteLine("yess!!!");
-            Console.WriteLine(request.email);
-            return true;
+            return Store.Instance.sendEmailReport(request.storeId, request.email);
         }
 
-        //int StoreId 
-        [HttpPost("sendbysms")]
-        public bool SendBySms([FromBody] UserDataRequest request)
-        {
 
-            Console.WriteLine("yess!!!");
-            Console.WriteLine(request.email);
-            return true;
-        }
-      
-
-        [HttpPost("openChatStore")]
-        //int userId
-        public Response<Tuple<int, string>> openChat([FromBody] openChatRequest request)
-        {
-            return Store.Instance.OpenChat(request.StoreId, request.userId);
-        }
-        
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
         public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
-            return Store.Instance.SendMessage(request.id, request.SessionId, request.Text);
+            return Store.Instance.SendMessage(request.storeId, request.userId, request.text);
         }
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
@@ -133,9 +113,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost("addPost")]
-        public Response<Post> AddPost(int storeId, String header)
+        public Response<Post> AddPost(int storeId, String header, string photoLink)
         {
-            return Store.Instance.AddPost(storeId, header);
+            return Store.Instance.AddPost(storeId, header, photoLink);
         }
         
         [HttpPost("removePost")]
@@ -154,6 +134,12 @@ namespace Backend.Controllers
         public Response<Product> RemoveProduct(int storeId, int productId)
         {
             return Store.Instance.RemoveProduct(storeId, productId);
+        }
+        
+        [HttpPost("getPosts")]
+        public Response<List<Post>> getPosts(int storeId)
+        {
+            return Store.Instance.getPosts(storeId);
         }
 
     }

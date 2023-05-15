@@ -15,13 +15,12 @@ import {
   DialogActions,
 } from '@mui/material';
 import ChatDisplay from '../components/ChatDisplyer';
-import ChatService from '../services/ChatService';
 import BackButton from '../components/BackButton';
 import StoreButton from '../components/StoreButton';
 const { startChatUser, startChatStore, sendMessageUser, sendMessageStore, getAllChatsUser, getAllChatsStore }=getChatService()
-
 const {getAllStores} = GetUserService()
 export default function ChatManagerPage() {
+const [isStoreDataAdded, setIsStoreDataAdded] = useState(false);
   const [userId, setUserId] = useState(null);
   const [userType, setUserType] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -31,7 +30,6 @@ export default function ChatManagerPage() {
     try {
       let storeData = await getAllStores();
       console.log('Store data:', storeData);
-      
       if (!storeData || !Array.isArray(storeData.value)) {
         throw new Error('Store data is not in expected format');
       }
@@ -44,50 +42,99 @@ export default function ChatManagerPage() {
           photoLink: store.item3
         };
       });
-      setStores(transformedData);
+      await setStores(transformedData);
+      console.log(stores)
       console.log('Transformed data:', transformedData);
+      // Set the state variable to true after store data is added
+      setIsStoreDataAdded(true);
     } catch (error) {
       console.error('Error in addStoreData:', error);
     }
   }
-  
   // Fetch all stores when the component mounts
-
-  useEffect(() => {
-    const fetchChatsAndStores = async () => {
-    const storedUserId = localStorage.getItem('userId');
-    const storedUserType = localStorage.getItem('userType');
-    console.log(storedUserId,storedUserType)
-    if (storedUserId && storedUserType) {
-      setUserId(parseInt(storedUserId, 10));
-      setUserType(storedUserType);
-    }
+   // Fetch all stores when the component mounts
+const fetchChats = async () => {
+  const storedUserId = localStorage.getItem('userId');
+  const storedUserType = localStorage.getItem('userType');
+  console.log(storedUserId,storedUserType)
+  if (storedUserId && storedUserType) {
+    setUserId(parseInt(storedUserId, 10));
+    setUserType(storedUserType);
+  }
   
-    addStoreData()
-    // If user type is 'store', fetch all chats for the store
-    // Otherwise, fetch all chats for the user
-    if (storedUserType === 'store') {
-     await getAllChatsStore(userId).then(chatData => {
-        setChats(chatData.value);
+  // If user type is 'store', fetch all chats for the store
+  // Otherwise, fetch all chats for the user
+  if (storedUserType === 'store') {
+    await getAllChatsStore(userId).then(chatData => {
+      // Transform each chat with additional data
+      let transformedChats = chatData.value.map((chatString) => {
+        // Parse the chat JSON string into an object
+        let chat = JSON.parse(chatString);
+  
+        // Find the corresponding user
+        
+  
+        return {
+          userId: chat.User,
+          storeId: localStorage.getItem("storeId"),  // Assuming the storeId is stored in localStorage
+          name: chat.User,
+          messages: chat.Messages || []  // Assuming chat.Messages contains the list of messages
+        }
       });
-    } else {
-      await getAllChatsUser(userId).then(chatData => {
-        setChats(chatData.value);
-        console.log(chats)
+  
+      setChats(transformedChats);
+    });
+  } else {
+    await getAllChatsUser(userId).then(chatData => {
+      // Transform each chat with additional data
+      let transformedChats = chatData.value.map((chatString) => {
+        // Parse the chat JSON string into an object
+        let chat = JSON.parse(chatString);
+    
+        // Find the corresponding store
+        console.log(stores)
+        let correspondingStore = stores.find(store => store.storeId === chat.Store);
+    
+        return {
+          storeId: chat.Store,
+          userId: localStorage.getItem("userId"),
+          name: correspondingStore ? correspondingStore.storeName : 'Unknown Store',
+          messages: chat.Messages || []  // Assuming chat.Messages contains the list of messages
+        }
       });
-    }}
-    fetchChatsAndStores();
-  }, [userId]);
+      console.log(chatData)
+    
+      // For each store that doesn't have a chat yet, create an empty chat
+      stores.forEach(store => {
+        console.log(store)
+        if (!transformedChats.some(chat => chat.storeId === store.storeId)) {
+          transformedChats.push({
+            userId: localStorage.getItem("userId"),
+            storeId: store.storeId,
+            name: store.storeName,
+            messages: []
+          });
+        }
+      });
+      console.log(transformedChats)
+      setChats(transformedChats);
+    });
+    
+    
+  }
+}
 
-   const openChatWithStore = async (storeId) => {
-    // Open a chat with the store
-    // e.g. ChatService.openNewChat(storeId);
-    // Then add this chat to the list of chats
-    const newChat = await startChatUser(localStorage.getItem("userId"),storeId) // Replace this with the actual chat object
-    setChats([...chats, newChat]);
-    console.log(chats)
-    setOpenDialog(false); // Close the dialog
-  };
+
+    useEffect(() => {
+      addStoreData();
+    }, []); 
+    
+    useEffect(() => {
+      if (isStoreDataAdded) {
+        fetchChats();
+      }
+    }, [isStoreDataAdded, userId])
+
 
   const handleOpenNewChat = () => {
     setOpenDialog(true);
@@ -103,26 +150,9 @@ export default function ChatManagerPage() {
         <Typography variant="h4">Chat</Typography>
       </Box>
       <Box sx={{ mt: 2 }}>
-        <Button variant="contained" onClick={handleOpenNewChat}>
-          Open New Chat
-        </Button>
       </Box>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Open New Chat</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please select a store:</DialogContentText>
-          {stores
-            .filter((store) => !chats.some((chat) => chat.storeId === store.id))
-            .map((store) => (
-              <StoreButton key={store.id} store={store} onClick={openChatWithStore} />
-            ))}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
       {userType ? (
-        <ChatDisplay userId={userId} userType={userType} chats={chats} />
+        <ChatDisplay userId={userId} userType={userType} chats={chats} sendMessage={userType === 'store' ? sendMessageStore : sendMessageUser} />
       ) : (
         <Typography variant="body1">
           Please login as a user or store to access the chat.

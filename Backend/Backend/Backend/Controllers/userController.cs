@@ -11,19 +11,11 @@ namespace Backend.Controllers
     [Route("[controller]")]
     public class userController : ControllerBase
     {
-        [HttpPost("openChatUser")]
-        //int userId
-        public Response<Tuple<int, string>> openChat([FromBody] openChatRequest request)
-        {
-            return Service.User.Instance.OpenChat(request.userId, request.StoreId);
-        }
-        
-        
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
         public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
-            return Service.User.Instance.SendMessage(request.id, request.SessionId, request.Text);
+            return Service.User.Instance.SendMessage(request.userId, request.storeId, request.text);
         }
 
         //list Json

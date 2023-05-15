@@ -79,37 +79,14 @@ public class Store
 
         return new Response<bool>(true);
     }
-    
-    public Response<Tuple<int, string>> OpenChat(int storeId, int userId)
+
+    public Response<string> SendMessage(int storeId, int userId, string msg)
     {
         try
         {
             if (stores.ContainsKey(storeId))
             {
-                Response<int> resp = stores[storeId].OpenChat(userId);
-                
-                if (resp.exceptionHasOccured)
-                    return new Response<Tuple<int, string>>(true, resp.errorMessage);
-
-                return new Response<Tuple<int, string>>(new Tuple<int, string>(resp.value,
-                    Service.User.Instance.getUserName(userId)));
-            }
-
-            return new Response<Tuple<int, string>>(true, $"The is no store with the id of {storeId}");
-        }
-        catch (Exception e)
-        {
-            return new Response<Tuple<int, string>>(true, e.Message);
-        }
-    }
-
-    public Response<string> SendMessage(int storeId, int sessionId, string msg)
-    {
-        try
-        {
-            if (stores.ContainsKey(storeId))
-            {
-                return stores[storeId].SendMessage(sessionId, msg);
+                return stores[storeId].SendMessage(userId, msg);
             }
 
             return new Response<string>(true, $"The is no store with the id of {storeId}");
@@ -332,13 +309,13 @@ public class Store
         }
     }
     
-    public Response<Post> AddPost(int storeId, String header)
+    public Response<Post> AddPost(int storeId, String header, string photoLink)
     {
         try
         {
             if (stores.ContainsKey(storeId))
             {
-                return stores[storeId].AddPost(header);
+                return stores[storeId].AddPost(header, photoLink);
             }
 
             return new Response<Post>(true, $"The is no store with the id of {storeId}");
@@ -408,5 +385,26 @@ public class Store
             allStores.Add(new Tuple<int, String?, String?>(key, stores[key].storeName, stores[key].photoLink));
 
         return new Response<List<Tuple<int, String?, String?>>>(allStores);
+    }
+
+    public Response<string> sendEmailReport(int storeId, string email)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+                return stores[storeId].GenerateReport(email);
+            
+
+            return new Response<string>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
+    
+    public Response<List<Post>> getPosts(int storeId)
+    {
+        return stores[storeId].getPosts();
     }
 }

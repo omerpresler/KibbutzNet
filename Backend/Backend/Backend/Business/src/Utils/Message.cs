@@ -22,12 +22,7 @@ namespace Backend.Business.src.Utils
             this.fromStore = fromStore;
             this.message = message;
         }
-
-        public Access.Message toDal(int placeInChat, int sessionId)
-        {
-            return new Access.Message(placeInChat, sessionId, fromStore, message);
-        }
-
+        
         public string ToString()
         {
             return JsonConvert.SerializeObject(this);

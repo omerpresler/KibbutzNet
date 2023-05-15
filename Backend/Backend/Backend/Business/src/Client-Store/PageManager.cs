@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Text.Json;
+using Backend.Access;
 using Backend.Business.src.Utils;
 using Backend.Business.Utils;
 
@@ -17,6 +19,20 @@ namespace Backend.Business.src.Client_Store
             this.storeId = storeId;
             this.posts = new List<Post>();
             this.products = new List<Product>();
+            
+            try
+            {
+                _nextId = DBManager.Instance.getMaxPostId();
+            }
+            catch (Exception e)
+            {
+                _nextId = 0;
+            }
+
+            foreach (Access.Post post in DBManager.Instance.LoadPostsPerStore(storeId))
+            {
+                posts.Add(new Post(post.postId, post.header, post.photoLink));
+            }
         }
         
         private static int AssignId()
@@ -24,21 +40,23 @@ namespace Backend.Business.src.Client_Store
             return Interlocked.Increment(ref _nextId);
         }
 
-        public Response<Post> AddPost(string header)
+        public Response<Post> AddPost(string header, string photoLink)
         {
-            Post post = new Post(AssignId(), header);
+            Post post = new Post(AssignId(), header, photoLink);
             posts.Add(post);
+            DBManager.Instance.AddPost(post.postId, storeId, header, photoLink);
             return new Response<Post>(post);
         }
 
         public Response<Post> RemovePost(int postId)
         {
-            Post? postToRemove = posts.Find(x => x.Postid == postId);
+            Post? postToRemove = posts.Find(x => x.postId == postId);
             
             if(postToRemove == null)
                 return new Response<Post>(true, "There is no such post");
 
             posts.Remove(postToRemove);
+            DBManager.Instance.RemovePost(postToRemove.postId);
             return new Response<Post>(postToRemove);
         }
 
@@ -60,6 +78,11 @@ namespace Backend.Business.src.Client_Store
 
             products.Remove(prod);
             return new Response<Product>(prod);
+        }
+        
+        public Response<List<Post>> getPosts()
+        {
+            return new Response<List<Post>>(posts);
         }
     }
 }

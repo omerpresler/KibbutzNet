@@ -3,6 +3,7 @@ using Backend.Business.src.Utils;
 using Backend.Business.src.Reports;
 using Backend.Business.Utils;
 using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Backend.Business.src.Client_Store;
 
@@ -18,16 +19,19 @@ public class ClientStoreService
     public String? storeName;
     public String? photoLink;
     
-    public ClientStoreService(int storeId, string photoLink)
+    public ClientStoreService(int storeId, string storeName, string photoLink)
     {
         this.storeId = storeId;
+        this.storeName = storeName;
+        this.photoLink = photoLink;
+
+        
         purchases = new List<Purchase>();
         chatManager = new ChatManager();
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
         pageManager = new PageManager(storeId);
-        this.photoLink = photoLink;
     }
     
     public ClientStoreService(Access.Store DALStore)
@@ -43,18 +47,16 @@ public class ClientStoreService
         notificationManager = new NotificationManager();
 
         pageManager = new PageManager(storeId);
-        
-        
-    }
-    
-    public Response<int> OpenChat(int userId)
-    {
-        return chatManager.StartChat(storeId, userId);
     }
 
-    public Response<string> SendMessage(int sessionId, string msg)
+    public bool chatExist(int userId, int storeId)
     {
-        return chatManager.SendMessage(sessionId, new Message(true, msg), true);
+        return chatManager.chatExist(userId, storeId);
+    }
+
+    public Response<string> SendMessage(int userId, string msg)
+    {
+        return chatManager.SendMessage(userId, storeId, new Message(true, msg), true);
     }
 
     public Response<List<String>> GetAllchats()
@@ -133,9 +135,9 @@ public class ClientStoreService
         return jsons;
     }
     
-    public Response<Post> AddPost(String header)
+    public Response<Post> AddPost(String header, string photoLink)
     {
-        return pageManager.AddPost(header);
+        return pageManager.AddPost(header, photoLink);
     }
 
     public Response<Post> RemovePost(int postId)
@@ -151,6 +153,51 @@ public class ClientStoreService
     public Response<Product> RemoveProduct(int productId)
     {
         return pageManager.RemoveProduct(productId);
+    }
+    
+    public Response<string> GenerateReport(string email)
+    {
+        List<object> purchaseData = new List<object>();
+
+        foreach (Purchase purchase in purchases)
+        {
+            string simpleTime = purchase.date.ToString("yyyy-MM-dd HH:mm:ss");
+            var purchaseObject = new
+            {
+                purchase.purchaseId,
+                purchase.memberId,
+                purchase.storeId,
+                purchase.cost,
+                purchase.description,
+                Time = simpleTime
+            };
+
+            purchaseData.Add(purchaseObject);
+        }
+
+        List<object> orderData = OrderManager.Instance.GenerateOrderReport(storeId);
+        
+        var report = new
+        {
+            Purchases = purchaseData,
+            Orders = orderData
+        };
+
+        try
+        {
+            outputManager.sendEmail(email, "Test", JsonSerializer.Serialize(report));
+        }
+        catch (Exception e)
+        {
+           return new Response<string>(true, "Problem with sending email");
+        }
+
+        return new Response<string>(email);
+    }
+    
+    public Response<List<Post>> getPosts()
+    {
+        return pageManager.getPosts();
     }
 
 }

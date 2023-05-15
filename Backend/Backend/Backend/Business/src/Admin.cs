@@ -21,7 +21,7 @@ public class Admin
         this.email = admin.email;
         try
         {
-            _nextStoreId = DBManager.Instance.getMaxStoreId() + 1;
+            _nextStoreId = DBManager.Instance.getMaxStoreId();
         }
         catch (Exception e)
         {
@@ -47,6 +47,6 @@ public class Admin
     {
         int storeId = AssignStoreId();
         DBManager.Instance.AddStore(storeId, storeName, photoLink);
-        return new ClientStoreService(storeId, photoLink);
+        return new ClientStoreService(storeId, storeName, photoLink);
     }
 }

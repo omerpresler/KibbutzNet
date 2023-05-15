@@ -2,21 +2,21 @@ namespace Backend.Controllers.Requests;
 
 public class chatMassageRequest
 {
-    public int id {get; set;}
+    public int userId {get; set;}
     
-    public int SessionId {get; set;}
+    public int storeId {get; set;}
 
-    public string Text {get; set;}
+    public string text {get; set;}
 
 
     
 
 
 
-    public chatMassageRequest(int id, int sessionId,string text)
+    public chatMassageRequest(int userId, int storeId,string text)
     {
-        this.id = id;
-        this.SessionId = sessionId;
-        this.Text = text;
+        this.userId = userId;
+        this.storeId = storeId;
+        this.text = text;
     }
 }

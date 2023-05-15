@@ -29,7 +29,7 @@ export default function Chat({ userId, userType }) {
       <TextField
         fullWidth
         variant="outlined"
-        label="Message"
+        label="message"
         value={message}
         onChange={handleChange}
       />

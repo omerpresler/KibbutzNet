@@ -15,37 +15,38 @@ import {
   IconButton,
   Grid,
   Container,
-}  from '@mui/material';
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import getChatService from '../services/ChatService';
 import Center from './Center';
 
-export default function ChatDisplyer({ userId, userType,chats }) {
-  const [selectedChat, setSelectedChat] = useState([]);
-  const [messages, setMessages] = useState([]);
+export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
+  const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState('');
-  const { startChat, endChat, sendMessage, getAllChatsUser, getAllChatsStore } = getChatService();
-
- 
-
-  const handleChatSelect = (chat) => {
-    setSelectedChat(chat);
-    setMessages(chat.messages);
+  const handleChatSelect = async (chat) => {
+    console.log(chat)
+    await setSelectedChat(chat);
   };
 
-  const handleCloseChat = () => {
-    setSelectedChat(null);
-    setMessages([]);
-  };
+
 
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
-
-    const message = new Message(userId, newMessage);
-    const response = await sendMessage(selectedChat.sessionId, message);
-
+  
+    const message = {
+      message: newMessage,
+      FromMe: true,
+    };
+  
+    const response = await sendMessage(selectedChat.userId, selectedChat.storeId, newMessage);
+  
     if (!response.exception) {
-      setMessages([...messages, message]);
+      const updatedChat = {
+        ...selectedChat,
+        messages: [...selectedChat.messages, message],
+      };
+      
+      setSelectedChat(updatedChat);
       setNewMessage('');
     }
   };
@@ -55,30 +56,28 @@ export default function ChatDisplyer({ userId, userType,chats }) {
       <Container maxWidth="md">
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+            <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', }}>
               <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
                 Chats
               </Typography>
               <List>
                 {chats.map((chat) => (
                   <ListItem
-                    key={chat.name}
+                    key={chat.storeId}
                     button
                     onClick={() => handleChatSelect(chat)}
                     sx={{
-                      backgroundColor: selectedChat?.name === chat.name ? '#f0f0f0' : '',
+                      backgroundColor: selectedChat?.storeId === chat.storeId ? '#f0f0f0' : '',
                       '&:hover': {
-                        backgroundColor: '#f0f0f0',
+                        backgroundColor: '#f1f1f1',
                       },
                     }}
                   >
                     <ListItemAvatar>
                       <Avatar>{chat.name}</Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={`Chat name: ${chat.name}`} />
-                    <IconButton onClick={handleCloseChat} edge="end" aria-label="close">
-                      <CloseIcon />
-                    </IconButton>
+                    <ListItemText primary={chat.name} />
+                   
                   </ListItem>
                 ))}
               </List>
@@ -91,10 +90,10 @@ export default function ChatDisplyer({ userId, userType,chats }) {
                   Chat name: {selectedChat.name}
                 </Typography>
                 <List>
-                  {messages.map((message, index) => (
-                    <ListItem key={index}>
+                  {selectedChat.messages.map((message, index) => (
+                    <ListItem key={index} align={message.FromMe ? "right" : "left"}>
                       <ListItemText
-                        primary={message.sender === userId ? 'You' : 'Them'}
+                        primary={message.FromMe ? 'You:' : 'Them:'}
                         secondary={message.message}
                       />
                     </ListItem>
