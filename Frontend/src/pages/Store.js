@@ -37,6 +37,9 @@ function see_purchse_history(){
 function see_all_orders(){
     navigate(paths.order_manager_page_path)
 }
+function see_reports(){
+    navigate(paths.report_page)
+}
 function show_add_order(){
     setShowAddOrderForm(true)
 }
@@ -69,6 +72,8 @@ async function add_order(event){
             <Button onClick={show_add_order}>
                 add orders 
                               </Button>
+            <Button onClick={see_reports}>
+                              reports</Button>
                               <BackButton sx={{ mt: 2 }} />
           </Box>
           {showAddOrderForm && (

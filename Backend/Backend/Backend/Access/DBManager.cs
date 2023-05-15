@@ -18,8 +18,12 @@ public class DBManager
 
     public DBManager()
     {
+<<<<<<< HEAD
         //wipeDB();
         //initBasicData();
+=======
+        //CreateTables();
+>>>>>>> c415b666e9235438fa2bea4df9c513057ad5ef97
     }
 
     public void wipeDB()

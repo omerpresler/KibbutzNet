@@ -19,6 +19,8 @@ export const chat_manager_page_path="/chatManager"
 export const order_manager_page_path="/orderManager"
 export const page_manager_page_path="/pageManager"
 export const admin_page_path="/admin"
+export const report_page="/reports"
+
 
 
 
@@ -84,3 +86,8 @@ export const getStore = back_path + store_controller_path + "/getSpecficStore";
 
 //member function pathes
 export const getAllStores = back_path + user_controller_path + "/getAllStores";
+
+//report function pathes
+
+export const sendReportByEmailUrl = back_path+store_controller_path+'/sendReportByEmail';
+export const saveExcelReportUrl = back_path+store_controller_path+'/saveExcelReport';

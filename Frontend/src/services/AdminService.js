@@ -11,6 +11,8 @@ export default function getAdminService() {
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)
+        }else{
+          alert("add user worked!!")
         }
         return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
@@ -27,6 +29,8 @@ export default function getAdminService() {
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)
+        } else{
+          alert("add store sucssfully!!")
         }
         return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
@@ -43,7 +47,10 @@ export default function getAdminService() {
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)
+        }else{
+          alert("connected store and user sucssfully!!")
         }
+        
         return Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);
       })
       .catch((error) => {

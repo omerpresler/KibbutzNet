@@ -11,6 +11,7 @@ import ChatManagerPage from './pages/ChatsManger'
 import OrderManger from './pages/OrderManager';
 import PageManager from './pages/PageManger';
 import AdminPage from './pages/Admin'
+import ReportPage from './pages/Reports';
 import {
   BrowserRouter as Router,
   Routes,
@@ -31,7 +32,7 @@ function App() {
           <Route path={paths.login_to_register} element={<LoginStore nextPage={paths.register_page_path} />} />
           <Route path={paths.login_to_store} element={<LoginStore nextPage={paths.store_page_path} />} />
 
-
+          <Route path={paths.report_page} element={<ReportPage />} />
           <Route path={paths.register_page_path} element={<Register />} />
           <Route path={paths.member_page_path} element={<Member />} />
           <Route path={paths.store_page_path} element={<Store  />} />

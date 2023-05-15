@@ -55,16 +55,15 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
     <Center>
       <Container maxWidth="md">
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', }}>
-              <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
+          <Grid item xs={12} md={selectedChat ? 4 : 12}>
+            <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)' }}>
+             c <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
                 Chats
               </Typography>
               <List>
                 {chats.map((chat) => (
                   <ListItem
                     key={chat.storeId}
-                    button
                     onClick={() => handleChatSelect(chat)}
                     sx={{
                       backgroundColor: selectedChat?.storeId === chat.storeId ? '#f0f0f0' : '',
@@ -77,7 +76,6 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
                       <Avatar>{chat.name}</Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={chat.name} />
-                   
                   </ListItem>
                 ))}
               </List>
@@ -122,4 +120,4 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
       </Container>
     </Center>
   );
-}
+                  }
