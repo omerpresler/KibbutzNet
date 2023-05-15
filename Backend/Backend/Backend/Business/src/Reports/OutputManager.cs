@@ -31,7 +31,5 @@ namespace Backend.Business.src.Reports
 
             smtpClient.Send(message);
         }
-        
-        
     }
 }
