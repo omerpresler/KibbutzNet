@@ -56,7 +56,7 @@ namespace Backend.Business.src.Utils
             {
                 msgs.Add(new
                 {
-                    Message = msg.message,
+                    message = msg.message,
                     FromMe = !(isStore ^ msg.fromStore)
                 });
             }
