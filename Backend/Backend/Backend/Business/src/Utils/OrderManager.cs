@@ -20,7 +20,7 @@ using System.Collections.Generic;
             orders = new Dictionary<int, List<Order>>();
             try
             {
-                orderNum = DBManager.Instance.getMaxOrderId()+1;
+                orderNum = DBManager.Instance.getMaxOrderId();
             }
             catch (Exception e)
             {

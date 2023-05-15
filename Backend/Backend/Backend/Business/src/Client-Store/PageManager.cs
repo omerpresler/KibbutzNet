@@ -19,6 +19,15 @@ namespace Backend.Business.src.Client_Store
             this.storeId = storeId;
             this.posts = new List<Post>();
             this.products = new List<Product>();
+            
+            try
+            {
+                _nextId = DBManager.Instance.getMaxPostId();
+            }
+            catch (Exception e)
+            {
+                _nextId = 0;
+            }
 
             foreach (Access.Post post in DBManager.Instance.LoadPostsPerStore(storeId))
             {

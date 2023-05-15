@@ -21,7 +21,7 @@ public class Admin
         this.email = admin.email;
         try
         {
-            _nextStoreId = DBManager.Instance.getMaxStoreId() + 1;
+            _nextStoreId = DBManager.Instance.getMaxStoreId();
         }
         catch (Exception e)
         {

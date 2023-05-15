@@ -506,7 +506,7 @@ public class DBManager
     
     public void AddPost(int postId, int storeId, String header, string photoLink)
     {
-        string commandText = $@"insert into Posts (postId, storeId, header ,photoLink) values ({postId}, {storeId}, {header}, '{photoLink}')";
+        string commandText = $@"insert into Posts (postId, storeId, header ,photoLink) values ({postId}, {storeId}, '{header}', '{photoLink}')";
         ExecuteCommandNonQuery(commandText);
     }
 
@@ -530,7 +530,6 @@ public class DBManager
 
     public int getMaxStoreId()
     {
-        List<Store> stores = new List<Store>();
         int maxStoreId = 0;
         
         NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
@@ -539,9 +538,7 @@ public class DBManager
         sb.Username = Username;
         sb.Password = Password;
         sb.Database = Database;
-
-        List<string> rows = new List<string>();
-
+        
         using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
         {
             conn.Open();
@@ -596,6 +593,38 @@ public class DBManager
         }
         
         return maxOrderId;
+    }
+    
+    public int getMaxPostId()
+    {
+        int maxPostId = 0;
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+        
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT MAX(postId) FROM Posts;", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                maxPostId = reader.GetInt32(0);
+            }
+            
+            conn.Close();
+        }
+        
+        return maxPostId;
     }
 
     public void ExecuteCommandNonQuery(string commandText)
