@@ -98,7 +98,6 @@ namespace Backend.Business.src.Reports
             return items;
         }
 
-        // Recursively process JSON objects and add them to the dictionary
         private static void ProcessJsonObject(JsonElement jsonElement, Dictionary<string, object> item)
         {
             foreach (JsonProperty property in jsonElement.EnumerateObject())
@@ -123,13 +122,31 @@ namespace Backend.Business.src.Reports
                     }
                     item[key] = array;
                 }
+                else if (value.ValueKind == JsonValueKind.String)
+                {
+                    item[key] = value.GetString();
+                }
+                else if (value.ValueKind == JsonValueKind.Number)
+                {
+                    if (value.TryGetInt32(out int intValue))
+                    {
+                        item[key] = intValue;
+                    }
+                    else if (value.TryGetDouble(out double doubleValue))
+                    {
+                        item[key] = doubleValue;
+                    }
+                    else if (value.TryGetDecimal(out decimal decimalValue))
+                    {
+                        item[key] = decimalValue;
+                    }
+                    else
+                    {
+                        item[key] = value.ToString();
+                    }
+                }
                 else
                 {
-                    if (item.ContainsKey(key))
-                    {
-                        key += "_" + Guid.NewGuid().ToString("N"); // Append a unique identifier to handle duplicate keys
-                    }
-
                     item[key] = value.ToString();
                 }
             }
