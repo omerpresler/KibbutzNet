@@ -124,10 +124,11 @@ using System.Collections.Generic;
 
             foreach (Order order in orders[storeId])
             {
+                string simpleTime = order.date.ToString("yyyy-MM-dd HH:mm:ss");
                 var orderObject = new
                 {
                     order.orderId,
-                    order.date,
+                    simpleTime,
                     order.status,
                     order.memberName,
                     order.memberId,
