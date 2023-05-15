@@ -96,7 +96,7 @@ namespace Backend.Business.src.Utils
 
             foreach (Chat chat in allChats)
             {
-                allJsons.Add(chat.ToString());
+                allJsons.Add(chat.ToString(true));
             }
 
             return new Response<List<string>>(allJsons);
@@ -109,7 +109,7 @@ namespace Backend.Business.src.Utils
 
             foreach (Chat chat in allChats)
             {
-                allJsons.Add(chat.ToString());
+                allJsons.Add(chat.ToString(false));
             }
 
             return new Response<List<string>>(allJsons);
