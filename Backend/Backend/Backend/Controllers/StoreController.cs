@@ -49,7 +49,7 @@ namespace Backend.Controllers
 
         [HttpPost("openChatStore")]
         //int userId
-        public Response<int> openChat([FromBody] openChatRequest request)
+        public Response<Tuple<int, string>> openChat([FromBody] openChatRequest request)
         {
             return Store.Instance.OpenChat(request.StoreId, request.userId);
         }

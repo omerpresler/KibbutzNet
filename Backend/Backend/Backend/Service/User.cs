@@ -35,6 +35,11 @@ public class User
         return users.ContainsKey(userId);
     }
     
+    public string getUserName(int userId)
+    {
+        return users[userId].getMemberName();
+    }
+    
     public void addNewMember(MemberController member)
     {
         users.Add(member.getMemberId(), member);
@@ -82,20 +87,26 @@ public class User
         }
     }
     
-    public Response<int> OpenChat(int userId, int storeId)
+    public Response<Tuple<int, string>> OpenChat(int userId, int storeId)
     {
         try
         {
             if (users.ContainsKey(userId))
             {
-                return users[userId].OpenChat(storeId);
+                Response<int> resp = users[userId].OpenChat(storeId);
+                
+                if (resp.exceptionHasOccured)
+                    return new Response<Tuple<int, string>>(true, resp.errorMessage);
+
+                return new Response<Tuple<int, string>>(new Tuple<int, string>(resp.value,
+                    Store.Instance.getStoreName(storeId)));
             }
 
-            return new Response<int>(true, $"The is no user with the id of {userId}");
+            return new Response<Tuple<int, string>>(true, $"The is no user with the id of {userId}");
         }
         catch (Exception e)
         {
-            return new Response<int>(true, e.Message);
+            return new Response<Tuple<int, string>>(true, e.Message);
         }
     }
     

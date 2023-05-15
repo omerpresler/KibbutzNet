@@ -7,8 +7,8 @@ namespace Backend.Business.Utils
     public abstract class User
     {
         public int UserId;
-        string Name;
-        string PhoneNumber;
+        public string Name;
+        public string PhoneNumber;
         public string email;
         
         protected User(int userId ,string name,string phoneNumber, string email) {
