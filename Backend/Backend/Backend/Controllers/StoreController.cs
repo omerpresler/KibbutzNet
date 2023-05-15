@@ -113,9 +113,9 @@ namespace Backend.Controllers
         }
 
         [HttpPost("addPost")]
-        public Response<Post> AddPost(int storeId, String header)
+        public Response<Post> AddPost(int storeId, String header, string photoLink)
         {
-            return Store.Instance.AddPost(storeId, header);
+            return Store.Instance.AddPost(storeId, header, photoLink);
         }
         
         [HttpPost("removePost")]
@@ -134,6 +134,12 @@ namespace Backend.Controllers
         public Response<Product> RemoveProduct(int storeId, int productId)
         {
             return Store.Instance.RemoveProduct(storeId, productId);
+        }
+        
+        [HttpPost("getPosts")]
+        public Response<List<Post>> getPosts(int storeId)
+        {
+            return Store.Instance.getPosts(storeId);
         }
 
     }

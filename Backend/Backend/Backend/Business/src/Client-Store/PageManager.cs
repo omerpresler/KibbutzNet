@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text.Json;
 using Backend.Business.src.Utils;
 using Backend.Business.Utils;
 
@@ -24,16 +25,16 @@ namespace Backend.Business.src.Client_Store
             return Interlocked.Increment(ref _nextId);
         }
 
-        public Response<Post> AddPost(string header)
+        public Response<Post> AddPost(string header, string photoLink)
         {
-            Post post = new Post(AssignId(), header);
+            Post post = new Post(AssignId(), header, photoLink);
             posts.Add(post);
             return new Response<Post>(post);
         }
 
         public Response<Post> RemovePost(int postId)
         {
-            Post? postToRemove = posts.Find(x => x.Postid == postId);
+            Post? postToRemove = posts.Find(x => x.postId == postId);
             
             if(postToRemove == null)
                 return new Response<Post>(true, "There is no such post");
@@ -60,6 +61,11 @@ namespace Backend.Business.src.Client_Store
 
             products.Remove(prod);
             return new Response<Product>(prod);
+        }
+        
+        public Response<List<Post>> getPosts()
+        {
+            return new Response<List<Post>>(posts);
         }
     }
 }

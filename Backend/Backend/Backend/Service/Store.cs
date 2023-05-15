@@ -309,13 +309,13 @@ public class Store
         }
     }
     
-    public Response<Post> AddPost(int storeId, String header)
+    public Response<Post> AddPost(int storeId, String header, string photoLink)
     {
         try
         {
             if (stores.ContainsKey(storeId))
             {
-                return stores[storeId].AddPost(header);
+                return stores[storeId].AddPost(header, photoLink);
             }
 
             return new Response<Post>(true, $"The is no store with the id of {storeId}");
@@ -401,5 +401,10 @@ public class Store
         {
             return new Response<string>(true, e.Message);
         }
+    }
+    
+    public Response<List<Post>> getPosts(int storeId)
+    {
+        return stores[storeId].getPosts();
     }
 }

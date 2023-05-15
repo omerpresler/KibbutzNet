@@ -132,9 +132,9 @@ public class ClientStoreService
         return jsons;
     }
     
-    public Response<Post> AddPost(String header)
+    public Response<Post> AddPost(String header, string photoLink)
     {
-        return pageManager.AddPost(header);
+        return pageManager.AddPost(header, photoLink);
     }
 
     public Response<Post> RemovePost(int postId)
@@ -189,6 +189,11 @@ public class ClientStoreService
         }
 
         return new Response<string>(email);
+    }
+    
+    public Response<List<Post>> getPosts()
+    {
+        return pageManager.getPosts();
     }
 
 }

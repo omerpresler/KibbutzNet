@@ -119,6 +119,16 @@ public class DBManager
                             active BOOLEAN,
                             startDate DATE);" );
     }
+    
+    private void CreatePostTable()
+    {
+        ExecuteCommandNonQuery("DROP TABLE IF EXISTS Chats");
+        ExecuteCommandNonQuery( @"CREATE TABLE Chats (
+                            storeId INT,
+                            userId INT,
+                            active BOOLEAN,
+                            startDate DATE);" );
+    }
 
     private void initBasicData()
     {

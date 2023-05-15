@@ -6,6 +6,7 @@ using Backend.Business.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Backend.Business.src.Utils
 {
@@ -49,14 +50,25 @@ namespace Backend.Business.src.Utils
 
         public string ToString(bool isStore)
         {
-            string simpleChat = "storeId: {" + store + "}, userId: {" + user + "}, Messages: {";
+            List<Object> msgs = new List<object>();
 
             foreach (Message msg in messages)
-                simpleChat += $"(message: {msg.message}, FromMe: {!(isStore ^ msg.fromStore)}), ";
+            {
+                msgs.Add(new
+                {
+                    Message = msg.message,
+                    FromMe = !(isStore ^ msg.fromStore)
+                });
+            }
 
-            simpleChat += "}";
+            var simpleChat = new
+            {
+                Store = store,
+                User = user,
+                Messages = msgs,
+            };
             
-            return simpleChat;
+            return JsonSerializer.Serialize(simpleChat);
         }
     }
 }
