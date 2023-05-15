@@ -52,12 +52,12 @@ namespace Backend.Business.src.Utils
 
         public string ToString(bool isStore)
         {
-            string simpleChat = $"{sessionId}";
+            string simpleChat = "{sessionId: " + sessionId + "}, Messages: {";
 
             foreach (Message msg in messages)
-                simpleChat.Concat($"message: {msg.message}, FromMe: {!(isStore ^ msg.fromStore)}");
-            
-            
+                simpleChat += $"(message: {msg.message}, FromMe: {!(isStore ^ msg.fromStore)}), ";
+
+            simpleChat += "}";
             
             return simpleChat;
         }
