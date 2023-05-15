@@ -53,11 +53,11 @@ const fakeData = [
         if (res.data.exceptionHasOccured){
           alert(res.data.errorMessage)
         }
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       })
       .catch(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       });
   }
@@ -65,11 +65,11 @@ const fakeData = [
   async function changeOrdersStatus(storeID, orderID, status) {
     return axios.post(paths.changeOrderStatus, { storeId:storeID, orderId:orderID, status:status })
       .then(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       })
       .catch(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       });
   }
@@ -79,7 +79,8 @@ const fakeData = [
     const storeId=localStorage.getItem("storeId")
     return axios.post( paths.getAllOrderStoreUser,{userId:userId,storeId:storeId}  )
       .then(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        console.log(res.data.value)
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         console.log(response)
         return response;
       })
@@ -93,7 +94,7 @@ const fakeData = [
     const userId=localStorage.getItem("userId")
     return axios.post(paths.getAllOrderStoreUser,{ userId:userId,StoreId: StoreId})
     .then(res => {
-      const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+      const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
       return response;
     })
     .catch(res => {
@@ -103,16 +104,17 @@ const fakeData = [
   }
   
   async function closeOrder(orderId) {
+    console.log(orderId)
     return axios.post(paths.closeOrder, {
         storeid: localStorage.getItem("storeId"),
         orderId: orderId
       })
       .then(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       })
       .catch(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       });
   }
@@ -123,11 +125,11 @@ const fakeData = [
         orderId: orderId
       })
       .then(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       })
       .catch(res => {
-        const response = Response.create(response.data.value, response.data.exceptionHasOccured,response.data.errorMessage);;
+        const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
         return response;
       });
   }

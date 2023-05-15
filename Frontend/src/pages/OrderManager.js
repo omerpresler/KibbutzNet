@@ -28,7 +28,9 @@ const OrderManager = () => {
       } else {
         response = await getAllOrdersUser(values.storeId);
       }
-      setData(response.value.map(JSON.parse));
+      console.log(response)
+      console.log(response.value)
+      setData(response.value);
     } catch (error) {
       setData(null);
       console.error(error);
@@ -42,7 +44,9 @@ const OrderManager = () => {
   };
 
   const handleToggleOrderActive = async (orderId) => {
-    let order = data.find(order => order.orderID === orderId);
+    let order = data.find(order => order.orderId === orderId);
+    console.log(order)
+    console.log(orderId)
     if (order.active) {
       await closeOrder(orderId);
     } else {

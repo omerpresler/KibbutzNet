@@ -65,16 +65,18 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
             <TableCell>Chat</TableCell>
             <TableCell>Cost</TableCell>
             <TableCell>Description</TableCell>
-            <TableCell>Change Status</TableCell>
-            <TableCell>Action</TableCell>
+            {localStorage.getItem("userType") === "store" && (
+  <>
+    <TableCell>Change Status</TableCell>
+    <TableCell>Action</TableCell>
+  </>
+)}
           </TableRow>
         </TableHead>
         <TableBody>
           {orders.map((order) => (
-            <TableRow key={order.orderID}>
-              <TableCell component="th" scope="row">
-                {order.orderID}
-              </TableCell>
+            <TableRow key={order.orderId}>
+              <TableCell component="th" scope="row">{order.orderId}</TableCell>
               <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
               <TableCell>{order.status}</TableCell>
               <TableCell>{order.memberName}</TableCell>
@@ -83,24 +85,28 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
               <TableCell>{"chat connection "}</TableCell>
               <TableCell>{order.cost}</TableCell>
               <TableCell>{order.description}</TableCell>
-              <TableCell>
-                <Button
-                  onClick={() => handleOpenDialog(order.orderID)}
-                  variant="contained"
-                  color="primary"
-                >
-                  Change Status
-                </Button>
-              </TableCell>
-              <TableCell>
-                <Button
-                  onClick={() => handleToggleOrderActive(order.orderID)}
-                  variant="contained"
-                  color={order.active ? "secondary" : "primary"}
-                >
-                  {order.active ? 'Close' : 'Reopen'}
-                </Button>
-              </TableCell>
+              {localStorage.getItem("userType") === "store" && (
+      <TableCell>
+        <Button
+          onClick={() => handleOpenDialog(order.orderId)}
+          variant="contained"
+          color="primary"
+        >
+          Change Status
+        </Button>
+      </TableCell>
+    )}
+    {localStorage.getItem("userType") === "store" && (
+      <TableCell>
+        <Button
+          onClick={() => handleToggleOrderActive(order.orderId)}
+          variant="contained"
+          color={order.active ? "secondary" : "primary"}
+        >
+          {order.active ? 'Close' : 'Reopen'}
+        </Button>
+      </TableCell>
+    )}
             </TableRow>
           ))}
         </TableBody>

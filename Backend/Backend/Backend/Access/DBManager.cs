@@ -13,8 +13,8 @@ public class DBManager
     private string Host = "localhost";
     private int Port = 5432;
     private string Username = "postgres";
-    private string  Password = "omer";
-    private string Database = "KibbutzNet";
+    private string  Password = "1106";
+    private string Database = "kibbutznet";
 
     public DBManager()
     {
@@ -122,7 +122,7 @@ public class DBManager
 
     private void initBasicData()
     {
-        string commandText = $@"insert into Stores (storeId, storeName, photoLink) values (0, 'Flower Shop', 'None')";
+        string commandText = $@"insert into Stores (storeId, storeName, photoLink) values (0, 'Flower Shop', 'https://images.pexels.com/photos/16619444/pexels-photo-16619444.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load')";
         ExecuteCommandNonQuery(commandText);
         
         commandText = $@"insert into Members (userId, memberName, phoneNumber, email, house) values (0, 'amit', '054-444-4444', 'amit@gmail.com', 1)";

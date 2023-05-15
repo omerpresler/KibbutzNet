@@ -35,10 +35,18 @@ export const admin_controller_path="/Admin"
 export const get_purchase_path="/getPurchaseHistory"
 
 //chat function pathes
-export const startChatPath = '/path/to/start/chat/endpoint';
-export const endChatPath = '/path/to/end/chat/endpoint';
-export const sendMessagePath = '/path/to/send/message/endpoint';
-export const getAllChatsPath = '/path/to/get/all/chats/endpoint';
+export const startChatUserPath = back_path+user_controller_path+"/openChatUser"
+export const startChatStorePath = back_path+store_controller_path+"/openChatStore"
+
+export const sendMessageUserPath = back_path+user_controller_path+"/sendMassageInChat"
+export const sendMessageStorePath = back_path+store_controller_path+"/sendMassageInChat"
+export const getAllUserChats = back_path+user_controller_path+"/getAllChats"
+export const getAllStoreChats = back_path+store_controller_path+"/getAllChats"
+
+// export const endChatUserPath = back_path+user_controller_path+"/openChatUser"
+// export const endChatStorePath = back_path+store_controller_path+"/openChatUser"
+
+
 
 
 //regsiter function path
@@ -71,6 +79,8 @@ export const connectStoreUser=back_path+admin_controller_path+"/assignEmployeeTo
 
 //page function pathes
 
-export const getAllStores = back_path + store_controller_path + "/getAllStores";
 export const getStore = back_path + store_controller_path + "/getSpecficStore";
 
+
+//member function pathes
+export const getAllStores = back_path + user_controller_path + "/getAllStores";
