@@ -386,4 +386,20 @@ public class Store
 
         return new Response<List<Tuple<int, String?, String?>>>(allStores);
     }
+
+    public Response<string> sendEmailReport(int storeId, string email)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+                return stores[storeId].GenerateReport(email);
+            
+
+            return new Response<string>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
 }

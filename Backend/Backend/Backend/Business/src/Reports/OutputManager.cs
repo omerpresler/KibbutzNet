@@ -18,7 +18,7 @@ namespace Backend.Business.src.Reports
             MailMessage message = new MailMessage();
             message.From = new MailAddress(fromMail);
             message.Subject = subject;
-            message.To.Add(new MailAddress("amitgrumet8@gmail.com"));
+            message.To.Add(new MailAddress(targetEmail));
             message.Body = $"<html><body> {body} </body></html>";
             message.IsBodyHtml = true;
 

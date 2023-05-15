@@ -44,7 +44,6 @@ public class ClientStoreService
         notificationManager = new NotificationManager();
 
         pageManager = new PageManager(storeId);
-        GeneratePurchaseReport();
     }
 
     public bool chatExist(int userId, int storeId)
@@ -153,7 +152,7 @@ public class ClientStoreService
         return pageManager.RemoveProduct(productId);
     }
     
-    public void GeneratePurchaseReport()
+    public Response<string> GenerateReport(string email)
     {
         List<object> purchaseData = new List<object>();
 
@@ -172,7 +171,24 @@ public class ClientStoreService
             purchaseData.Add(purchaseObject);
         }
 
-        outputManager.sendEmail("presler.omer@gmail.com", "Test", JsonSerializer.Serialize(purchaseData));
+        List<object> orderData = OrderManager.Instance.GenerateOrderReport(storeId);
+        
+        var report = new
+        {
+            Purchases = purchaseData,
+            Orders = orderData
+        };
+
+        try
+        {
+            outputManager.sendEmail(email, "Test", JsonSerializer.Serialize(report));
+        }
+        catch (Exception e)
+        {
+           return new Response<string>(true, "Problem with sending email");
+        }
+
+        return new Response<string>(email);
     }
 
 }

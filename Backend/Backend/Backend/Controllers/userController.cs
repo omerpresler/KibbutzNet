@@ -15,7 +15,7 @@ namespace Backend.Controllers
         //json.stringfy(message)
         public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
-            return Service.User.Instance.SendMessage(request.userId, request.storeId, request.Text);
+            return Service.User.Instance.SendMessage(request.userId, request.storeId, request.text);
         }
 
         //list Json

@@ -6,7 +6,7 @@ public class chatMassageRequest
     
     public int storeId {get; set;}
 
-    public string Text {get; set;}
+    public string text {get; set;}
 
 
     
@@ -17,6 +17,6 @@ public class chatMassageRequest
     {
         this.userId = userId;
         this.storeId = storeId;
-        this.Text = text;
+        this.text = text;
     }
 }

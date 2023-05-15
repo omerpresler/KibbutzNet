@@ -27,31 +27,18 @@ namespace Backend.Controllers
         }
 
         //int StoreId 
-        [HttpPost("sendbyemail")]
-        public bool SendByEmail([FromBody] UserDataRequest request)
+        [HttpPost("sendReportByEmail")]
+        public Response<string> SendByEmail([FromBody] reportRequest request)
         {
-
-            Console.WriteLine("yess!!!");
-            Console.WriteLine(request.email);
-            return true;
+            return Store.Instance.sendEmailReport(request.storeId, request.email);
         }
 
-        //int StoreId 
-        [HttpPost("sendbysms")]
-        public bool SendBySms([FromBody] UserDataRequest request)
-        {
 
-            Console.WriteLine("yess!!!");
-            Console.WriteLine(request.email);
-            return true;
-        }
-        
-        
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
         public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
-            return Store.Instance.SendMessage(request.storeId, request.userId, request.Text);
+            return Store.Instance.SendMessage(request.storeId, request.userId, request.text);
         }
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]

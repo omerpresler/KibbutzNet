@@ -118,7 +118,7 @@ using System.Collections.Generic;
             return new Response<bool>(true);
         }
         
-        public string GenerateOrderReport(int storeId)
+        public List<object> GenerateOrderReport(int storeId)
         {
             List<object> orderData = new List<object>();
 
@@ -139,7 +139,7 @@ using System.Collections.Generic;
                 orderData.Add(orderObject);
             }
 
-            return JsonSerializer.Serialize(orderData);
+            return orderData;
         }
 
     }
