@@ -8,6 +8,11 @@ namespace Backend.Business.src.Client_Store
     {
         private List<User> listeners;
 
+        public NotificationManager()
+        {
+            listeners = new List<User>();
+        }
+
         public string addListner(User user)
         {
             if (!listeners.Contains(user))

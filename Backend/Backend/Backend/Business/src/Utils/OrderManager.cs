@@ -22,7 +22,7 @@ using System.Collections.Generic;
             {
                 orderNum = DBManager.Instance.getMaxOrderId();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 orderNum = 0;
             }

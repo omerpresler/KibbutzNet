@@ -23,7 +23,7 @@ namespace Backend.Business.src.Utils
             this.message = message;
         }
         
-        public string ToString()
+        public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
         }

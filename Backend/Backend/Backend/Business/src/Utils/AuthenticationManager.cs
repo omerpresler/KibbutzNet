@@ -9,8 +9,8 @@ namespace Backend.Business.src.Utils
     public sealed class AuthenticationManager
     {
         
-        public static Dictionary<int, string> idToEmail;
-        public static Dictionary<int, List<int>> StoreToEmployees;        
+        public static Dictionary<int, string> idToEmail = new Dictionary<int, string>();
+        public static Dictionary<int, List<int>> StoreToEmployees = new Dictionary<int, List<int>>();    
         
         
         private static AuthenticationManager? instance;

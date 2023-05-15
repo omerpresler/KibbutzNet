@@ -18,10 +18,11 @@ public class DBManager
 
     public DBManager()
     {
-        CreateTables();
+        //wipeDB();
+        //initBasicData();
     }
 
-    private void CreateTables()
+    public void wipeDB()
     {
         CreateOrderTable();
         CreatePurchaseTable();
@@ -32,10 +33,8 @@ public class DBManager
         CreateMessageTable();
         CreateChatTable();
         CreatePostTable();
-        
-        initBasicData();
     }
-    
+
     private void CreateOrderTable()
     {
         ExecuteCommandNonQuery("DROP TABLE IF EXISTS Orders");
@@ -131,7 +130,7 @@ public class DBManager
                             photoLink VARCHAR(255));" );
     }
 
-    private void initBasicData()
+    public void initBasicData()
     {
         string commandText = $@"insert into Stores (storeId, storeName, photoLink) values (0, 'Flower Shop', 'https://images.pexels.com/photos/16619444/pexels-photo-16619444.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load')";
         ExecuteCommandNonQuery(commandText);
@@ -149,6 +148,12 @@ public class DBManager
         ExecuteCommandNonQuery(commandText);
         
         commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'In the oven', 'Amit', 0, TRUE, 0, 15, 'a cake')";
+        ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'Test', 'Amit', 0, TRUE, 0, 4, 'something')";
+        ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'AnotherTest', 'Who', 0, TRUE, 0, 2, 'something good')";
         ExecuteCommandNonQuery(commandText);
     }
     
@@ -454,6 +459,46 @@ public class DBManager
         }
         return Chats;
     }
+    
+    public List<Purchase> LoadPurchasesPerStore(int storeId)
+    {
+        List<Purchase> purchases = new List<Purchase>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+        
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT purchaseId ,memberId ,storeId ,cost ,description ,date FROM purchases WHERE storeId = {storeId}", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int purchaseId = reader.GetInt32(0);
+                int memberId = reader.GetInt32(1);
+                double doubleValue = reader.GetDouble(3);
+                float cost = Convert.ToSingle(doubleValue);
+                string description = reader.GetString(4);
+                int dateAsInt = reader.GetInt32(5);
+                DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(dateAsInt).ToLocalTime();
+                
+
+                purchases.Add(new Purchase(storeId,memberId, purchaseId, cost, description, start));
+            }
+            
+            conn.Close();
+        }
+        return purchases;
+    }
 
     public static DBManager Instance {
         get {
@@ -507,6 +552,12 @@ public class DBManager
     public void AddPost(int postId, int storeId, String header, string photoLink)
     {
         string commandText = $@"insert into Posts (postId, storeId, header ,photoLink) values ({postId}, {storeId}, '{header}', '{photoLink}')";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void AddPurchase(int storeId, int memberId, int purchaseId, float cost, string description, DateTime date)
+    {
+        string commandText = $@"insert into purchases ( storeId,memberId ,purchaseId ,cost ,description ,date) values ({storeId}, {memberId}, {purchaseId}, {cost}, '{description}', '{date}')";
         ExecuteCommandNonQuery(commandText);
     }
 
@@ -625,6 +676,39 @@ public class DBManager
         }
         
         return maxPostId;
+    }
+    
+    public int getMaxPurchaseId()
+    {
+        int maxPurchaseId = 0;
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT MAX(purchaseId) FROM purchases;", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                maxPurchaseId = reader.GetInt32(0);
+            }
+            
+            conn.Close();
+        }
+        
+        return maxPurchaseId;
     }
 
     public void ExecuteCommandNonQuery(string commandText)

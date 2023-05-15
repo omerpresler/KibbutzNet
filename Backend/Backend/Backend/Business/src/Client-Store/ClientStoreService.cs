@@ -1,9 +1,13 @@
 ﻿using System.Collections;
+using Backend.Access;
 using Backend.Business.src.Utils;
 using Backend.Business.src.Reports;
 using Backend.Business.Utils;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using Message = Backend.Business.src.Utils.Message;
+using Order = Backend.Business.src.Utils.Order;
+using Purchase = Backend.Business.src.Utils.Purchase;
 
 namespace Backend.Business.src.Client_Store;
 
@@ -18,6 +22,8 @@ public class ClientStoreService
     private List<Purchase> purchases;
     public String? storeName;
     public String? photoLink;
+    private static int nextPurchase = 0;
+
     
     public ClientStoreService(int storeId, string storeName, string photoLink)
     {
@@ -47,6 +53,20 @@ public class ClientStoreService
         notificationManager = new NotificationManager();
 
         pageManager = new PageManager(storeId);
+
+        foreach (Access.Purchase p in DBManager.Instance.LoadPurchasesPerStore(storeId))
+        {
+            purchases.Add(new Purchase(p.memberId, storeId, p.purchaseId, p.cost, p.description, p.date));
+        }
+        
+        try
+        {
+            nextPurchase = DBManager.Instance.getMaxPurchaseId();
+        }
+        catch (Exception)
+        {
+            nextPurchase = 0;
+        }
     }
 
     public bool chatExist(int userId, int storeId)
@@ -86,8 +106,9 @@ public class ClientStoreService
     
     public Response<int> addPurchase(int memberID, string description, float cost)
     {
-        Purchase p = new Purchase(storeId, memberID, cost, description);
+        Purchase p = new Purchase(memberID, storeId, Interlocked.Increment(ref nextPurchase),cost, description, DateTime.Now);
         purchases.Add(p);
+        DBManager.Instance.AddPurchase(storeId, memberID, p.purchaseId, cost, description, p.date);
         return new Response<int>(p.purchaseId);
     }
     
@@ -155,7 +176,7 @@ public class ClientStoreService
         return pageManager.RemoveProduct(productId);
     }
     
-    public Response<string> GenerateReport(string email)
+    public string GenerateReport()
     {
         List<object> purchaseData = new List<object>();
 
@@ -183,18 +204,39 @@ public class ClientStoreService
             Orders = orderData
         };
 
+        
+        return JsonSerializer.Serialize(report);
+    }
+
+
+    public Response<string> sendEmailReport(string email)
+    {
         try
         {
-            outputManager.sendEmail(email, "Test", JsonSerializer.Serialize(report));
+            outputManager.sendEmail(email, "New Test", GenerateReport());
+            return new Response<string>(email);
         }
         catch (Exception e)
         {
-           return new Response<string>(true, "Problem with sending email");
+            return new Response<string>(true, e.Message);
         }
-
-        return new Response<string>(email);
     }
     
+    public Response<string> saveExcelReport()
+    {
+        try
+        {
+            string path = "../../test.csv";
+            //outputManager.saveExcelFile(GenerateReport(), path);
+            return new Response<string>(path);
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
+
+
     public Response<List<Post>> getPosts()
     {
         return pageManager.getPosts();

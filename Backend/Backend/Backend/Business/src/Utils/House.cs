@@ -9,7 +9,7 @@ namespace Backend.Business.Utils
         public string Direction;
 
         //will be a google map link
-        public object mapsLink;
+        public object? mapsLink;
 
         public House(int houseId, string direction)
         {

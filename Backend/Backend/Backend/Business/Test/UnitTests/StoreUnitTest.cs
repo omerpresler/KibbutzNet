@@ -1,4 +1,5 @@
 ﻿using Backend.Access;
+using Backend.Business.src.Utils;
 using NUnit.Framework;
 using AdminAC = Backend.Access.Admin;
 using AdminB = Backend.Business.src.Admin;
@@ -11,72 +12,82 @@ namespace Backend.Business.Test.StoreUnitTest
     [TestFixture]
     public class StoreUnitTest
     {
-        private DBManager dbManager; 
-
         [SetUp]
         public void SetUp()
         {
-            dbManager = DBManager.Instance;
         }
         
         [Test]
         public void AddNewStoreSuccess()
         {
-            var adminService = AdminS.Instance;
-            var store_id = adminService.CreateNewStore(0, "my-store", "").value;
-            var stores = dbManager.LoadStores();
-            Assert.IsTrue(stores.Exists(store => store.storeId == store_id));
+            Response<int> createNewStoreResponse = AdminS.Instance.CreateNewStore(0, "my-store", "");
+            Assert.IsFalse(createNewStoreResponse.exceptionHasOccured);
+
+            List<Access.Store> stores = DBManager.Instance.LoadStores();
+            Assert.IsTrue(stores.Exists(store => store.storeId == createNewStoreResponse.value));
         }
         
         [Test]
         public void AddNewStoreFail()
         {
-            // admin doesn't exist
-            var adminService = AdminS.Instance;
-            var store_id = adminService.CreateNewStore(99, "my-store", "");
-            Assert.IsTrue(store_id.exceptionHasOccured);
+            Response<int> createNewStoreResponse = AdminS.Instance.CreateNewStore(99, "my-store", "");
+            Assert.IsTrue(createNewStoreResponse.exceptionHasOccured);
         }
         
         [Test]
         public void AssignEmployeeSuccess()
         {
-            var adminService = AdminS.Instance;
-            var store_id = adminService.CreateNewStore(0, "my-store", "").value;
-            adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
-            adminService.AssignEmployeeToStore(0, 9999, store_id);
-            var employees = dbManager.LoadStoreEmployees();
-            Assert.IsTrue(employees.Exists(e => e.UserId == 9999 && e.storeId == store_id));
+            int userId = 3840;
+            
+            Response<int> createNewStoreResponse = AdminS.Instance.CreateNewStore(0, "my-store", "");
+            Assert.IsFalse(createNewStoreResponse.exceptionHasOccured);
+           
+            Response<bool> createNewMemberResponse = AdminS.Instance.CreateNewMember(0, userId, "user", "05444", "user@gmail.com");
+            Assert.IsFalse(createNewMemberResponse.exceptionHasOccured);
+            
+            Response<bool> assignEmployeeToStoreResponse = AdminS.Instance.AssignEmployeeToStore(0, userId, createNewStoreResponse.value);
+            Assert.IsFalse(assignEmployeeToStoreResponse.exceptionHasOccured);
+
+            
+            List<StoreEmployee> employees = DBManager.Instance.LoadStoreEmployees();
+            Assert.IsTrue(employees.Exists(e => e.UserId == userId && e.storeId == createNewStoreResponse.value));
         }
         
         [Test]
-        public void AssignEmployeeFail()
+        public void AssignEmployeeFail_NoSuchAdmin()
         {
-            // admin doesn't exist
-            var adminService = AdminS.Instance;
-            var store_id = adminService.CreateNewStore(0, "my-store", "").value;
-            adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
-            var employee = adminService.AssignEmployeeToStore(8888, 9999, store_id);
-            Assert.IsTrue(employee.exceptionHasOccured);
+            int userId = 5759;
+
+            Response<int> createNewStoreResponse = AdminS.Instance.CreateNewStore(0, "my-store", "");
+            Assert.IsFalse(createNewStoreResponse.exceptionHasOccured);
+           
+            Response<bool> createNewMemberResponse = AdminS.Instance.CreateNewMember(0, userId, "user", "05444", "user@gmail.com");
+            Assert.IsFalse(createNewMemberResponse.exceptionHasOccured);
+            
+            Response<bool> assignEmployeeToStoreResponse = AdminS.Instance.AssignEmployeeToStore(-1, userId, createNewStoreResponse.value);
+            Assert.IsTrue(assignEmployeeToStoreResponse.exceptionHasOccured);
         }
         
         [Test]
-        public void AssignEmployeeFail2()
+        public void AssignEmployeeFail_NoSuchUser()
         {
-            // user doesn't exist
-            var adminService = AdminS.Instance;
-            var store_id = adminService.CreateNewStore(0, "my-store", "").value;
-            var employee = adminService.AssignEmployeeToStore(0, 8888, store_id);
-            Assert.IsTrue(employee.exceptionHasOccured);
+            Response<int> createNewStoreResponse = AdminS.Instance.CreateNewStore(0, "my-store", "");
+            Assert.IsFalse(createNewStoreResponse.exceptionHasOccured);
+
+            Response<bool> assignEmployeeToStoreResponse = AdminS.Instance.AssignEmployeeToStore(0, -1, createNewStoreResponse.value);
+            Assert.IsTrue(assignEmployeeToStoreResponse.exceptionHasOccured);
         }
         
         [Test]
-        public void AssignEmployeeFail3()
+        public void AssignEmployeeFail_NoSuchStore()
         {
-            // store doesn't exist
-            var adminService = AdminS.Instance;
-            adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
-            var employee = adminService.AssignEmployeeToStore(0, 9999, 99999);
-            Assert.IsTrue(employee.exceptionHasOccured);
+            int userId = 8284;
+
+            Response<bool> createNewMemberResponse = AdminS.Instance.CreateNewMember(0, userId, "user", "05444", "user@gmail.com");
+            Assert.IsFalse(createNewMemberResponse.exceptionHasOccured);
+            
+            Response<bool> assignEmployeeToStoreResponse = AdminS.Instance.AssignEmployeeToStore(0, userId, -1);
+            Assert.IsTrue(assignEmployeeToStoreResponse.exceptionHasOccured);
         }
         
         [Test]
@@ -116,40 +127,6 @@ namespace Backend.Business.Test.StoreUnitTest
             Assert.IsTrue(login.exceptionHasOccured);
         }
         
-        [Test]
-        public void openChatSuccess()
-        {
-            // test only chat openning
-            var adminService = AdminS.Instance;
-            var storeService = Store.Instance;
-            var store_id = adminService.CreateNewStore(0, "my store", "").value;
-            var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
-            var openChat = storeService.OpenChat(store_id, 9999);
-            var chats = dbManager.LoadChats();
-            Assert.IsTrue(chats.Exists(chat => chat.store == store_id && chat.user == 9999));
-        }
-        
-        [Test]
-        public void openChatFail()
-        {
-            // store doesn't exist
-            var adminService = AdminS.Instance;
-            var storeService = Store.Instance;
-            var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
-            var openChat = storeService.OpenChat(99998, 9999);
-            Assert.IsTrue(openChat.exceptionHasOccured);
-        }
-        
-        [Test]
-        public void openChatFail2()
-        {
-            // user doesn't exist
-            var adminService = AdminS.Instance;
-            var storeService = Store.Instance;
-            var store_id = adminService.CreateNewStore(0, "my store", "").value;
-            var openChat = storeService.OpenChat(store_id, 8888);
-            Assert.IsTrue(openChat.exceptionHasOccured);
-        }
         
         [Test]
         public void SendMessageSuccess()
@@ -158,12 +135,10 @@ namespace Backend.Business.Test.StoreUnitTest
             var storeService = Store.Instance;
             var store_id = adminService.CreateNewStore(0, "my store", "").value;
             var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
-            var openChat = storeService.OpenChat(store_id, 9999);
-            var chats = dbManager.LoadChats();
-            var chat = chats.Find(c => c.user == 9999 && c.store == store_id).sessionId;
-            var sendMessage = storeService.SendMessage(store_id, chat, "Hello World!");
-            var messages = dbManager.LoadMessages();
-            Assert.IsTrue(messages.Exists(message => message.chat == chat && message.message == "Hello World!"));
+            var chats = DBManager.Instance.LoadChats();
+            var sendMessage = storeService.SendMessage(store_id, 9999, "Hello World!");
+            var messages = DBManager.Instance.LoadMessagesPerChat(9999, store_id);
+            Assert.IsTrue(messages.Exists(message => message.userId == 9999 && message.storeId == store_id && message.message == "Hello World!"));
         }
         
         [Test]
@@ -186,7 +161,7 @@ namespace Backend.Business.Test.StoreUnitTest
             var store_id = adminService.CreateNewStore(0, "my store", "").value;
             var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
             var order_id = storeService.addOrder(store_id, 9999, "user", "product", 500).value;
-            var orders = dbManager.LoadOrders();
+            var orders = DBManager.Instance.LoadOrders();
             Assert.IsTrue(orders.Exists(order => order.orderID == order_id && order.active));
         }
         
@@ -199,7 +174,7 @@ namespace Backend.Business.Test.StoreUnitTest
             var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
             var order_id = storeService.addOrder(store_id, 9999, "user", "product", 500).value;
             storeService.changeOrdersStatus(store_id, order_id, "~accepted~");
-            var orders = dbManager.LoadOrders();
+            var orders = DBManager.Instance.LoadOrders();
             var status = orders.Find(o => o.orderID == order_id).status;
             Assert.AreEqual(status, "~accepted~");
         }
@@ -225,7 +200,7 @@ namespace Backend.Business.Test.StoreUnitTest
             var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
             var order_id = storeService.addOrder(store_id, 9999, "user", "product", 500).value;
             storeService.closeOrder(store_id, order_id);
-            var orders = dbManager.LoadOrders();
+            var orders = DBManager.Instance.LoadOrders();
             Assert.IsTrue(orders.Exists(order => order.orderID == order_id && !order.active));
         }
         
@@ -238,10 +213,10 @@ namespace Backend.Business.Test.StoreUnitTest
             var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
             var order_id = storeService.addOrder(store_id, 9999, "user", "product", 500).value;
             storeService.closeOrder(store_id, order_id);
-            var orders = dbManager.LoadOrders();
+            var orders = DBManager.Instance.LoadOrders();
             Assert.IsTrue(orders.Exists(order => order.orderID == order_id && !order.active));
             storeService.reOpenOrder(store_id, order_id);
-            orders = dbManager.LoadOrders();
+            orders = DBManager.Instance.LoadOrders();
             Assert.IsTrue(orders.Exists(order => order.orderID == order_id && order.active));
         }
         
@@ -254,7 +229,7 @@ namespace Backend.Business.Test.StoreUnitTest
             var member = adminService.CreateNewMember(0, 9999, "user", "05444", "user@gmail.com");
             var order1 = storeService.addOrder(store_id, 9999, "user", "product", 500).value;
             var order2 = storeService.addOrder(store_id, 9999, "user", "product2", 40).value;
-            var orders = dbManager.LoadOrders();
+            var orders = DBManager.Instance.LoadOrders();
             var store_orders = orders.Where(o => o.storeId == store_id).ToList();
             var order_IDs = store_orders.Select(o => o.orderID).ToList();
             Assert.IsTrue(order_IDs.OrderBy(x => x).SequenceEqual(new List<int> {order1 , order2 }.OrderBy(x => x)));
@@ -270,7 +245,7 @@ namespace Backend.Business.Test.StoreUnitTest
             // add two orders
             var order1 = storeService.addOrder(store_id, 9999, "user", "product", 500).value;
             var order2 = storeService.addOrder(store_id, 9999, "user", "product2", 40).value;
-            var orders = dbManager.LoadOrders();
+            var orders = DBManager.Instance.LoadOrders();
             // get the orders fron DB
             var store_orders = orders.Where(o => o.storeId == store_id).Select(o => o.orderID.ToString()).ToList();
             // get the orders from charHistory
@@ -298,7 +273,7 @@ namespace Backend.Business.Test.StoreUnitTest
             var adminService = AdminS.Instance;
             var storeService = Store.Instance;
             var store_id = adminService.CreateNewStore(0, "my-store", "").value;
-            var post = storeService.AddPost(store_id, "");
+            var post = storeService.AddPost(store_id, "", "");
             Assert.IsFalse(post.exceptionHasOccured);
         }
         
@@ -308,7 +283,7 @@ namespace Backend.Business.Test.StoreUnitTest
             // store doesn't exist
             var adminService = AdminS.Instance;
             var storeService = Store.Instance;
-            var post = storeService.AddPost(8989, "");
+            var post = storeService.AddPost(8989, "", "");
             Assert.IsTrue(post.exceptionHasOccured);
         }
         
@@ -318,10 +293,11 @@ namespace Backend.Business.Test.StoreUnitTest
             var adminService = AdminS.Instance;
             var storeService = Store.Instance;
             var store_id = adminService.CreateNewStore(0, "my-store", "").value;
-            var post_id = storeService.AddPost(store_id, "").value.Postid;
+            var post_id = storeService.AddPost(store_id, "", "").value.postId;
             var remove = storeService.RemovePost(store_id, post_id);
             Assert.IsFalse(remove.exceptionHasOccured);
         }
 
     }
 }
+

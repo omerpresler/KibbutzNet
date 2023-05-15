@@ -7,7 +7,7 @@ namespace Backend.Service;
 
 public class User
 {
-    private static Dictionary<int, MemberController> users;
+    private static Dictionary<int, MemberController> users = new Dictionary<int, MemberController>();
     
     private static User instance;
     private static readonly object padlock = new object();
@@ -28,6 +28,12 @@ public class User
                 return instance;
             }
         }
+    }
+    
+    public void cleanUser()
+    {
+        lock (padlock)
+            instance = new User();
     }
     
     public bool userExist(int userId)
@@ -91,12 +97,16 @@ public class User
     {
         try
         {
-            if (users.ContainsKey(userId))
-            {
-                return users[userId].SendMessage(storeId, msg);
-            }
+            if (!users.ContainsKey(userId))
+                return new Response<string>(true, $"The is no user with the id of {userId}");
+            
+            if(!Store.Instance.storeExist(storeId))
+                return new Response<string>(true, $"The is no store with the id of {storeId}");
+            
+            return users[userId].SendMessage(storeId, msg);
+            
 
-            return new Response<string>(true, $"The is no user with the id of {userId}");
+            
         }
         catch (Exception e)
         {

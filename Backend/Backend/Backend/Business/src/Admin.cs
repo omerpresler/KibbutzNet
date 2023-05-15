@@ -23,7 +23,7 @@ public class Admin
         {
             _nextStoreId = DBManager.Instance.getMaxStoreId();
         }
-        catch (Exception e)
+        catch (Exception)
         {
             _nextStoreId = 0;
         }

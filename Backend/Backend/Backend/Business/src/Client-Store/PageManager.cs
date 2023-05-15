@@ -24,7 +24,7 @@ namespace Backend.Business.src.Client_Store
             {
                 _nextId = DBManager.Instance.getMaxPostId();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _nextId = 0;
             }

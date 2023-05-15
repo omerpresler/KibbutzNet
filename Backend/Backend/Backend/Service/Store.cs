@@ -30,13 +30,19 @@ public class Store
             }
         }
     }
+    
+    public void cleanStore()
+    {
+        lock (padlock)
+            instance = new Store();
+    }
 
     public bool storeExist(int storeId)
     {
         return stores.ContainsKey(storeId);
     }
     
-    public string getStoreName(int storeId)
+    public String? getStoreName(int storeId)
     {
         return stores[storeId].storeName;
     }
@@ -84,12 +90,13 @@ public class Store
     {
         try
         {
-            if (stores.ContainsKey(storeId))
-            {
+            if (!stores.ContainsKey(storeId))
+                return new Response<string>(true, $"The is no store with the id of {storeId}");
+            
+            if(!User.Instance.userExist(userId))
+                return new Response<string>(true, $"The is no user with the id of {userId}");
+            
                 return stores[storeId].SendMessage(userId, msg);
-            }
-
-            return new Response<string>(true, $"The is no store with the id of {storeId}");
         }
         catch (Exception e)
         {
@@ -392,7 +399,23 @@ public class Store
         try
         {
             if (stores.ContainsKey(storeId))
-                return stores[storeId].GenerateReport(email);
+                return stores[storeId].sendEmailReport(email);
+            
+
+            return new Response<string>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
+    
+    public Response<string> saveExcelReport(int storeId)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+                return stores[storeId].saveExcelReport();
             
 
             return new Response<string>(true, $"The is no store with the id of {storeId}");

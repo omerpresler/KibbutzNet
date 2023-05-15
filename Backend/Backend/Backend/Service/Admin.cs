@@ -37,6 +37,12 @@ public class Admin
         }
     }
 
+    public void cleanAdmin()
+    {
+        lock (padlock)
+            instance = new Admin();
+    }
+
     public Response<string> Login(int userId, string email)
     {
         try
@@ -88,7 +94,7 @@ public class Admin
 
             ClientStoreService store = admins[adminId].CreateStore(storeName, photoLink);
             Store.Instance.addNewStore(store);
-            //AuthenticationManager.StoreToEmployees[store.storeId] = new List<int>();
+            AuthenticationManager.StoreToEmployees[store.storeId] = new List<int>();
             return new Response<int>(store.storeId);
         }
         catch (Exception e)

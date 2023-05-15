@@ -12,14 +12,14 @@ namespace Backend.Business.src.Utils
         public string description { get; set; }
         public DateTime date { get; set; }
         
-        public Purchase(int storeId, int memberId, float cost, string desc)
+        public Purchase(int memberId, int storeId, int purchaseId, float cost, string description, DateTime date)
         {
-            this.storeId = storeId;
             this.memberId = memberId;
-            this.purchaseId = Interlocked.Increment(ref nextPurchaseId);
+            this.storeId = storeId;
+            this.purchaseId = purchaseId;
             this.cost = cost;
-            this.description = desc;
-            this.date = DateTime.Now;
+            this.description = description;
+            this.date = date;
         }
     }
 }

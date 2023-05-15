@@ -2,7 +2,7 @@ namespace Backend.Business.src.Utils
 {
     public class Response<T>
     {
-        public T value { get; set; }
+        public T? value { get; set; }
         public bool exceptionHasOccured { get; set; }
         public string errorMessage { get; set; }
         
@@ -16,7 +16,6 @@ namespace Backend.Business.src.Utils
         
         public Response(bool exceptionHasOccured, string errorMessage)
         {
-            this.value = default(T);
             this.exceptionHasOccured = exceptionHasOccured;
             this.errorMessage = errorMessage;
         }

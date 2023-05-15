@@ -141,6 +141,11 @@ namespace Backend.Controllers
         {
             return Store.Instance.getPosts(storeId);
         }
-
+        
+        [HttpPost("saveExcelReport")]
+        public Response<string> saveExcelReport(int storeId)
+        {
+            return Store.Instance.saveExcelReport(storeId);
+        }
     }
 }
