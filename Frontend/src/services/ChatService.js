@@ -53,11 +53,10 @@ export default function getChatService() {
       });
   }
 
-  function sendMessageStore(userId, message) {
-    const StoreId=localStorage.getItem("storeId")
-    const massageValue=message.message
+  function sendMessageStore(userId,storeId, message) {
+    console.log(userId,storeId,message)
     return axios
-      .post(sendMessageStorePath, { userId,StoreId,text:  massageValue})
+      .post(sendMessageStorePath, { userId,storeId,text:  message})
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)

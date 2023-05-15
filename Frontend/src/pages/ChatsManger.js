@@ -65,8 +65,24 @@ const fetchChats = async () => {
   // If user type is 'store', fetch all chats for the store
   // Otherwise, fetch all chats for the user
   if (storedUserType === 'store') {
-   await getAllChatsStore(userId).then(chatData => {
-      setChats(chatData.value);
+    await getAllChatsStore(userId).then(chatData => {
+      // Transform each chat with additional data
+      let transformedChats = chatData.value.map((chatString) => {
+        // Parse the chat JSON string into an object
+        let chat = JSON.parse(chatString);
+  
+        // Find the corresponding user
+        
+  
+        return {
+          userId: chat.User,
+          storeId: localStorage.getItem("storeId"),  // Assuming the storeId is stored in localStorage
+          name: chat.User,
+          messages: chat.Messages || []  // Assuming chat.Messages contains the list of messages
+        }
+      });
+  
+      setChats(transformedChats);
     });
   } else {
     await getAllChatsUser(userId).then(chatData => {

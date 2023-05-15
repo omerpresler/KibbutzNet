@@ -23,7 +23,6 @@ import Center from './Center';
 export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
   const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState('');
-  console.log(chats)
   const handleChatSelect = async (chat) => {
     console.log(chat)
     await setSelectedChat(chat);
@@ -33,19 +32,21 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
 
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
-
+  
     const message = {
       message: newMessage,
       FromMe: true,
     };
-
+  
     const response = await sendMessage(selectedChat.userId, selectedChat.storeId, newMessage);
-
+  
     if (!response.exception) {
-      setSelectedChat({
+      const updatedChat = {
         ...selectedChat,
-        Messages: [...selectedChat.messages, message],
-      });
+        messages: [...selectedChat.messages, message],
+      };
+      
+      setSelectedChat(updatedChat);
       setNewMessage('');
     }
   };
@@ -55,7 +56,7 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
       <Container maxWidth="md">
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+            <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', }}>
               <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
                 Chats
               </Typography>
@@ -93,7 +94,7 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
                     <ListItem key={index} align={message.FromMe ? "right" : "left"}>
                       <ListItemText
                         primary={message.FromMe ? 'You:' : 'Them:'}
-                        secondary={message.Message}
+                        secondary={message.message}
                       />
                     </ListItem>
                   ))}
