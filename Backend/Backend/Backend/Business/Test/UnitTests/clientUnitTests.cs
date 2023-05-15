@@ -1,10 +1,11 @@
 ﻿using Backend.Access;
-using Backend.Business.src.Utils;
 using NUnit.Framework;
 using AdminAC = Backend.Access.Admin;
 using AdminB = Backend.Business.src.Admin;
 using AdminS = Backend.Service.Admin;
 using User = Backend.Service.User;
+using Store = Backend.Service.Store;
+using Newtonsoft.Json.Linq;
 
 
 
@@ -143,5 +144,6 @@ namespace Backend.Business.Test.clientTest
             Assert.IsTrue(sendMessage.exceptionHasOccured);
         }
         
+
     }
 }
