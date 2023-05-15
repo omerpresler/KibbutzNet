@@ -44,17 +44,16 @@ public class ClientStoreService
 
         pageManager = new PageManager(storeId);
         
-        
-    }
-    
-    public Response<int> OpenChat(int userId)
-    {
-        return chatManager.StartChat(storeId, userId);
     }
 
-    public Response<string> SendMessage(int sessionId, string msg)
+    public bool chatExist(int userId, int storeId)
     {
-        return chatManager.SendMessage(sessionId, new Message(true, msg), true);
+        return chatManager.chatExist(userId, storeId);
+    }
+
+    public Response<string> SendMessage(int userId, string msg)
+    {
+        return chatManager.SendMessage(userId, storeId, new Message(true, msg), true);
     }
 
     public Response<List<String>> GetAllchats()

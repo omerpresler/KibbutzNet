@@ -79,37 +79,14 @@ public class Store
 
         return new Response<bool>(true);
     }
-    
-    public Response<Tuple<int, string>> OpenChat(int storeId, int userId)
+
+    public Response<string> SendMessage(int storeId, int userId, string msg)
     {
         try
         {
             if (stores.ContainsKey(storeId))
             {
-                Response<int> resp = stores[storeId].OpenChat(userId);
-                
-                if (resp.exceptionHasOccured)
-                    return new Response<Tuple<int, string>>(true, resp.errorMessage);
-
-                return new Response<Tuple<int, string>>(new Tuple<int, string>(resp.value,
-                    Service.User.Instance.getUserName(userId)));
-            }
-
-            return new Response<Tuple<int, string>>(true, $"The is no store with the id of {storeId}");
-        }
-        catch (Exception e)
-        {
-            return new Response<Tuple<int, string>>(true, e.Message);
-        }
-    }
-
-    public Response<string> SendMessage(int storeId, int sessionId, string msg)
-    {
-        try
-        {
-            if (stores.ContainsKey(storeId))
-            {
-                return stores[storeId].SendMessage(sessionId, msg);
+                return stores[storeId].SendMessage(userId, msg);
             }
 
             return new Response<string>(true, $"The is no store with the id of {storeId}");

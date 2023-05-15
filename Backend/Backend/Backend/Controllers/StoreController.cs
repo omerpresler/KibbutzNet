@@ -45,20 +45,13 @@ namespace Backend.Controllers
             Console.WriteLine(request.email);
             return true;
         }
-      
-
-        [HttpPost("openChatStore")]
-        //int userId
-        public Response<Tuple<int, string>> openChat([FromBody] openChatRequest request)
-        {
-            return Store.Instance.OpenChat(request.StoreId, request.userId);
-        }
+        
         
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
         public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
-            return Store.Instance.SendMessage(request.id, request.SessionId, request.Text);
+            return Store.Instance.SendMessage(request.storeId, request.userId, request.Text);
         }
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
