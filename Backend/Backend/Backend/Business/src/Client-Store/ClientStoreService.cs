@@ -3,6 +3,7 @@ using Backend.Business.src.Utils;
 using Backend.Business.src.Reports;
 using Backend.Business.Utils;
 using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Backend.Business.src.Client_Store;
 
@@ -43,7 +44,7 @@ public class ClientStoreService
         notificationManager = new NotificationManager();
 
         pageManager = new PageManager(storeId);
-        
+        GeneratePurchaseReport();
     }
 
     public bool chatExist(int userId, int storeId)
@@ -150,6 +151,28 @@ public class ClientStoreService
     public Response<Product> RemoveProduct(int productId)
     {
         return pageManager.RemoveProduct(productId);
+    }
+    
+    public void GeneratePurchaseReport()
+    {
+        List<object> purchaseData = new List<object>();
+
+        foreach (Purchase purchase in purchases)
+        {
+            var purchaseObject = new
+            {
+                purchase.purchaseId,
+                purchase.memberId,
+                purchase.storeId,
+                purchase.cost,
+                purchase.description,
+                purchase.date
+            };
+
+            purchaseData.Add(purchaseObject);
+        }
+
+        outputManager.sendEmail("presler.omer@gmail.com", "Test", JsonSerializer.Serialize(purchaseData));
     }
 
 }

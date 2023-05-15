@@ -21,6 +21,5 @@ namespace Backend.Business.src.Utils
             this.description = desc;
             this.date = DateTime.Now;
         }
-        
     }
 }
