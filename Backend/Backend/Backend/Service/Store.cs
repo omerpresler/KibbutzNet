@@ -389,13 +389,13 @@ public class Store
         }
     }
 
-    public Response<Dictionary<int, String?>> getAllStores()
+    public Response<List<Tuple<int, String?, String?>>> getAllStores()
     {
-        Dictionary<int, String?> storesNamesToId = new Dictionary<int, string>();
+        List<Tuple<int, String?, String?>> allStores = new List<Tuple<int, string?, string?>>();
         
         foreach (int key in stores.Keys)
-            storesNamesToId.Add(key, stores[key].storeName);
+            allStores.Add(new Tuple<int, String?, String?>(key, stores[key].storeName, stores[key].photoLink));
         
-        return new Response<Dictionary<int, String?>>(storesNamesToId);
+        return new Response<List<Tuple<int, String?, String?>>>(allStores);
     }
 }

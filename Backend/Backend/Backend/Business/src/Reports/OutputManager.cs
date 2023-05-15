@@ -12,10 +12,12 @@ namespace Backend.Business.src.Reports
         {
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
+                UseDefaultCredentials = true,
                 Port = 587,
                 Credentials = new NetworkCredential(_SMTPusername, _SMTPpassword),
                 EnableSsl = true,
             };
+            
     
             smtpClient.Send(_SMTPusername, targetEmail, subject, body);
         }
