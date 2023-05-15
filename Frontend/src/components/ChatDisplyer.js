@@ -20,27 +20,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import getChatService from '../services/ChatService';
 import Center from './Center';
 
-export default function ChatDisplyer({ userId, userType }) {
-  const [chats, setChats] = useState([]);
+export default function ChatDisplyer({ userId, userType,chats }) {
   const [selectedChat, setSelectedChat] = useState([]);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const { startChat, endChat, sendMessage, getAllChatsUser, getAllChatsStore } = getChatService();
 
-  useEffect(() => {
-    const fetchChats = async () => {
-      const response =
-        userType === 'user'
-          ? await getAllChatsUser(userId)
-          : await getAllChatsStore(userId);
-
-      if (!response.exception) {
-        setChats(response.value);
-      }
-    };
-
-    fetchChats();
-  }, [userId, userType, messages]);
+ 
 
   const handleChatSelect = (chat) => {
     setSelectedChat(chat);
@@ -69,22 +55,27 @@ export default function ChatDisplyer({ userId, userType }) {
       <Container maxWidth="md">
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <Paper elevation={3} style={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
-              <Typography variant="h5" gutterBottom>
+            <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+              <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
                 Chats
               </Typography>
               <List>
                 {chats.map((chat) => (
                   <ListItem
-                    key={chat.sessionId}
+                    key={chat.name}
                     button
                     onClick={() => handleChatSelect(chat)}
-                    style={{ backgroundColor: selectedChat?.sessionId === chat.sessionId ? 'black' : '' }}
+                    sx={{
+                      backgroundColor: selectedChat?.name === chat.name ? '#f0f0f0' : '',
+                      '&:hover': {
+                        backgroundColor: '#f0f0f0',
+                      },
+                    }}
                   >
                     <ListItemAvatar>
-                      <Avatar>{chat.sessionId}</Avatar>
+                      <Avatar>{chat.name}</Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={`Chat ID: ${chat.sessionId}`} />
+                    <ListItemText primary={`Chat name: ${chat.name}`} />
                     <IconButton onClick={handleCloseChat} edge="end" aria-label="close">
                       <CloseIcon />
                     </IconButton>
@@ -95,9 +86,9 @@ export default function ChatDisplyer({ userId, userType }) {
           </Grid>
           {selectedChat && (
             <Grid item xs={12} md={8}>
-              <Paper elevation={3} style={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
-                <Typography variant="h5" gutterBottom>
-                  Chat ID: {selectedChat.sessionId}
+              <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
+                <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
+                  Chat name: {selectedChat.name}
                 </Typography>
                 <List>
                   {messages.map((message, index) => (
@@ -109,7 +100,7 @@ export default function ChatDisplyer({ userId, userType }) {
                     </ListItem>
                   ))}
                 </List>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', mt: 2 }}>
                   <TextField
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
@@ -117,7 +108,11 @@ export default function ChatDisplyer({ userId, userType }) {
                     variant="outlined"
                     margin="normal"
                   />
-                  <Button onClick={handleSendMessage} variant="contained" sx={{ mt: 1, mb: 1 }}>
+                  <Button
+                    onClick={handleSendMessage}
+                    variant="contained"
+                    sx={{ mt: 1, mb: 1, backgroundColor: '#3f51b5', '&:hover': { backgroundColor: '#303f9f' } }}
+                  >
                     Send
                   </Button>
                 </Box>
