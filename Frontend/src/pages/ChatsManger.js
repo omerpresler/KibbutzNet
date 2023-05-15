@@ -81,7 +81,7 @@ const fetchChats = async () => {
           messages: chat.Messages || []  // Assuming chat.Messages contains the list of messages
         }
       });
-  
+      console.log(transformedChats)
       setChats(transformedChats);
     });
   } else {

@@ -75,7 +75,7 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
         </TableHead>
         <TableBody>
           {orders.map((order) => (
-            <TableRow key={order.orderId}>
+            <TableRow key={order.orderId}  sx={{ backgroundColor: order.active ? 'lightgreen' : 'lightcoral' }}>
               <TableCell component="th" scope="row">{order.orderId}</TableCell>
               <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
               <TableCell>{order.status}</TableCell>
