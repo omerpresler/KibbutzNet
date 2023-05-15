@@ -28,7 +28,6 @@ export default function ChatDisplyer({ userId, userType,chats,sendMessage }) {
  
 
   const handleChatSelect = (chat) => {
-    console.log(chat)
     setSelectedChat(chat);
     setMessages(chat.messages);
   };
@@ -41,7 +40,6 @@ export default function ChatDisplyer({ userId, userType,chats,sendMessage }) {
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
     const message = new Message(userId, newMessage);
-    console.log(selectedChat)
     const response = await sendMessage(selectedChat.sessionId, message);
     if (!response.exception) {
       setMessages([...messages, message]);

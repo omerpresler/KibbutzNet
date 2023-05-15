@@ -52,41 +52,56 @@ const [isStoreDataAdded, setIsStoreDataAdded] = useState(false);
     }
   }
   // Fetch all stores when the component mounts
-    const fetchChatsAndStores = async () => {
-    const storedUserId = localStorage.getItem('userId');
-    const storedUserType = localStorage.getItem('userType');
-    console.log(storedUserId,storedUserType)
-    if (storedUserId && storedUserType) {
-      setUserId(parseInt(storedUserId, 10));
-      setUserType(storedUserType);
-    }
-    
-    // If user type is 'store', fetch all chats for the store
-    // Otherwise, fetch all chats for the user
-    if (storedUserType === 'store') {
-     await getAllChatsStore(userId).then(chatData => {
-        setChats(chatData.value);
+   // Fetch all stores when the component mounts
+const fetchChats = async () => {
+  const storedUserId = localStorage.getItem('userId');
+  const storedUserType = localStorage.getItem('userType');
+  console.log(storedUserId,storedUserType)
+  if (storedUserId && storedUserType) {
+    setUserId(parseInt(storedUserId, 10));
+    setUserType(storedUserType);
+  }
+  
+  // If user type is 'store', fetch all chats for the store
+  // Otherwise, fetch all chats for the user
+  if (storedUserType === 'store') {
+   await getAllChatsStore(userId).then(chatData => {
+      setChats(chatData.value);
+    });
+  } else {
+    await getAllChatsUser(userId).then(chatData => {
+      // Transform each chat with additional data
+      let transformedChats = chatData.value.map((chat) => {
+        console.log(chat)
+        // Parse the chat string into an object
+        let chatItems = JSON.parse(chat);
+      
+        // Find the corresponding store
+        let correspondingStore = stores.find(store => store.storeId === chatItems.storeId);
+        return {
+          sessionId: chatItems.sessionId,
+          name: correspondingStore ? correspondingStore.storeName : 'Unknown Store',
+          messages: []
+        }
       });
-    } else {
-      await getAllChatsUser(userId).then(chatData => {
-        // Transform each chat with additional data
-        let transformedChats = chatData.value.map((chat) => {
-          console.log(chat)
-          // Parse the chat string into an object
-          let chatItems = JSON.parse(chat);
-        
-          // Find the corresponding store
-          let correspondingStore = stores.find(store => store.storeId === chatItems.storeId);
-          return {
-            sessionId: chatItems.sessionId,
-            name: correspondingStore ? correspondingStore.storeName : 'Unknown Store',
+      
+      // For each store that doesn't have a chat yet, create an empty chat
+      stores.forEach(store => {
+        if (!transformedChats.some(chat => chat.sessionId === store.storeId)) {
+          transformedChats.push({
+            userId:localStorage.getItem("userId"),
+            storeId: store.storeId,
+            name: store.storeName,
             messages: []
-          }
-        });
-        
-        setChats(transformedChats);
+          });
+        }
       });
-    }}
+      
+      setChats(transformedChats);
+    });
+  }
+}
+
 
     useEffect(() => {
       addStoreData();
@@ -94,34 +109,10 @@ const [isStoreDataAdded, setIsStoreDataAdded] = useState(false);
     
     useEffect(() => {
       if (isStoreDataAdded) {
-        fetchChatsAndStores();
+        fetchChats();
       }
     }, [isStoreDataAdded, userId])
 
-  const openChatWithStore = async (storeId) => {
-    try {
-      const newChat = await startChatUser(localStorage.getItem("userId"), storeId);
-      console.log(newChat)
-      // Check if newChat is in the correct format
-      if (!newChat || !newChat.value || !newChat.value.item1 || !newChat.value.item2) {
-        throw new Error('New chat data is not in expected format');
-      }
-      
-      // Transform newChat into desired format
-      const transformedChat = {
-        sessionId: newChat.value.item1,
-        name: newChat.value.item2,
-        messages:[]
-      };
-      setChats(prevChats => [...prevChats, transformedChat]);
-      
-      setOpenDialog(false); // Close the dialog
-  
-    } catch (error) {
-      console.error('Error in openChatWithStore:', error);
-    }
-  };
-  
 
   const handleOpenNewChat = () => {
     setOpenDialog(true);
@@ -137,24 +128,7 @@ const [isStoreDataAdded, setIsStoreDataAdded] = useState(false);
         <Typography variant="h4">Chat</Typography>
       </Box>
       <Box sx={{ mt: 2 }}>
-        <Button variant="contained" onClick={handleOpenNewChat}>
-          Open New Chat
-        </Button>
       </Box>
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Open New Chat</DialogTitle>
-        <DialogContent>
-          <DialogContentText>Please select a store:</DialogContentText>
-          {stores
-            .filter((store) => !chats.some((chat) => chat.storeId === store.id))
-            .map((store) => (
-              <StoreButton key={store.id} store={store} onClick={openChatWithStore} />
-            ))}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
       {userType ? (
         <ChatDisplay userId={userId} userType={userType} chats={chats} sendMessage={userType === 'store' ? sendMessageStore : sendMessageUser} />
       ) : (
