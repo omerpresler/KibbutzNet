@@ -6,7 +6,6 @@ import Message from './data objects/Message';
 
 
 export default function getChatService() {
-  x=3
   function startChatUser(sender, target) {
     return axios
       .post(startChatUserPath, { sender, target })
@@ -38,8 +37,11 @@ export default function getChatService() {
   }
 
   function sendMessageUser(sessionId, message) {
+    console.log(sessionId)
+    const userId=localStorage.getItem("userId")
+    const massageValue=message.message
     return axios
-      .post(sendMessageUserPath, { sessionId, message })
+      .post(sendMessageUserPath, { id:userId,sessionId,text: massageValue })
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)
@@ -53,8 +55,10 @@ export default function getChatService() {
   }
 
   function sendMessageStore(sessionId, message) {
+    const StoreId=localStorage.getItem("storeId")
+    const massageValue=message.message
     return axios
-      .post(sendMessageStorePath, { sessionId, message })
+      .post(sendMessageStorePath, { id:StoreId,sessionId,text:  massageValue})
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)

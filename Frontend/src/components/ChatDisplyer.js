@@ -15,20 +15,20 @@ import {
   IconButton,
   Grid,
   Container,
+  unstable_ClassNameGenerator,
 }  from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import getChatService from '../services/ChatService';
 import Center from './Center';
 
-export default function ChatDisplyer({ userId, userType,chats }) {
+export default function ChatDisplyer({ userId, userType,chats,sendMessage }) {
   const [selectedChat, setSelectedChat] = useState([]);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const { startChat, endChat, sendMessage, getAllChatsUser, getAllChatsStore } = getChatService();
-
  
 
   const handleChatSelect = (chat) => {
+    console.log(chat)
     setSelectedChat(chat);
     setMessages(chat.messages);
   };
@@ -40,10 +40,9 @@ export default function ChatDisplyer({ userId, userType,chats }) {
 
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
-
     const message = new Message(userId, newMessage);
+    console.log(selectedChat)
     const response = await sendMessage(selectedChat.sessionId, message);
-
     if (!response.exception) {
       setMessages([...messages, message]);
       setNewMessage('');
@@ -62,20 +61,20 @@ export default function ChatDisplyer({ userId, userType,chats }) {
               <List>
                 {chats.map((chat) => (
                   <ListItem
-                    key={chat.name}
+                    key={chat.sessionId}
                     button
                     onClick={() => handleChatSelect(chat)}
                     sx={{
-                      backgroundColor: selectedChat?.name === chat.name ? '#f0f0f0' : '',
+                      backgroundColor: selectedChat?.sessionId === chat.sessionId ? '#f0f0f0' : '',
                       '&:hover': {
-                        backgroundColor: '#f0f0f0',
+                        backgroundColor: '#f1f1f1',
                       },
                     }}
                   >
                     <ListItemAvatar>
                       <Avatar>{chat.name}</Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={`Chat name: ${chat.name}`} />
+                    <ListItemText primary={chat.name} />
                     <IconButton onClick={handleCloseChat} edge="end" aria-label="close">
                       <CloseIcon />
                     </IconButton>

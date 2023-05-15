@@ -15,13 +15,12 @@ import {
   DialogActions,
 } from '@mui/material';
 import ChatDisplay from '../components/ChatDisplyer';
-import ChatService from '../services/ChatService';
 import BackButton from '../components/BackButton';
 import StoreButton from '../components/StoreButton';
 const { startChatUser, startChatStore, sendMessageUser, sendMessageStore, getAllChatsUser, getAllChatsStore }=getChatService()
-
 const {getAllStores} = GetUserService()
 export default function ChatManagerPage() {
+const [isStoreDataAdded, setIsStoreDataAdded] = useState(false);
   const [userId, setUserId] = useState(null);
   const [userType, setUserType] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -31,7 +30,6 @@ export default function ChatManagerPage() {
     try {
       let storeData = await getAllStores();
       console.log('Store data:', storeData);
-      
       if (!storeData || !Array.isArray(storeData.value)) {
         throw new Error('Store data is not in expected format');
       }
@@ -44,16 +42,16 @@ export default function ChatManagerPage() {
           photoLink: store.item3
         };
       });
-      setStores(transformedData);
+      await setStores(transformedData);
+      console.log(stores)
       console.log('Transformed data:', transformedData);
+      // Set the state variable to true after store data is added
+      setIsStoreDataAdded(true);
     } catch (error) {
       console.error('Error in addStoreData:', error);
     }
   }
-  
   // Fetch all stores when the component mounts
-
-  useEffect(() => {
     const fetchChatsAndStores = async () => {
     const storedUserId = localStorage.getItem('userId');
     const storedUserType = localStorage.getItem('userType');
@@ -62,8 +60,7 @@ export default function ChatManagerPage() {
       setUserId(parseInt(storedUserId, 10));
       setUserType(storedUserType);
     }
-  
-    addStoreData()
+    
     // If user type is 'store', fetch all chats for the store
     // Otherwise, fetch all chats for the user
     if (storedUserType === 'store') {
@@ -72,22 +69,59 @@ export default function ChatManagerPage() {
       });
     } else {
       await getAllChatsUser(userId).then(chatData => {
-        setChats(chatData.value);
-        console.log(chats)
+        // Transform each chat with additional data
+        let transformedChats = chatData.value.map((chat) => {
+          console.log(chat)
+          // Parse the chat string into an object
+          let chatItems = JSON.parse(chat);
+        
+          // Find the corresponding store
+          let correspondingStore = stores.find(store => store.storeId === chatItems.storeId);
+          return {
+            sessionId: chatItems.sessionId,
+            name: correspondingStore ? correspondingStore.storeName : 'Unknown Store',
+            messages: []
+          }
+        });
+        
+        setChats(transformedChats);
       });
     }}
-    fetchChatsAndStores();
-  }, [userId]);
 
-   const openChatWithStore = async (storeId) => {
-    // Open a chat with the store
-    // e.g. ChatService.openNewChat(storeId);
-    // Then add this chat to the list of chats
-    const newChat = await startChatUser(localStorage.getItem("userId"),storeId) // Replace this with the actual chat object
-    setChats([...chats, newChat]);
-    console.log(chats)
-    setOpenDialog(false); // Close the dialog
+    useEffect(() => {
+      addStoreData();
+    }, []); 
+    
+    useEffect(() => {
+      if (isStoreDataAdded) {
+        fetchChatsAndStores();
+      }
+    }, [isStoreDataAdded, userId])
+
+  const openChatWithStore = async (storeId) => {
+    try {
+      const newChat = await startChatUser(localStorage.getItem("userId"), storeId);
+      console.log(newChat)
+      // Check if newChat is in the correct format
+      if (!newChat || !newChat.value || !newChat.value.item1 || !newChat.value.item2) {
+        throw new Error('New chat data is not in expected format');
+      }
+      
+      // Transform newChat into desired format
+      const transformedChat = {
+        sessionId: newChat.value.item1,
+        name: newChat.value.item2,
+        messages:[]
+      };
+      setChats(prevChats => [...prevChats, transformedChat]);
+      
+      setOpenDialog(false); // Close the dialog
+  
+    } catch (error) {
+      console.error('Error in openChatWithStore:', error);
+    }
   };
+  
 
   const handleOpenNewChat = () => {
     setOpenDialog(true);
@@ -122,7 +156,7 @@ export default function ChatManagerPage() {
         </DialogActions>
       </Dialog>
       {userType ? (
-        <ChatDisplay userId={userId} userType={userType} chats={chats} />
+        <ChatDisplay userId={userId} userType={userType} chats={chats} sendMessage={userType === 'store' ? sendMessageStore : sendMessageUser} />
       ) : (
         <Typography variant="body1">
           Please login as a user or store to access the chat.
