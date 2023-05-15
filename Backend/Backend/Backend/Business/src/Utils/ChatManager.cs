@@ -12,7 +12,6 @@ namespace Backend.Business.src.Utils
     public class ChatManager
     {
         public static List<Chat> chats = new List<Chat>();
-        private static int _nextSession = DBManager.Instance.getMaxChatId();
 
         public ChatManager() { }
 
@@ -23,68 +22,37 @@ namespace Backend.Business.src.Utils
 
             foreach (Backend.Access.Chat chat in DALChats)
             {
-                chats.Add(new Chat(chat, DBManager.Instance.LoadMessagesPerChat(chat.sessionId)));
+                chats.Add(new Chat(chat, DBManager.Instance.LoadMessagesPerChat(chat.user, chat.store)));
             }
         }
+        
+        
 
         public List<Chat> GetChats()
         {return chats;}
 
-        private static int AssignSession()
+        public bool chatExist(int userId, int storeId)
         {
-            return Interlocked.Increment(ref _nextSession);
+            foreach (Chat chat in chats)
+                if (chat.store == storeId && chat.user == userId)
+                    return true;
+
+            return false;
         }
 
-        public Response<int> StartChat(int store, int user)
+        public Response<string> SendMessage(int userId, int storeId, Message message, bool fromStore)
         {
-            Chat chat;
-            try
+            Chat? chat = chats.Find(x => (x.user == userId) && (x.store == storeId));
+            if (chat is null)
             {
-                chat = new Chat(AssignSession(), store, user, true, DateTime.Now);
+                chat = new Chat(storeId, userId, true, DateTime.Now);
                 chats.Add(chat);
-                DBManager.Instance.AddChat(chat.sessionId, store, user, chat.active, chat.start);
-            }
-            catch (Exception e)
-            {
-                return new Response<int>(true, e.Message);
+                DBManager.Instance.AddChat(storeId, userId, chat.active, chat.start);
             }
             
             
-            return new Response<int>(chat.sessionId);
-        }
-        
-        public Response<bool> EndChat(int sessionId)
-        {
-            try
-            {
-                Chat toClose = chats.Find(x => x.sessionId == sessionId);
-                if (toClose != null)
-                {
-                    //chats.Remove(toClose);
-                    if (toClose.active)
-                    {
-                        toClose.active = false;
-                        DBManager.Instance.updateChatActiveField(sessionId, false);
-                        return new Response<bool>(true);
-                    }
-                    return new Response<bool>(true, "Chat already closed");
-                }
-
-                return new Response<bool>(true, "No such chat was found, id: " + sessionId);
-            }
-            catch (Exception e)
-            {
-                return new Response<bool>(true, e.Message);
-            }
-        }
-
-        public Response<string> SendMessage(int sessionId, Message message, bool fromStore)
-        {
-            Chat chat = chats.Find(x => x.sessionId == sessionId);
-            if(chat is null)
-                return new Response<string>(true, $"No chat exist with the session id of {sessionId}");
             chat.AddMessage(message);
-            DBManager.Instance.AddMessage(chat.messages.Count -1, sessionId, fromStore, message.message);
+            DBManager.Instance.AddMessage(chat.messages.Count -1, userId, storeId, fromStore, message.message);
             return new Response<string>(JsonConvert.SerializeObject(message));
         }
 

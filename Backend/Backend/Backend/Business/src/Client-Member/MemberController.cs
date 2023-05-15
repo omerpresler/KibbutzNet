@@ -35,15 +35,10 @@ namespace Backend.Business.MemberController
         {
             return member.Name;
         }
-        
-        public Response<int> OpenChat(int storeId)
-        {
-            return cm.StartChat(storeId, member.UserId);
-        }
 
-        public Response<string> SendMessage(int sessionId, string msg)
+        public Response<string> SendMessage(int storeId, string msg)
         {
-            return cm.SendMessage(sessionId, new Message(false, msg), false);
+            return cm.SendMessage(member.UserId, storeId, new Message(false, msg), false);
         }
 
         public Response<List<String>> GetAllchats()
