@@ -1,3 +1,4 @@
+using System.Dynamic;
 using Backend.Business.src.Utils;
 using Backend.Business.Utils;
 
@@ -19,6 +20,11 @@ namespace Backend.Business.MemberController
         {
             member = new Member(DALMember);
             cm = new ChatManager();
+        }
+
+        public Member getMember()
+        {
+            return member;
         }
 
         public int getMemberId()
