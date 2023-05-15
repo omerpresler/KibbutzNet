@@ -128,7 +128,7 @@ using System.Collections.Generic;
                 var orderObject = new
                 {
                     order.orderId,
-                    simpleTime,
+                    Time = simpleTime,
                     order.status,
                     order.memberName,
                     order.memberId,

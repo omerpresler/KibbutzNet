@@ -18,7 +18,7 @@ public class DBManager
 
     public DBManager()
     {
-        CreateTables();
+        //CreateTables();
     }
 
     private void CreateTables()
@@ -31,6 +31,7 @@ public class DBManager
         CreateStoreEmployeeTable();
         CreateMessageTable();
         CreateChatTable();
+        CreatePostTable();
         
         initBasicData();
     }
@@ -122,12 +123,12 @@ public class DBManager
     
     private void CreatePostTable()
     {
-        ExecuteCommandNonQuery("DROP TABLE IF EXISTS Chats");
-        ExecuteCommandNonQuery( @"CREATE TABLE Chats (
+        ExecuteCommandNonQuery("DROP TABLE IF EXISTS Posts");
+        ExecuteCommandNonQuery( @"CREATE TABLE Posts (
+                            postId INT,
                             storeId INT,
-                            userId INT,
-                            active BOOLEAN,
-                            startDate DATE);" );
+                            header VARCHAR(255),
+                            photoLink VARCHAR(255));" );
     }
 
     private void initBasicData()
@@ -377,6 +378,44 @@ public class DBManager
         return Messages;
     }
     
+    public List<Post> LoadPostsPerStore(int storeId)
+    {
+        List<Post> posts = new List<Post>();
+        
+        NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+        sb.Host = Host;
+        sb.Port = Port;
+        sb.Username = Username;
+        sb.Password = Password;
+        sb.Database = Database;
+
+        List<string> rows = new List<string>();
+
+        using (NpgsqlConnection conn = new NpgsqlConnection(sb.ToString()))
+        {
+            conn.Open();
+
+            // Define a query
+            NpgsqlCommand command = new NpgsqlCommand($"SELECT postId, storeId, header ,photoLink FROM Posts WHERE storeId = {storeId}", conn);
+
+            // Execute the query and obtain a result set
+            NpgsqlDataReader reader = command.ExecuteReader();
+            
+            while (reader.Read())
+            {
+                int postId = reader.GetInt32(0);
+                string header = reader.GetString(2);
+                string photoLink = reader.GetString(3);
+                
+
+                posts.Add(new Post(postId, storeId, header, photoLink));
+            }
+            
+            conn.Close();
+        }
+        return posts;
+    }
+    
     public List<Chat> LoadChats()
     {
         List<Chat> Chats = new List<Chat>();
@@ -462,6 +501,18 @@ public class DBManager
     public void AddChat(int storeId, int userId, bool active, DateTime startDate)
     {
         string commandText = $@"insert into Chats (storeId, userId, active, startDate) values ({storeId}, {userId}, {active}, '{startDate}')";
+        ExecuteCommandNonQuery(commandText);
+    }
+    
+    public void AddPost(int postId, int storeId, String header, string photoLink)
+    {
+        string commandText = $@"insert into Posts (postId, storeId, header ,photoLink) values ({postId}, {storeId}, {header}, '{photoLink}')";
+        ExecuteCommandNonQuery(commandText);
+    }
+
+    public void RemovePost(int postId)
+    {
+        string commandText = $@"DELETE FROM Posts WHERE postId = {postId}";
         ExecuteCommandNonQuery(commandText);
     }
 

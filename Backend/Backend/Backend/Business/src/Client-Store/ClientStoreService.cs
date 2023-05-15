@@ -19,16 +19,19 @@ public class ClientStoreService
     public String? storeName;
     public String? photoLink;
     
-    public ClientStoreService(int storeId, string photoLink)
+    public ClientStoreService(int storeId, string storeName, string photoLink)
     {
         this.storeId = storeId;
+        this.storeName = storeName;
+        this.photoLink = photoLink;
+
+        
         purchases = new List<Purchase>();
         chatManager = new ChatManager();
         outputManager = new OutputManager();
         workerManager = new WorkerManager();
         notificationManager = new NotificationManager();
         pageManager = new PageManager(storeId);
-        this.photoLink = photoLink;
     }
     
     public ClientStoreService(Access.Store DALStore)
@@ -158,6 +161,7 @@ public class ClientStoreService
 
         foreach (Purchase purchase in purchases)
         {
+            string simpleTime = purchase.date.ToString("yyyy-MM-dd HH:mm:ss");
             var purchaseObject = new
             {
                 purchase.purchaseId,
@@ -165,7 +169,7 @@ public class ClientStoreService
                 purchase.storeId,
                 purchase.cost,
                 purchase.description,
-                purchase.date
+                Time = simpleTime
             };
 
             purchaseData.Add(purchaseObject);
