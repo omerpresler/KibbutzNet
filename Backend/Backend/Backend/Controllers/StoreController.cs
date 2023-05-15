@@ -23,7 +23,6 @@ namespace Backend.Controllers
         public bool SeeReports([FromBody] PurchaseHistoryRequest request)
         {
             Console.WriteLine("yess!!!");
-            //Console.WriteLine(request.email);
             return true;
         }
 

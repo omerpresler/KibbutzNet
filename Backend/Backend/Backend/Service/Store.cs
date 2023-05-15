@@ -388,6 +388,14 @@ public class Store
             return new Response<Product>(true, e.Message);
         }
     }
-    
-    
+
+    public Response<Dictionary<int, String?>> getAllStores()
+    {
+        Dictionary<int, String?> storesNamesToId = new Dictionary<int, string>();
+        
+        foreach (int key in stores.Keys)
+            storesNamesToId.Add(key, stores[key].storeName);
+        
+        return new Response<Dictionary<int, String?>>(storesNamesToId);
+    }
 }

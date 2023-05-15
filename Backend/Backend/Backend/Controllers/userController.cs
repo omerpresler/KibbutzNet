@@ -1,4 +1,5 @@
 using System.Collections;
+using Backend.Business.src.Client_Store;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
@@ -65,6 +66,12 @@ namespace Backend.Controllers
         public Response<ArrayList> seePurchaseHistoryUserAndStore([FromBody] PurchaseHistoryRequest request)
         {
             return Store.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
+        }
+        
+        [HttpPost("getAllStores")]
+        public Response<Dictionary<int, String?>> getAllStores()
+        {
+            return Store.Instance.getAllStores();
         }
     }
 }
