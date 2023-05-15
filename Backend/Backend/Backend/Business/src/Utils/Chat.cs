@@ -52,7 +52,7 @@ namespace Backend.Business.src.Utils
 
         public string ToString(bool isStore)
         {
-            string simpleChat = "{sessionId: " + sessionId + "}, Messages: {";
+            string simpleChat = "{sessionId: " + sessionId + "}, storeId: {" + store + "}, userId: {" + user + "}, Messages: {";
 
             foreach (Message msg in messages)
                 simpleChat += $"(message: {msg.message}, FromMe: {!(isStore ^ msg.fromStore)}), ";
