@@ -1,4 +1,5 @@
 using System.Runtime.ExceptionServices;
+using System.Text.Json;
 using Backend.Access;
 using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
@@ -115,6 +116,30 @@ using System.Collections.Generic;
             order.active = true;
 
             return new Response<bool>(true);
+        }
+        
+        public string GenerateOrderReport(int storeId)
+        {
+            List<object> orderData = new List<object>();
+
+            foreach (Order order in orders[storeId])
+            {
+                var orderObject = new
+                {
+                    order.orderId,
+                    order.date,
+                    order.status,
+                    order.memberName,
+                    order.memberId,
+                    order.active,
+                    order.cost,
+                    order.description
+                };
+
+                orderData.Add(orderObject);
+            }
+
+            return JsonSerializer.Serialize(orderData);
         }
 
     }
