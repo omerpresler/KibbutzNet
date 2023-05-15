@@ -6,6 +6,7 @@ import Message from './data objects/Message';
 
 
 export default function getChatService() {
+  x=3
   function startChatUser(sender, target) {
     return axios
       .post(startChatUserPath, { sender, target })
