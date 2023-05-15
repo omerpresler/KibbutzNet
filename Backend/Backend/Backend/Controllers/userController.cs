@@ -69,7 +69,7 @@ namespace Backend.Controllers
         }
         
         [HttpPost("getAllStores")]
-        public Response<string> getAllStores()
+        public Response<List<Tuple<int, String?, String?>>> getAllStores()
         {
             return Store.Instance.getAllStores();
         }
