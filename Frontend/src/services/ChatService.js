@@ -36,12 +36,11 @@ export default function getChatService() {
       });
   }
 
-  function sendMessageUser(sessionId, message) {
-    console.log(sessionId)
-    const userId=localStorage.getItem("userId")
-    const massageValue=message.message
+  function sendMessageUser(userId,storeId, message) {
+    console.log(storeId,userId)
+    console.log(message)
     return axios
-      .post(sendMessageUserPath, { id:userId,sessionId,text: massageValue })
+      .post(sendMessageUserPath, { userId,storeId,text:message })
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)
@@ -54,11 +53,11 @@ export default function getChatService() {
       });
   }
 
-  function sendMessageStore(sessionId, message) {
+  function sendMessageStore(userId, message) {
     const StoreId=localStorage.getItem("storeId")
     const massageValue=message.message
     return axios
-      .post(sendMessageStorePath, { id:StoreId,sessionId,text:  massageValue})
+      .post(sendMessageStorePath, { userId,StoreId,text:  massageValue})
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)

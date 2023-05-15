@@ -71,34 +71,40 @@ const fetchChats = async () => {
   } else {
     await getAllChatsUser(userId).then(chatData => {
       // Transform each chat with additional data
-      let transformedChats = chatData.value.map((chat) => {
-        console.log(chat)
-        // Parse the chat string into an object
-        let chatItems = JSON.parse(chat);
-      
+      let transformedChats = chatData.value.map((chatString) => {
+        // Parse the chat JSON string into an object
+        let chat = JSON.parse(chatString);
+    
         // Find the corresponding store
-        let correspondingStore = stores.find(store => store.storeId === chatItems.storeId);
+        console.log(stores)
+        let correspondingStore = stores.find(store => store.storeId === chat.Store);
+    
         return {
-          sessionId: chatItems.sessionId,
+          storeId: chat.Store,
+          userId: localStorage.getItem("userId"),
           name: correspondingStore ? correspondingStore.storeName : 'Unknown Store',
-          messages: []
+          messages: chat.Messages || []  // Assuming chat.Messages contains the list of messages
         }
       });
-      
+      console.log(chatData)
+    
       // For each store that doesn't have a chat yet, create an empty chat
       stores.forEach(store => {
-        if (!transformedChats.some(chat => chat.sessionId === store.storeId)) {
+        console.log(store)
+        if (!transformedChats.some(chat => chat.storeId === store.storeId)) {
           transformedChats.push({
-            userId:localStorage.getItem("userId"),
+            userId: localStorage.getItem("userId"),
             storeId: store.storeId,
             name: store.storeName,
             messages: []
           });
         }
       });
-      
+      console.log(transformedChats)
       setChats(transformedChats);
     });
+    
+    
   }
 }
 
