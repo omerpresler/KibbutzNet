@@ -78,7 +78,7 @@ namespace Backend.Business.src.Utils
             }
         }
 
-        public Response<string> SendMessage(int sessionId, Message<String> message, bool fromStore)
+        public Response<string> SendMessage(int sessionId, Message message, bool fromStore)
         {
             Chat chat = chats.Find(x => x.sessionId == sessionId);
             if(chat is null)
@@ -87,16 +87,7 @@ namespace Backend.Business.src.Utils
             DBManager.Instance.AddMessage(chat.messages.Count -1, sessionId, fromStore, message.message);
             return new Response<string>(JsonConvert.SerializeObject(message));
         }
-        
-        public Response<bool> SendMessage(int sessionId, Message<House> message, bool fromStore)
-        {
-            Chat chat = chats.Find(x => x.sessionId == sessionId);
-            if(chat is null)
-                return new Response<bool>(false);
-            chat.AddMessage(message);
-            DBManager.Instance.AddMessage(chat.messages.Count -1, sessionId, fromStore, message.message);
-            return new Response<bool>(true);
-        }
+
 
         public Response<List<String>> GetAllStoreChats(int id)
         {

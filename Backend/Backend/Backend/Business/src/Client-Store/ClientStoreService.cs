@@ -54,7 +54,7 @@ public class ClientStoreService
 
     public Response<string> SendMessage(int sessionId, string msg)
     {
-        return chatManager.SendMessage(sessionId, new Message<string>(true, msg), true);
+        return chatManager.SendMessage(sessionId, new Message(true, msg), true);
     }
 
     public Response<List<String>> GetAllchats()

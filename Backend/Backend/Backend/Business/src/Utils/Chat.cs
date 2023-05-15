@@ -11,7 +11,7 @@ namespace Backend.Business.src.Utils
 {
     public class Chat
     {
-        public List<IMessage> messages;
+        public List<Message> messages;
         public int sessionId { get; set;}
         public int store { get; set;}
         public int user { get; set;}
@@ -20,7 +20,7 @@ namespace Backend.Business.src.Utils
 
         public Chat(int sessionId, int store, int user, bool active, DateTime start)
         {
-            messages = new List<IMessage>();
+            messages = new List<Message>();
             this.sessionId = sessionId;
             this.store = store;
             this.user = user;
@@ -35,29 +35,31 @@ namespace Backend.Business.src.Utils
             this.user = chat.user;
             this.active = chat.active;
             this.start = chat.start;
-            this.messages = new List<IMessage>();
+            this.messages = new List<Message>();
 
             foreach (Access.Message msg in messages.OrderBy(x => x.placeInChat))
             {
-                Message<string> msgToAdd = new Message<string>(msg);
+                Message msgToAdd = new Message(msg);
                 this.messages.Add(msgToAdd);
             }
         }
         
 
-        public void AddMessage(Message<string> message)
-        {
-            messages.Add(message);
-        }
-        
-        public void AddMessage(Message<House> message)
+        public void AddMessage(Message message)
         {
             messages.Add(message);
         }
 
-        public override string ToString()
+        public string ToString(bool isStore)
         {
-            return JsonConvert.SerializeObject(this);
+            string simpleChat = $"{sessionId}";
+
+            foreach (Message msg in messages)
+                simpleChat.Concat($"message: {msg.message}, FromMe: {!(isStore ^ msg.fromStore)}");
+            
+            
+            
+            return simpleChat;
         }
     }
 }
