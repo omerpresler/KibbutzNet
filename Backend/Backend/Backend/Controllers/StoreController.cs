@@ -53,11 +53,12 @@ namespace Backend.Controllers
         {
             return Store.Instance.OpenChat(request.StoreId, request.userId);
         }
+        
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
         public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
         {
-            return Store.Instance.SendMessage(request.StoreId, request.SessionId, request.Text);
+            return Store.Instance.SendMessage(request.id, request.SessionId, request.Text);
         }
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]

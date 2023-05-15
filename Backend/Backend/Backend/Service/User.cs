@@ -81,4 +81,38 @@ public class User
             return new  Response<List<String>>(true, e.Message);
         }
     }
+    
+    public Response<int> OpenChat(int userId, int storeId)
+    {
+        try
+        {
+            if (users.ContainsKey(userId))
+            {
+                return users[userId].OpenChat(storeId);
+            }
+
+            return new Response<int>(true, $"The is no user with the id of {userId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<int>(true, e.Message);
+        }
+    }
+    
+    public Response<string> SendMessage(int userId, int sessionId, string msg)
+    {
+        try
+        {
+            if (users.ContainsKey(userId))
+            {
+                return users[userId].SendMessage(sessionId, msg);
+            }
+
+            return new Response<string>(true, $"The is no user with the id of {userId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
 }

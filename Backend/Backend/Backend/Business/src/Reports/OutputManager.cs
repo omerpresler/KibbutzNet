@@ -21,5 +21,7 @@ namespace Backend.Business.src.Reports
     
             smtpClient.Send(_SMTPusername, targetEmail, subject, body);
         }
+        
+        
     }
 }

@@ -15,16 +15,15 @@ namespace Backend.Controllers
         //int userId
         public Response<int> openChat([FromBody] openChatRequest request)
         {
-            int result = 7;
-            Response<int> res = new (result);
-            return res;
+            return Service.User.Instance.OpenChat(request.userId, request.StoreId);
         }
+        
+        
         [HttpPost("sendMassageInChat")]
         //json.stringfy(message)
-        public Response<string> sendMassageInChat([FromBody] chatMassageRequest request){
-            string result = "7";
-            Response<string> res = new(result);
-            return res;
+        public Response<string> sendMassageInChat([FromBody] chatMassageRequest request)
+        {
+            return Service.User.Instance.SendMessage(request.id, request.SessionId, request.Text);
         }
 
         //list Json
