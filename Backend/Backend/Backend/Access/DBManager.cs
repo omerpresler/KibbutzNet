@@ -18,7 +18,7 @@ public class DBManager
 
     public DBManager()
     {
-        //CreateTables();
+        CreateTables();
     }
 
     private void CreateTables()
