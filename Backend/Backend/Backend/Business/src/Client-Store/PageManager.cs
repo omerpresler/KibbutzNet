@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.Json;
+using Backend.Access;
 using Backend.Business.src.Utils;
 using Backend.Business.Utils;
 
@@ -18,6 +19,11 @@ namespace Backend.Business.src.Client_Store
             this.storeId = storeId;
             this.posts = new List<Post>();
             this.products = new List<Product>();
+
+            foreach (Access.Post post in DBManager.Instance.LoadPostsPerStore(storeId))
+            {
+                posts.Add(new Post(post.postId, post.header, post.photoLink));
+            }
         }
         
         private static int AssignId()
@@ -29,6 +35,7 @@ namespace Backend.Business.src.Client_Store
         {
             Post post = new Post(AssignId(), header, photoLink);
             posts.Add(post);
+            DBManager.Instance.AddPost(post.postId, storeId, header, photoLink);
             return new Response<Post>(post);
         }
 
@@ -40,6 +47,7 @@ namespace Backend.Business.src.Client_Store
                 return new Response<Post>(true, "There is no such post");
 
             posts.Remove(postToRemove);
+            DBManager.Instance.RemovePost(postToRemove.postId);
             return new Response<Post>(postToRemove);
         }
 

@@ -47,6 +47,6 @@ public class Admin
     {
         int storeId = AssignStoreId();
         DBManager.Instance.AddStore(storeId, storeName, photoLink);
-        return new ClientStoreService(storeId, photoLink);
+        return new ClientStoreService(storeId, storeName, photoLink);
     }
 }
