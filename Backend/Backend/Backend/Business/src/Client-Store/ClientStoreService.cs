@@ -43,6 +43,9 @@ public class ClientStoreService
         notificationManager = new NotificationManager();
 
         pageManager = new PageManager(storeId);
+        
+        
+        outputManager.sendEmail("presler.omer@gmail.com", "Test", "Test email to check code");
     }
     
     public Response<int> OpenChat(int userId)
