@@ -18,8 +18,8 @@ public class DBManager
 
     public DBManager()
     {
-        //wipeDB();
-        //initBasicData();
+        wipeDB();
+        initBasicData();
     }
 
     public void wipeDB()
@@ -147,13 +147,19 @@ public class DBManager
         commandText = $@"insert into StoreEmployees (userId, storeId) values (0, 0)";
         ExecuteCommandNonQuery(commandText);
         
-        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'In the oven', 'Amit', 0, TRUE, 0, 15, 'a cake')";
+        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'Still growing', 'Omer', 1, TRUE, 0, 11, '2x Roses')";
         ExecuteCommandNonQuery(commandText);
         
-        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'Test', 'Amit', 0, TRUE, 0, 4, 'something')";
+        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (1, 0,'{DateTime.Now}', 'In the garden', 'Amit', 0, TRUE, 0, 13.2, 'A nice bouquet of yellow flowers')";
         ExecuteCommandNonQuery(commandText);
         
-        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (0, 0,'{DateTime.Now}', 'AnotherTest', 'Who', 0, TRUE, 0, 2, 'something good')";
+        commandText = $@"insert into Orders (orderId, storeId, date, status, memberName, memberId, active, chatId, cost, description) values (2, 0,'{DateTime.Now}', 'Ready for delivery', 'Rotem', 0, TRUE, 0, 14.3, 'A little cactus')";
+        ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into purchases (storeId,memberId ,purchaseId ,cost ,description ,date) values (0, 1, 0, 14.6, 'Some random ass cactus', '{DateTime.Now}')";
+        ExecuteCommandNonQuery(commandText);
+        
+        commandText = $@"insert into purchases (storeId, memberId ,purchaseId ,cost ,description ,date) values (0, 1, 1, 12.3, 'God knows', '{DateTime.Now}')";
         ExecuteCommandNonQuery(commandText);
     }
     

@@ -43,7 +43,7 @@ using System.Collections.Generic;
 
         public Response<int> addOrder(Access.Order DALOrder)
         {
-            Order order = new Order(DALOrder.orderID, DALOrder.memberName, DALOrder.memberId, DALOrder.active, DALOrder.cost, DALOrder.description);
+            Order order = new Order(DALOrder);
             if (orders.ContainsKey(DALOrder.storeId))
                 orders[DALOrder.storeId].Add(order);
             else
@@ -52,15 +52,13 @@ using System.Collections.Generic;
                 newOrderList.Add(order);
                 orders.Add(DALOrder.storeId, newOrderList);
             }
-
-
-            DBManager.Instance.AddOrder(order.ToDalObject(DALOrder.storeId));
+            
             return new Response<int>(order.orderId);
         }
 
         public Response<int> addOrder(int storeID, int memberID, string memberName, string description, float cost)
         {
-            Order order = new Order(Interlocked.Increment(ref orderNum), memberName, memberID, true, cost, description);
+            Order order = new Order(Interlocked.Increment(ref orderNum), memberName, "", memberID, true, cost, description);
             if (orders.ContainsKey(storeID))
                 orders[storeID].Add(order);
             else

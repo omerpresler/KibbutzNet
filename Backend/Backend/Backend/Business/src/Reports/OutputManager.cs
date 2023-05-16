@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using Backend.Access;
+using Order = Backend.Business.src.Utils.Order;
+using Purchase = Backend.Business.src.Utils.Purchase;
 
 namespace Backend.Business.src.Reports
 {
@@ -17,8 +20,8 @@ namespace Backend.Business.src.Reports
     {
         private string _SMTPusername = "kibbutznet@gmail.com";
         private string _SMTPpassword = "passKibbutz123";
-        
-        public void sendEmail(string targetEmail, string subject, string body)
+
+        public void sendEmail(string targetEmail, string subject, List<Utils.Purchase> purchases, List<Order> orders)
         {
             string fromMail = "amitgrumet8@gmail.com";
             string fromPassword = "xqovfzcfdtbnehcc";
@@ -27,130 +30,91 @@ namespace Backend.Business.src.Reports
             message.From = new MailAddress(fromMail);
             message.Subject = subject;
             message.To.Add(new MailAddress(targetEmail));
-            message.Body = $"<html><body> {GenerateHtmlTable(body)} </body></html>";
+            message.Body = $"<html><body> {GenerateHtmlTable(purchases, orders)} </body></html>";
             message.IsBodyHtml = true;
 
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
-                Port = 587, 
+                Port = 587,
                 Credentials = new NetworkCredential(fromMail, fromPassword),
                 EnableSsl = true,
             };
 
             smtpClient.Send(message);
         }
-        
-        public static string GenerateHtmlTable(string jsonData)
+
+        public string GenerateHtmlTable(List<Purchase> purchases, List<Order> orders)
         {
-            StringBuilder htmlBuilder = new StringBuilder();
-            htmlBuilder.AppendLine("<table>");
-            htmlBuilder.AppendLine("<tr>");
+            string body = @" <html>
+                                <head>
+                                  <style>
+                                    table {
+                                      border-collapse: collapse;
+                                      width: 100%;
+                                    }
 
-            // Extracting column headers from the first JSON object
-            List<Dictionary<string, object>> items = ParseJson(jsonData);
-            Dictionary<string, object> firstItem = items.FirstOrDefault();
-            if (firstItem != null)
+                                    th, td {
+                                      text-align: left;
+                                      padding: 8px;
+                                      border-bottom: 1px solid #ddd;
+                                    }
+
+                                    th {
+                                      background-color: #f2f2f2;
+                                    }
+                                  </style>
+                                </head>
+                                <body>
+                                  <h2>Orders</h2>
+                                  <table>
+                                    <tr>
+                                      <th>Order ID</th>
+                                      <th>Time</th>
+                                      <th>Status</th>
+                                      <th>member Name</th>
+                                      <th>Budget Number</th>
+                                      <th>Active</th>
+                                    </tr>";
+
+            foreach (Order order in orders)
             {
-                foreach (string key in firstItem.Keys)
-                {
-                    htmlBuilder.AppendLine("<th>" + key + "</th>");
-                }
-
-                htmlBuilder.AppendLine("</tr>");
-
-                // Parsing and adding data rows
-                foreach (var item in items)
-                {
-                    htmlBuilder.AppendLine("<tr>");
-                    foreach (var value in item.Values)
-                    {
-                        htmlBuilder.AppendLine("<td>" + value + "</td>");
-                    }
-                    htmlBuilder.AppendLine("</tr>");
-                }
+                body += $@"<tr>
+                              <th>{order.orderId}</th>
+                              <th>{order.date:yyyy-MM-dd HH:mm:ss}</th>
+                              <th>{order.status}</th>
+                              <th>{order.memberName}</th>
+                              <th>{order.memberId}</th>
+                              <th>{order.active.ToString()}</th>
+                            </tr>
+                            ";
             }
 
-            htmlBuilder.AppendLine("</table>");
-
-            return htmlBuilder.ToString();
-        }
-
-        // JSON parser for extracting the data
-        private static List<Dictionary<string, object>> ParseJson(string jsonData)
-        {
-            var options = new JsonSerializerOptions
+            body += @"</table>
+                        <h2>Purchases</h2>
+                        <table>
+                        <tr>
+                            <th>Purchase Id</th>
+                            <th>Member Id</th>
+                            <th>Store Id</th>
+                            <th>Cost</th>
+                            <th>Description</th>
+                            <th>Time</th>
+                        </tr>";
+            
+            foreach (Purchase purchase in purchases)
             {
-                AllowTrailingCommas = true,
-                ReadCommentHandling = JsonCommentHandling.Skip
-            };
-
-            var items = new List<Dictionary<string, object>>();
-            using (JsonDocument document = JsonDocument.Parse(jsonData))
-            {
-                if (document.RootElement.ValueKind == JsonValueKind.Object)
-                {
-                    var item = new Dictionary<string, object>();
-                    ProcessJsonObject(document.RootElement, item);
-                    items.Add(item);
-                }
+                body += $@"<tr>
+                              <td>{purchase.purchaseId}</td>
+                              <td>{purchase.memberId}</td>
+                              <td>{purchase.storeId}</td>
+                              <td>{purchase.cost}</td>
+                              <td>{purchase.description}</td>
+                              <td>{purchase.date:yyyy-MM-dd HH:mm:ss}</td>
+                            </tr>
+                            ";
             }
-
-            return items;
+            
+            return body + "</table></body>";
         }
-
-        private static void ProcessJsonObject(JsonElement jsonElement, Dictionary<string, object> item)
-        {
-            foreach (JsonProperty property in jsonElement.EnumerateObject())
-            {
-                string key = property.Name;
-                JsonElement value = property.Value;
-
-                if (value.ValueKind == JsonValueKind.Object)
-                {
-                    var nestedItem = new Dictionary<string, object>();
-                    ProcessJsonObject(value, nestedItem);
-                    item[key] = nestedItem;
-                }
-                else if (value.ValueKind == JsonValueKind.Array)
-                {
-                    var array = new List<Dictionary<string, object>>();
-                    foreach (JsonElement arrayElement in value.EnumerateArray())
-                    {
-                        var nestedItem = new Dictionary<string, object>();
-                        ProcessJsonObject(arrayElement, nestedItem);
-                        array.Add(nestedItem);
-                    }
-                    item[key] = array;
-                }
-                else if (value.ValueKind == JsonValueKind.String)
-                {
-                    item[key] = value.GetString();
-                }
-                else if (value.ValueKind == JsonValueKind.Number)
-                {
-                    if (value.TryGetInt32(out int intValue))
-                    {
-                        item[key] = intValue;
-                    }
-                    else if (value.TryGetDouble(out double doubleValue))
-                    {
-                        item[key] = doubleValue;
-                    }
-                    else if (value.TryGetDecimal(out decimal decimalValue))
-                    {
-                        item[key] = decimalValue;
-                    }
-                    else
-                    {
-                        item[key] = value.ToString();
-                    }
-                }
-                else
-                {
-                    item[key] = value.ToString();
-                }
-            }
-        }
-        
     }
 }

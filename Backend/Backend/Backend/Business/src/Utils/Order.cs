@@ -14,12 +14,12 @@ namespace Backend.Business.src.Utils
         public float cost { get; set; }
         public string description { get; set; }
 
-        public Order(int orderId, string memberName, int memberId, bool active, float cost, string description)
+        public Order(int orderId, string memberName, string status, int memberId, bool active, float cost, string description)
         {
             this.orderId = orderId;
             date = DateTime.Now;
-            status = "";
             this.memberId = memberId;
+            this.status = status;
             this.memberName = memberName;
             this.active = active;
             this.cost = cost;

@@ -176,44 +176,11 @@ public class ClientStoreService
         return pageManager.RemoveProduct(productId);
     }
     
-    public string GenerateReport()
-    {
-        List<object> purchaseData = new List<object>();
-
-        foreach (Purchase purchase in purchases)
-        {
-            string simpleTime = purchase.date.ToString("yyyy-MM-dd HH:mm:ss");
-            var purchaseObject = new
-            {
-                purchase.purchaseId,
-                purchase.memberId,
-                purchase.storeId,
-                purchase.cost,
-                purchase.description,
-                Time = simpleTime
-            };
-
-            purchaseData.Add(purchaseObject);
-        }
-
-        List<object> orderData = OrderManager.Instance.GenerateOrderReport(storeId);
-        
-        var report = new
-        {
-            Purchases = purchaseData,
-            Orders = orderData
-        };
-
-        
-        return JsonSerializer.Serialize(report);
-    }
-
-
     public Response<string> sendEmailReport(string email)
     {
         try
         {
-            outputManager.sendEmail(email, "New Test", GenerateReport());
+            outputManager.sendEmail(email, "New Test", purchases, OrderManager.Instance.orders[storeId]);
             return new Response<string>(email);
         }
         catch (Exception e)
