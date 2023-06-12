@@ -50,7 +50,7 @@ namespace Backend.Business.src.Reports
             // Find your Account SID and Auth Token at twilio.com/console
             // and set the environment variables. See http://twil.io/secure
             string accountSid = "ACd1c2bdd9b975cced26d57bad1daa9fcf";
-            string authToken = "5cad98415fff795cb74590aad2dc66bf";
+            string authToken = "1c60f98b764be825f0389bb1ca5cefc5";
             string twilioPhoneNumber = "+13613092791";
 
             TwilioClient.Init(accountSid, authToken);
