@@ -215,9 +215,22 @@ public class Store
             ArrayList jsons = new ArrayList();
             foreach(ClientStoreService store in stores.Values)
             {
-                foreach (Order purchase in store.GetOrderByUser(userId))
+                foreach (Order order in store.GetOrderByUser(userId))
                 {
-                    jsons.Add(purchase);
+                    var orderObject = new
+                    {
+                        store.storeId,
+                        store.storeName,
+                        order.orderId,
+                        order.date,
+                        order.status,
+                        order.memberName,
+                        order.memberId,
+                        order.active,
+                        order.cost,
+                        order.description
+                    };
+                    jsons.Add(orderObject);
                 }
             }
 
