@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Backend.Business.src.Client_Store;
 using Backend.Business.src.Utils;
+using Purchase = Backend.Access.Purchase;
 
 
 namespace Backend.Service;
@@ -248,7 +249,28 @@ public class Store
         try
         {
             if (stores.ContainsKey(storeId))
-                return new Response<ArrayList>(stores[storeId].printOrders());
+            {
+                ArrayList jsons = new ArrayList();
+                foreach (Order order in stores[storeId].printOrders())
+                {
+                        var orderObject = new
+                        {
+                            stores[storeId].storeId,
+                            stores[storeId].storeName,
+                            order.orderId,
+                            order.date,
+                            order.status,
+                            order.memberName,
+                            order.memberId,
+                            order.active,
+                            order.cost,
+                            order.description
+                        };
+                        jsons.Add(orderObject);
+                }
+
+                return new Response<ArrayList>(jsons);
+            }
 
             return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
 
@@ -264,7 +286,28 @@ public class Store
         try
         {
             if (stores.ContainsKey(storeId))
-                return new Response<ArrayList>(stores[storeId].GetOrderByUser(userId));
+            {
+                ArrayList jsons = new ArrayList();
+                foreach (Order order in stores[storeId].GetOrderByUser(userId))
+                {
+                    var orderObject = new
+                    {
+                        stores[storeId].storeId,
+                        stores[storeId].storeName,
+                        order.orderId,
+                        order.date,
+                        order.status,
+                        order.memberName,
+                        order.memberId,
+                        order.active,
+                        order.cost,
+                        order.description
+                    };
+                    jsons.Add(orderObject);
+                }
+
+                return new Response<ArrayList>(jsons);
+            }
 
             return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
 
@@ -282,9 +325,19 @@ public class Store
             ArrayList jsons = new ArrayList();
             foreach(ClientStoreService store in stores.Values)
             {
-                foreach (string purchase in store.GetPurchasesByUser(userId))
+                foreach (Backend.Business.src.Utils.Purchase purchase in store.GetPurchasesByUser(userId))
                 {
-                    jsons.Add(purchase);
+                    var purchaseObject = new
+                    {
+                        store.storeName,
+                        purchase.memberId,
+                        purchase.storeId,
+                        purchase.purchaseId,
+                        purchase.cost,
+                        purchase.description,
+                        purchase.date
+                    };
+                    jsons.Add(purchaseObject);
                 }
             }
 
@@ -302,7 +355,25 @@ public class Store
         try
         {
             if (stores.ContainsKey(storeId))
-                return new Response<ArrayList>(stores[storeId].printPurchases());
+            {
+                ArrayList jsons = new ArrayList();
+                foreach (Backend.Business.src.Utils.Purchase purchase in stores[storeId].printPurchases())
+                {
+                    var purchaseObject = new
+                    {
+                        stores[storeId].storeName,
+                        purchase.memberId,
+                        purchase.storeId,
+                        purchase.purchaseId,
+                        purchase.cost,
+                        purchase.description,
+                        purchase.date
+                    };
+                    jsons.Add(purchaseObject);
+                }
+                return new Response<ArrayList>(jsons);
+            }
+               
 
             return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
 
@@ -318,8 +389,26 @@ public class Store
         try
         {
             if (stores.ContainsKey(storeId))
-                return new Response<ArrayList>(stores[storeId].GetPurchasesByUser(userId));
+            {
+                ArrayList jsons = new ArrayList();
+                foreach (Backend.Business.src.Utils.Purchase purchase in stores[storeId].GetPurchasesByUser(userId))
+                {
+                    var purchaseObject = new
+                    {
+                        stores[storeId].storeName,
+                        purchase.memberId,
+                        purchase.storeId,
+                        purchase.purchaseId,
+                        purchase.cost,
+                        purchase.description,
+                        purchase.date
+                    };
+                    jsons.Add(purchaseObject);
+                }
+                return new Response<ArrayList>(jsons);
 
+            }
+            
             return new Response<ArrayList>(true, $"Store: {storeId} does not exist");
 
         }

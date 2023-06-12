@@ -129,7 +129,7 @@ public class ClientStoreService
         ArrayList jsons = new ArrayList();
         foreach (Order order in OrderManager.Instance.orders[storeId])
         {
-            jsons.Add(JsonConvert.SerializeObject(order));
+            jsons.Add(order);
         }
         
         return jsons;
@@ -140,7 +140,7 @@ public class ClientStoreService
         ArrayList jsons = new ArrayList();
         foreach (Purchase p in purchases)
             if (p.memberId == userId)
-                jsons.Add(JsonConvert.SerializeObject(p));
+                jsons.Add(p);
             
 
         return jsons;
@@ -150,7 +150,7 @@ public class ClientStoreService
     {
         ArrayList jsons = new ArrayList();
         foreach (Purchase p in purchases)
-            jsons.Add(JsonConvert.SerializeObject(p));
+            jsons.Add(p);
         
 
         return jsons;
