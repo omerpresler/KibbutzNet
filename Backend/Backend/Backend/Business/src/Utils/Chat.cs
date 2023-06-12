@@ -63,8 +63,8 @@ namespace Backend.Business.src.Utils
 
             var simpleChat = new
             {
-                Store = store,
-                User = user,
+                Store = AuthenticationManager.Instance.getStoreName(store),
+                User = AuthenticationManager.Instance.getUserName(user),
                 Messages = msgs,
             };
             
