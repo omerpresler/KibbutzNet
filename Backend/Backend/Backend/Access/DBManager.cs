@@ -18,8 +18,8 @@ public class DBManager
 
     public DBManager()
     {
-        wipeDB();
-        initBasicData();
+        //wipeDB();
+        //initBasicData();
     }
 
     public void wipeDB()
@@ -132,7 +132,7 @@ public class DBManager
 
     public void initBasicData()
     {
-        string commandText = $@"insert into Stores (storeId, storeName, photoLink) values (0, 'Flower Shop', 'https://images.pexels.com/photos/16619444/pexels-photo-16619444.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load')";
+        string commandText = $@"insert into Stores (storeId, storeName, photoLink) values (0, 'Flower Shop', 'https://cdn.pixabay.com/photo/2023/04/29/09/43/bee-7958148_960_720.jpg')";
         ExecuteCommandNonQuery(commandText);
         
         commandText = $@"insert into Members (userId, memberName, phoneNumber, email, house) values (0, 'amit', '054-444-4444', 'amit@gmail.com', 1)";

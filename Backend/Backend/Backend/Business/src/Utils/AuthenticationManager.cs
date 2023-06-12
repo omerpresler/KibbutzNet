@@ -10,7 +10,9 @@ namespace Backend.Business.src.Utils
     {
         
         public static Dictionary<int, string> idToEmail = new Dictionary<int, string>();
-        public static Dictionary<int, List<int>> StoreToEmployees = new Dictionary<int, List<int>>();    
+        public static Dictionary<int, string> userIdToName = new Dictionary<int, string>();
+        public static Dictionary<int, string> storeIdToName = new Dictionary<int, string>();
+        public static Dictionary<int, List<int>> StoreToEmployees = new Dictionary<int, List<int>>();
         
         
         private static AuthenticationManager? instance;
@@ -29,8 +31,28 @@ namespace Backend.Business.src.Utils
 
                 StoreToEmployees[storeEmployee.storeId].Add(storeEmployee.UserId);
             }
+            
+            foreach (Backend.Access.Member member in DBManager.Instance.LoadMembers())
+            {
+                userIdToName.Add(member.UserId, member.Name);
+            }
+            
+            foreach (Backend.Access.Store store in DBManager.Instance.LoadStores())
+            {
+                storeIdToName.Add(store.storeId, store.storeName);
+            }
 
             
+        }
+
+        public string getStoreName(int id)
+        {
+            return storeIdToName[id];
+        }
+        
+        public string getUserName(int id)
+        {
+            return userIdToName[id];
         }
 
         public static AuthenticationManager Instance {
