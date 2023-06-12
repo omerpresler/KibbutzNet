@@ -65,6 +65,7 @@ namespace Backend.Business.src.Utils
             {
                 Store = AuthenticationManager.Instance.getStoreName(store),
                 User = AuthenticationManager.Instance.getUserName(user),
+                UserId = user,
                 Messages = msgs,
             };
             
