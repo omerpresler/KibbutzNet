@@ -55,8 +55,8 @@ export default function LoginStore() {
         <Center>
             <Card sx={{ width: 1000 }}>
                 <CardContent sx={{ textAlign: 'center' }}>
-                    <Typography variant="h3" sx={{ my: 3 }}>
-                        kibbutzNet
+                    <Typography variant="h3" sx={{ my: 3,textAlign: 'center'  }}>
+                        קיבוץ נט
                     </Typography>
                     <Box sx={{
                         '& .MuiTextField-root': {
@@ -66,21 +66,21 @@ export default function LoginStore() {
                     }}>
                         <form noValidate autoComplete="off" onSubmit={login}>
                             <TextField
-                                label="Email"
+                                label="איימל"
                                 name="email"
                                 value={values.email}
                                 onChange={handleInputChange}
                                 variant="outlined"
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
-                                label="acount number "
+                                label="מספר חשבון "
                                 name="accountNumber"
                                 value={values.accountNumber}
                                 onChange={handleInputChange}
                                 variant="outlined"
                                 {...(errors.accountNumber && { error: true, helperText: errors.accountNumber })} />
                             <TextField
-                                label="store id "
+                                label="מספר חנות"
                                 name="storeId"
                                 value={values.storeId}
                                 onChange={handleInputChange}
@@ -90,7 +90,7 @@ export default function LoginStore() {
                                 type="login"
                                 variant="contained"
                                 size="large"
-                                sx={{ width: '90%' }}>Start</Button>
+                                sx={{ width: '90%' }}>התחל</Button>
                         </form>
                         <BackButton sx={{ mt: 2 }} />
                     </Box>

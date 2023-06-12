@@ -1,52 +1,55 @@
-import Center from "../components/Center";
-import GetOrderService from "../services/OrderService";
+import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Card, CardContent, Typography, Paper } from '@mui/material';
-import React, { useState } from 'react';
+import Center from "../components/Center";
 import BackButton from '../components/BackButton';
-import useForm from '../hooks/useFrom';
 import OrderDisplyer from "../components/OrderDisplyer";
+import GetOrderService from "../services/OrderService";
 
 const OrderManager = () => {
-  const { addOrder, changeOrdersStatus, getAllOrdersStore, getAllOrdersUser, closeOrder, reOpenOrder } = GetOrderService();
-  const initialFormValues = () => ({
-    storeId: '',
-    userId: '',
-  });
-  const { values, setValues, errors, setErrors, handleInputChange } = useForm(initialFormValues);
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const {addOrder,changeOrdersStatus,getAllOrdersStore,getAllOrdersUser, closeOrder,reOpenOrder}  = GetOrderService();
+  const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [filterString, setFilterString] = useState("");
   const userType = localStorage.getItem("userType");
-
-  const handleSubmit = async () => {
-    setIsFormSubmitted(true);
-    setIsLoading(true);
-    try {
+  
+  useEffect(() => {
+    const fetchOrders = async () => {
       let response;
-      if (userType === 'store') {
-        response = await getAllOrdersStore(values.userId);
+      if (userType === 'user') {
+        response = await getAllOrdersUser();
       } else {
-        response = await getAllOrdersUser(values.storeId);
+        response = await getAllOrdersStore();
       }
-      console.log(response)
-      console.log(response.value)
-      setData(response.value);
-    } catch (error) {
-      setData(null);
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+
+      if (response && response.value) {
+        setOrders(response.value);
+        setFilteredOrders(response.value);
+      }
+    };
+    fetchOrders();
+  }, [userType]);
+  
+  const handleFilter = () => {
+    if (filterString) {
+      const filtered = orders.filter(order => {
+        if (userType === 'user') {
+          return order.storeName === filterString;
+        } else {
+          return order.memberName === filterString;
+        }
+      });
+      setFilteredOrders(filtered);
+    } else {
+      setFilteredOrders(orders);
     }
   };
-
+  
   const handleChangeStatus = async (orderId, statusMessage) => {
     await changeOrdersStatus(localStorage.getItem("storeId"), orderId, statusMessage)
   };
 
   const handleToggleOrderActive = async (orderId) => {
-    let order = data.find(order => order.orderId === orderId);
-    console.log(order)
-    console.log(orderId)
+    let order = orders.find(order => order.orderId === orderId);
     if (order.active) {
       await closeOrder(orderId);
     } else {
@@ -54,7 +57,8 @@ const OrderManager = () => {
     }
     // Update the local copy of the data
     order.active = !order.active;
-    setData([...data]);
+    setOrders([...orders]);
+    handleFilter();  // re-apply the current filter
   };
 
   return (
@@ -63,39 +67,25 @@ const OrderManager = () => {
         <Card>
           <CardContent>
             <Typography variant="h5" gutterBottom>
-              Enter id
+              הכנס {userType === 'user' ? "שם חנות" : "שם משתמש"}  
             </Typography>
-            {userType !== 'store' && (
-              <TextField
-                name="storeId"
-                label="Store ID"
-                value={values.storeId}
-                onChange={handleInputChange}
-              />
-            )}
-            {userType !== "user" && (
-              <TextField
-                name="userId"
-                label="User ID"
-                value={values.userId}
-                onChange={handleInputChange}
-              />
-            )}
-            <Button onClick={handleSubmit}>Submit</Button>
+            <TextField
+              name="filterString"
+              label={userType === 'user' ? " שם חנות" : "שם חבר"}
+              value={filterString}
+              onChange={(e) => setFilterString(e.target.value)}
+            />
+            <Button onClick={handleFilter}>סנן</Button>
           </CardContent>
-        </Card>
+        <Paper elevation={3} style={{ padding: '1rem', maxWidth: '800px', width: '100%' }}>
+          <Typography variant="h5" gutterBottom>
+            :היסטוריית רכישות
+          </Typography>
+          <OrderDisplyer orders={filteredOrders} handleChangeStatus={handleChangeStatus} handleToggleOrderActive={handleToggleOrderActive} />
+        </Paper>
+        <BackButton sx={{ mt: 2 }} />
+      </Card>
       </Box>
-      {isFormSubmitted && (
-        <Center>
-          <Paper elevation={3} style={{ padding: '1rem', maxWidth: '800px', width: '100%' }}>
-            <Typography variant="h5" gutterBottom>
-              Order History
-            </Typography>
-            {isLoading ? <div>Loading...</div> : <OrderDisplyer orders={data} handleChangeStatus={handleChangeStatus} handleToggleOrderActive={handleToggleOrderActive} />}
-          </Paper>
-          <BackButton sx={{ mt: 2 }} />
-        </Center>
-      )}
     </Center>
   );
 };

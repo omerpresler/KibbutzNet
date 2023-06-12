@@ -52,8 +52,8 @@ async function add_order(event){
   <Center>
   <Card sx={{ width: 1000 }}>
       <CardContent sx={{ textAlign: 'center' }}>
-          <Typography variant="h2" sx={{ my: 3 }}>
-              kibbutzNet
+          <Typography variant="h2" sx={{ my: 3 ,textAlign: 'center'}}>
+              קיבוץ נט
           </Typography>
           <Box sx={{
               '& .MuiTextField-root': {
@@ -63,17 +63,17 @@ async function add_order(event){
               }
           }}>
           <Button onClick={see_purchse_history}>
-                              see purchse history</Button>
+                              היסטוריית קניות</Button>
            <Button onClick={open_chat_manager}>
-                              open chat manager</Button>
+                              מנהל הצאטים</Button>
             <Button onClick={see_all_orders}>
-                see all orders 
+                מנהל הזמנה
                 </Button>
             <Button onClick={show_add_order}>
-                add orders 
+                הוסף הזמנה 
                               </Button>
             <Button onClick={see_reports}>
-                              reports</Button>
+                              דוחות</Button>
                               <BackButton sx={{ mt: 2 }} />
           </Box>
           {showAddOrderForm && (

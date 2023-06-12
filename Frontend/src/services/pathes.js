@@ -55,7 +55,7 @@ export const getAllStoreChats = back_path+store_controller_path+"/getAllChats"
 export const addPurchasePath= back_path+register_controller_path+"/addPurchase"
 export const seePurchaseHistoryStorePath =back_path+register_controller_path+"/SeePurchaseHistoryStore"
 export const seePurchaseHistoryUserAndStorePath=back_path+register_controller_path+"/SeePurchaseHistoryUserAndStore"
-export const seePurchaseHistoryUserPath=back_path+register_controller_path+"/SeePurchaseHistoryUser"
+export const seePurchaseHistoryUserPath=back_path+user_controller_path+"/SeePurchaseHistoryUser"
 
 
 //pageManagerPathes
@@ -91,3 +91,5 @@ export const getAllStores = back_path + user_controller_path + "/getAllStores";
 
 export const sendReportByEmailUrl = back_path+store_controller_path+'/sendReportByEmail';
 export const saveExcelReportUrl = back_path+store_controller_path+'/saveExcelReport';
+export const saveSmSReportUrl = back_path+store_controller_path+'/sendReportBySMS';
+

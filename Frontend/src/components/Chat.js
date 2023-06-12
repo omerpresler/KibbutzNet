@@ -34,10 +34,10 @@ export default function Chat({ userId, userType }) {
         onChange={handleChange}
       />
       <Button variant="contained" onClick={handleSend}>
-        Send
+        שלח
       </Button>
       <Button variant="contained" onClick={handleGetChats}>
-        Get Chats
+          קבל שיחות
       </Button>
     </Box>
   );
