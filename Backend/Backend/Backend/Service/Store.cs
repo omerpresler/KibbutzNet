@@ -215,7 +215,7 @@ public class Store
             ArrayList jsons = new ArrayList();
             foreach(ClientStoreService store in stores.Values)
             {
-                foreach (string purchase in store.GetOrderByUser(userId))
+                foreach (Order purchase in store.GetOrderByUser(userId))
                 {
                     jsons.Add(purchase);
                 }
