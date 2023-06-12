@@ -54,8 +54,8 @@ export default function LoginUser() {
         <Center>
             <Card sx={{ width: 1000 }}>
                 <CardContent sx={{ textAlign: 'center' }}>
-                    <Typography variant="h3" sx={{ my: 3 }}>
-                        kibbutzNet
+                    <Typography variant="h3" sx={{ my: 3,textAlign:'center' }}>
+                        קיבוץ נט
                     </Typography>
                     <Box sx={{
                         '& .MuiTextField-root': {
@@ -65,14 +65,14 @@ export default function LoginUser() {
                     }}>
                         <form noValidate autoComplete="off" onSubmit={login}>
                             <TextField
-                                label="Email"
+                                label="איימל"
                                 name="email"
                                 value={values.email}
                                 onChange={handleInputChange}
                                 variant="outlined"
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
-                                label="acount number "
+                                label="מספר חשבון "
                                 name="accountNumberber"
                                 value={values.accountNumberber}
                                 onChange={handleInputChange}
@@ -87,14 +87,14 @@ export default function LoginUser() {
                                         color="primary"
                                     />
                                 }
-                                label={asAdmin ? 'Admin Login' : 'User Login'}
+                                label={asAdmin ? 'אדמין' : 'יוזר'}
                                 sx={{ width: '90%', marginTop: '1rem' }}
                             />
                             <Button
                                 type="login"
                                 variant="contained"
                                 size="large"
-                                sx={{ width: '90%' }}>Start</Button>
+                                sx={{ width: '90%' }}>התחבר</Button>
                             
                         </form>
                         <BackButton sx={{ mt: 2 }} />

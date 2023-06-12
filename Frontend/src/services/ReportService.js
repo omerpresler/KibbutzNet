@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Response } from './Response';
 import * as paths from './pathes';
 
+
 export default function GetReportService() {
   async function sendReportByEmail(storeId, email) {
     return axios
@@ -34,5 +35,21 @@ export default function GetReportService() {
       });
   }
 
-  return { sendReportByEmail, saveExcelReport };
+  async function sendReoprtBySms(storeId,phoneNumber) {
+    return axios
+      .post(paths.saveSmSReportUrl, { storeId,targetNumber:phoneNumber })
+      .then((response) => {
+        if (response.data.exceptionHasOccured){
+          alert(response.data.errorMessage);
+        }
+        return Response.create(response.data.value, response.data.exceptionHasOccured, response.data.errorMessage);
+      })
+      .catch((error) => {
+        console.log('Error saving Excel report:', error);
+        return Response.create(null, true, error.message);
+      });
+  }
+
+
+  return { sendReportByEmail, saveExcelReport,sendReoprtBySms};
 }

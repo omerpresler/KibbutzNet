@@ -39,16 +39,16 @@ function see_all_orders(){
     navigate(paths.order_manager_page_path)
 }
 
-function see_all_pages(){
-    navigate(paths.page_manager_page_path)
-}
+// function see_all_pages(){
+//     navigate(paths.page_manager_page_path)
+// }
     
   return (
   <Center>
   <Card sx={{ width: 1000 }}>
       <CardContent sx={{ textAlign: 'center' }}>
-          <Typography variant="h2" sx={{ my: 3 }}>
-              kibbutzNet
+          <Typography variant="h2" sx={{ my: 3, textAlign:'center', }}>
+              קיבוץ נט
           </Typography>
           <Box sx={{
               '& .MuiTextField-root': {
@@ -58,16 +58,14 @@ function see_all_pages(){
               }
           }}>
           <Button onClick={see_purchse_history}>
-                              see purchse history</Button>
+                              היסטוריית קניות</Button>
            <Button onClick={open_chat_manager}>
-                              open chat manager</Button>
+                              שיחות</Button>
             <Button onClick={see_all_orders}>
-                see all orders 
+                הזמנות 
                 </Button>
-            <Button onClick={see_all_pages}>
-                see pages 
-                              </Button>
-                              <BackButton sx={{ mt: 2 }} />
+
+                             <BackButton sx={{ mt: 2 }} /> 
           </Box>
 
                             </CardContent>

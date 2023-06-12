@@ -57,8 +57,8 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
         <Grid container spacing={3}>
           <Grid item xs={12} md={selectedChat ? 4 : 12}>
             <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)' }}>
-             c <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
-                Chats
+             <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
+                שיחות
               </Typography>
               <List>
                 {chats.map((chat) => (
@@ -85,13 +85,13 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
             <Grid item xs={12} md={8}>
               <Paper elevation={3} sx={{ padding: '1rem', height: 'calc(100vh - 64px)', overflowY: 'auto' }}>
                 <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
-                  Chat name: {selectedChat.name}
+                  {selectedChat.name}
                 </Typography>
                 <List>
                   {selectedChat.messages.map((message, index) => (
                     <ListItem key={index} align={message.FromMe ? "right" : "left"}>
                       <ListItemText
-                        primary={message.FromMe ? 'You:' : 'Them:'}
+                        primary={message.FromMe ? 'אני' : 'הם'}
                         secondary={message.message}
                       />
                     </ListItem>
@@ -110,7 +110,7 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
                     variant="contained"
                     sx={{ mt: 1, mb: 1, backgroundColor: '#3f51b5', '&:hover': { backgroundColor: '#303f9f' } }}
                   >
-                    Send
+                    שלח
                   </Button>
                 </Box>
               </Paper>

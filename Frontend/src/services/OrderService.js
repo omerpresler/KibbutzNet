@@ -77,11 +77,9 @@ const fakeData = [
   
   async function getAllOrdersStore(userId) {
     const storeId=localStorage.getItem("storeId")
-    return axios.post( paths.getAllOrderStoreUser,{userId:userId,storeId:storeId}  )
+    return axios.post( paths.getAllOrderStore,{storeId:storeId}  )
       .then(res => {
-        console.log(res.data.value)
         const response = Response.create(res.data.value,res.data.exceptionHasOccured,res.data.errorMessage);;
-        console.log(response)
         return response;
       })
       .catch(res => {
@@ -90,7 +88,7 @@ const fakeData = [
       });
   }
   
-  async function getAllOrdersUser(StoreId) {
+  async function getOrdersUser(StoreId) {
     const userId=localStorage.getItem("userId")
     return axios.post(paths.getAllOrderStoreUser,{ userId:userId,StoreId: StoreId})
     .then(res => {
@@ -102,6 +100,20 @@ const fakeData = [
       return response;
     });
   }
+
+  async function getAllOrdersUser() {
+    const userId=localStorage.getItem("userId")
+    return axios.post(paths.getAllOrderUser,{userId:userId})
+    .then(res => {
+      const response = Response.create(res.data.value, res.data.exceptionHasOccured,res.data.errorMessage);;
+      return response;
+    })
+    .catch(res => {
+      const response = Response.create([], res.data.exceptionHasOccured);
+      return response;
+    });
+  }
+  
   
   async function closeOrder(orderId) {
     console.log(orderId)

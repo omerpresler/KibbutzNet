@@ -53,21 +53,22 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 1000 }} aria-label="simple table">
+      <Table sx={{ minWidth: 1500 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Order ID</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Member Name</TableCell>
-            <TableCell>Member ID</TableCell>
-            <TableCell onClick={handleSortByStatus} style={{cursor: 'pointer'}}>Active</TableCell>
-            <TableCell>Chat</TableCell>
-            <TableCell>Cost</TableCell>
-            <TableCell>Description</TableCell>
+          <TableCell>שם החנות</TableCell>
+            <TableCell>מספר הזמנה</TableCell>
+            <TableCell>תאריך</TableCell>
+            <TableCell>סטטוס</TableCell>
+            <TableCell>שם החבר </TableCell>
+            <TableCell>מספר חבר</TableCell>
+            <TableCell onClick={handleSortByStatus} style={{cursor: 'pointer'}}>פעיל</TableCell>
+            {/* <TableCell>Chat</TableCell> */}
+            <TableCell>מחיר</TableCell>
+            <TableCell>פירוט</TableCell>
             {localStorage.getItem("userType") === "store" && (
   <>
-    <TableCell>Change Status</TableCell>
+    <TableCell>שנה סטטוס</TableCell>
     <TableCell>Action</TableCell>
   </>
 )}
@@ -76,13 +77,14 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
         <TableBody>
           {orders.map((order) => (
             <TableRow key={order.orderId}  sx={{ backgroundColor: order.active ? 'lightgreen' : 'lightcoral' }}>
+              <TableCell>{order.storeName}</TableCell>
               <TableCell component="th" scope="row">{order.orderId}</TableCell>
               <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
               <TableCell>{order.status}</TableCell>
               <TableCell>{order.memberName}</TableCell>
               <TableCell>{order.memberId}</TableCell>
               <TableCell>{order.active ? 'Yes' : 'No'}</TableCell>
-              <TableCell>{"chat connection "}</TableCell>
+              {/* <TableCell>{"chat connection "}</TableCell> */}
               <TableCell>{order.cost}</TableCell>
               <TableCell>{order.description}</TableCell>
               {localStorage.getItem("userType") === "store" && (

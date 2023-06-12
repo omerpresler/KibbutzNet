@@ -105,7 +105,7 @@ export default function AdminPage() {
   <form onSubmit={handleSubmitUserForm}>
    
     <TextField
-      label="User ID"
+      label="מספר יוזר"
       name="userId"
       value={userFormValues.userId}
       onChange={handleUserFormInputChange}
@@ -113,7 +113,7 @@ export default function AdminPage() {
       {...(userFormErrors.userId && { error: true, helperText: userFormErrors.userId })}
     />
     <TextField
-      label="Name"
+      label="שם"
       name="name"
       value={userFormValues.name}
       onChange={handleUserFormInputChange}
@@ -121,7 +121,7 @@ export default function AdminPage() {
       {...(userFormErrors.name && { error: true, helperText: userFormErrors.name })}
     />
     <TextField
-      label="Phone Number"
+      label="מספר טלפון"
       name="phoneNumber"
       value={userFormValues.phoneNumber}
       onChange={handleUserFormInputChange}
@@ -129,7 +129,7 @@ export default function AdminPage() {
       {...(userFormErrors.phoneNumber && { error: true, helperText: userFormErrors.phoneNumber })}
     />
     <TextField
-      label="Email"
+      label="איימל"
       name="email"
       value={userFormValues.email}
       onChange={handleUserFormInputChange}
@@ -144,7 +144,7 @@ export default function AdminPage() {
 {showAddStoreForm && (
   <form onSubmit={handleSubmitStoreForm}>
     <TextField
-      label="Store ID"
+      label="מספר חנות"
       name="storeId"
       value={storeFormValues.storeId}
       onChange={handleStoreFormInputChange}
@@ -152,7 +152,7 @@ export default function AdminPage() {
       {...(storeFormErrors.storeId && { error: true, helperText: storeFormErrors.storeId })}
     />
     <TextField
-      label="Store Name"
+      label="שם החנות"
       name="storeName"
       value={storeFormValues.storeName}
       onChange={handleStoreFormInputChange}
@@ -160,7 +160,7 @@ export default function AdminPage() {
       {...(storeFormErrors.storeName && { error: true, helperText: storeFormErrors.storeName })}
     />
      <TextField
-      label="photo link"
+      label="קישור לתמונה"
       name="photoLink"
       value={storeFormValues.photoLink}
       onChange={handleStoreFormInputChange}
@@ -175,7 +175,7 @@ export default function AdminPage() {
 {showConnectStoreUserForm && (
   <form onSubmit={handleSubmitConnectForm}>
     <TextField
-      label="User ID"
+      label="מספר יוזר"
       name="userId"
       value={connectFormValues.userId}
       onChange={handleConnectFormInputChange}
@@ -183,7 +183,7 @@ export default function AdminPage() {
       {...(connectFormErrors.userId && { error: true, helperText: connectFormErrors.userId })}
     />
     <TextField
-      label="Store ID"
+      label="מספר חנות"
       name="storeId"
       value={connectFormValues.storeId}
       onChange={handleConnectFormInputChange}

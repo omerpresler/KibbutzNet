@@ -31,8 +31,8 @@ function move_to_store(){
         <Center>
         <Card sx={{ width: 1000 }}>
             <CardContent sx={{ textAlign: 'center' }}>
-                <Typography variant="h2" sx={{ my: 3 }}>
-                    kibbutzNet
+                <Typography variant="h2" sx={{ my: 3 ,textAlign:'center'}}>
+                    קיבוץ נט
                 </Typography>
                 <Box sx={{
                     '& .MuiTextField-root': {
@@ -42,11 +42,11 @@ function move_to_store(){
                     }
                 }}>
                 <Button onClick={move_register}>
-                                    Register</Button>
+                                    קופה</Button>
                 <Button onClick={move_to_member}>
-                                    kibutz member</Button>
+                                    חבר קיבוץ</Button>
                 <Button onClick={move_to_store}>
-                                    kibutz store</Button>
+                                    חנות</Button>
                 </Box>
             </CardContent>
         </Card>

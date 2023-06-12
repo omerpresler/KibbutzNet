@@ -13,7 +13,8 @@ import {
   DialogContentText,
   TextField,
   DialogActions,
-} from '@mui/material';
+}
+from '@mui/material';
 import ChatDisplay from '../components/ChatDisplyer';
 import BackButton from '../components/BackButton';
 import StoreButton from '../components/StoreButton';
@@ -29,7 +30,6 @@ const [isStoreDataAdded, setIsStoreDataAdded] = useState(false);
   async function addStoreData() {
     try {
       let storeData = await getAllStores();
-      console.log('Store data:', storeData);
       if (!storeData || !Array.isArray(storeData.value)) {
         throw new Error('Store data is not in expected format');
       }
@@ -147,7 +147,7 @@ const fetchChats = async () => {
   return (
     <Container>
       <Box sx={{ mt: 4 }}>
-        <Typography variant="h4">Chat</Typography>
+        <Typography variant="h4">מנהל שיחות</Typography>
       </Box>
       <Box sx={{ mt: 2 }}>
       </Box>
