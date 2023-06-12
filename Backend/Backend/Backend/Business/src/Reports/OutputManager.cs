@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using Backend.Access;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 using Order = Backend.Business.src.Utils.Order;
 using Purchase = Backend.Business.src.Utils.Purchase;
 
@@ -42,6 +44,45 @@ namespace Backend.Business.src.Reports
 
             smtpClient.Send(message);
         }
+
+        public void sendSMS(string target, List<Utils.Purchase> purchases, List<Order> orders)
+        {
+            // Find your Account SID and Auth Token at twilio.com/console
+            // and set the environment variables. See http://twil.io/secure
+            string accountSid = "ACd1c2bdd9b975cced26d57bad1daa9fcf";
+            string authToken = "5cad98415fff795cb74590aad2dc66bf";
+            string twilioPhoneNumber = "+13613092791";
+
+            TwilioClient.Init(accountSid, authToken);
+
+            var message = MessageResource.Create(
+                body: GenerateSMSReport(purchases, orders),
+                from: new Twilio.Types.PhoneNumber(twilioPhoneNumber),
+                to: new Twilio.Types.PhoneNumber(target)
+            );
+
+            Console.WriteLine(message.Sid);
+        }
+        
+        public string GenerateSMSReport(List<Purchase> purchases, List<Order> orders)
+        {
+            string body = "\nPurchases:\n";
+
+            foreach (Purchase purchase in purchases)
+            {
+                body += $"Member: {purchase.memberId}, Cost: {purchase.cost}, Description: {purchase.description}, Date: {purchase.date:yyyy-MM-dd HH:mm:ss}\n\n";
+            }
+            
+            body += "\n\nOrders:\n";
+            
+            foreach (Order order in orders)
+            {
+                body +=  $"Member: {order.memberId}, Date: {order.date:yyyy-MM-dd HH:mm:ss}, Status: {order.status}, Active: {order.active.ToString()}\n\n";
+            }
+
+            return body;
+        }
+        
 
         public string GenerateHtmlTable(List<Purchase> purchases, List<Order> orders)
         {

@@ -189,6 +189,21 @@ public class ClientStoreService
         }
     }
     
+    public Response<string> sendSMSReport(string targetNumber)
+    {
+        try
+        {
+            outputManager.sendSMS(targetNumber, purchases, OrderManager.Instance.orders[storeId]);
+            return new Response<string>(targetNumber);
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
+    
+    
+    
     public Response<string> saveExcelReport()
     {
         try

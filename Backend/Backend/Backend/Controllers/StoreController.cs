@@ -32,6 +32,12 @@ namespace Backend.Controllers
         {
             return Store.Instance.sendEmailReport(request.storeId, request.email);
         }
+        
+        [HttpPost("sendReportBySMS")]
+        public Response<string> SendBySMS([FromBody] smsRequest request)
+        {
+            return Store.Instance.sendSMSReport(request.storeId, request.targetNumber);
+        }
 
 
         [HttpPost("sendMassageInChat")]

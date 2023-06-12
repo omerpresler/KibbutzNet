@@ -410,6 +410,22 @@ public class Store
         }
     }
     
+    public Response<string> sendSMSReport(int storeId, string targetNumber)
+    {
+        try
+        {
+            if (stores.ContainsKey(storeId))
+                return stores[storeId].sendSMSReport(targetNumber);
+            
+
+            return new Response<string>(true, $"The is no store with the id of {storeId}");
+        }
+        catch (Exception e)
+        {
+            return new Response<string>(true, e.Message);
+        }
+    }
+    
     public Response<string> saveExcelReport(int storeId)
     {
         try
