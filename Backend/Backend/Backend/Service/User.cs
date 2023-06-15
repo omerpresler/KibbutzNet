@@ -56,7 +56,7 @@ public class User
         foreach (Access.Member DALMember in Access.DBManager.Instance.LoadMembers())
         {
             users.Add(DALMember.UserId, new MemberController(DALMember));
-            AuthenticationManager.Instance.AddUser(DALMember.UserId, DALMember.email);
+            AuthenticationManager.Instance.AddUser(DALMember.UserId, DALMember.email, DALMember.Name);
         }
     }
 

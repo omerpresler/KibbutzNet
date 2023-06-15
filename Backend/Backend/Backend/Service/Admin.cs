@@ -94,7 +94,8 @@ public class Admin
 
             ClientStoreService store = admins[adminId].CreateStore(storeName, photoLink);
             Store.Instance.addNewStore(store);
-            AuthenticationManager.StoreToEmployees[store.storeId] = new List<int>();
+            //AuthenticationManager.StoreToEmployees[store.storeId] = new List<int>();
+            AuthenticationManager.Instance.AddStore(store.storeId, storeName);
             return new Response<int>(store.storeId);
         }
         catch (Exception e)
@@ -118,7 +119,7 @@ public class Admin
 
             MemberController mc = admins[adminId].CreateNewMember(userId, name, phoneNumber, email);
             User.Instance.addNewMember(mc);
-            AuthenticationManager.Instance.AddUser(mc.getMemberId(), mc.getMemberEmail());
+            AuthenticationManager.Instance.AddUser(mc.getMemberId(), mc.getMemberEmail(), mc.getMemberName());
         }
         catch (Exception e)
         {

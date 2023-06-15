@@ -32,15 +32,19 @@ namespace Backend.Business.src.Utils
                 StoreToEmployees[storeEmployee.storeId].Add(storeEmployee.UserId);
             }
             
+            /*
             foreach (Backend.Access.Member member in DBManager.Instance.LoadMembers())
             {
                 userIdToName.Add(member.UserId, member.Name);
             }
             
+            
             foreach (Backend.Access.Store store in DBManager.Instance.LoadStores())
             {
                 storeIdToName.Add(store.storeId, store.storeName);
             }
+            */
+
 
             
         }
@@ -68,9 +72,20 @@ namespace Backend.Business.src.Utils
             }
         }
 
-        public void AddUser(int userId, string email)
+        public void AddUser(int userId, string email, string name)
         {
             idToEmail.Add(userId, email);
+            userIdToName.Add(userId, email);
+        }
+        
+        public void AddStore(int storeId, string name)
+        {
+            storeIdToName.Add(storeId, name);
+            
+            if (StoreToEmployees.ContainsKey(storeId))
+                StoreToEmployees[storeId] = new List<int>();
+            else
+                StoreToEmployees.Add(storeId, new List<int>());
         }
         
         public void AddStoreEmployee(int userId, int storeId)

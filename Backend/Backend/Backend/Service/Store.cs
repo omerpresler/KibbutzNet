@@ -59,6 +59,7 @@ public class Store
         {
             stores.Add(DALStore.storeId, new ClientStoreService(DALStore));
             OrderManager.Instance.orders.Add(DALStore.storeId, new List<Order>());
+            AuthenticationManager.Instance.AddStore(DALStore.storeId, DALStore.storeName);
         }
     }
     
