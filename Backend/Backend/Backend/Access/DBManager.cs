@@ -19,7 +19,7 @@ public class DBManager
     public DBManager()
     {
         wipeDB();
-        initBasicData();
+            initBasicData();
     }
 
     public void wipeDB()

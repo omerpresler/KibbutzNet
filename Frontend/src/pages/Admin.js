@@ -25,7 +25,6 @@ export default function AdminPage() {
   });
 
   const storeFormModel = () => ({
-    storeId: '',
     storeName: '',
     photoLink: ''
   });
@@ -143,14 +142,7 @@ export default function AdminPage() {
 
 {showAddStoreForm && (
   <form onSubmit={handleSubmitStoreForm}>
-    <TextField
-      label="מספר חנות"
-      name="storeId"
-      value={storeFormValues.storeId}
-      onChange={handleStoreFormInputChange}
-      variant="outlined"
-      {...(storeFormErrors.storeId && { error: true, helperText: storeFormErrors.storeId })}
-    />
+  
     <TextField
       label="שם החנות"
       name="storeName"
