@@ -82,9 +82,7 @@ namespace Backend.Business.src.Utils
         {
             storeIdToName.Add(storeId, name);
             
-            if (StoreToEmployees.ContainsKey(storeId))
-                StoreToEmployees[storeId] = new List<int>();
-            else
+            if (!StoreToEmployees.ContainsKey(storeId))
                 StoreToEmployees.Add(storeId, new List<int>());
         }
         
