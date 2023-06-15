@@ -19,6 +19,8 @@ namespace Backend.Business.Test.clientTest
         [SetUp]
         public void SetUp()
         {
+            DBManager.Instance.wipeDB();
+            DBManager.Instance.initBasicData();
         }
 
         [TearDown]

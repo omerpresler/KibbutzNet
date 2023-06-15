@@ -1,4 +1,5 @@
-﻿using Backend.Access;
+﻿using System.Runtime.InteropServices.JavaScript;
+using Backend.Access;
 using Backend.Business.src.Utils;
 using NUnit.Framework;
 using AdminAC = Backend.Access.Admin;
@@ -15,6 +16,8 @@ namespace Backend.Business.Test.StoreUnitTest
         [SetUp]
         public void SetUp()
         {
+            DBManager.Instance.wipeDB();
+            DBManager.Instance.initBasicData();
         }
         
         [Test]
@@ -235,6 +238,13 @@ namespace Backend.Business.Test.StoreUnitTest
             Assert.IsTrue(order_IDs.OrderBy(x => x).SequenceEqual(new List<int> {order1 , order2 }.OrderBy(x => x)));
         }
         
+        private static T Cast<T>(T typeHolder, Object x)
+        {
+            // typeHolder above is just for compiler magic
+            // to infer the type to cast x to
+            return (T)x;
+        }
+        
         [Test]
         public void OrderHistorySuccess()
         {
@@ -247,21 +257,19 @@ namespace Backend.Business.Test.StoreUnitTest
             var order2 = storeService.addOrder(store_id, 9999, "user", "product2", 40).value;
             var orders = DBManager.Instance.LoadOrders();
             // get the orders fron DB
-            var store_orders = orders.Where(o => o.storeId == store_id).Select(o => o.orderID.ToString()).ToList();
+            var store_orders = orders.Where(o => o.storeId == store_id).Select(o => o.orderID).ToList();
             // get the orders from charHistory
             var orderHistory = storeService.SeeOrderHistoryStore(store_id).value;
             // change both store_orders and orderHistory ID's to be of the same types (List<string>)
-            var orderHistoryIDs = new List<string>();
-            foreach (string o in orderHistory)
+            var orderHistoryIDs = new List<int>();
+            foreach (object o in orderHistory)
             {
-                var jsonObject = JObject.Parse(o);
-                foreach (var item in jsonObject)
-                {
-                    if (item.Key == "orderId")
-                    {
-                        orderHistoryIDs.Add(item.Value.ToString());
-                    }
-                }
+                
+                //var jsonObject = JObject.Parse(o);
+                var jsonObject = new { storeId = 0, storeName = "", orderId = 0, date = DateTime.Now, status = "", memberName = "", memberId = 0, active = true, cost = (Single)0.0, description = "" };
+                
+                jsonObject = Cast(jsonObject, o);
+                orderHistoryIDs.Add(jsonObject.orderId);
             }
             // compare the two lists
             Assert.IsTrue(orderHistoryIDs.OrderBy(x => x).SequenceEqual(store_orders.OrderBy(x => x)));
