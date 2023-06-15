@@ -72,7 +72,7 @@ export default function LoginUser() {
                                 variant="outlined"
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
-                                label="מספר חשבון "
+                                label="מספר תקציב "
                                 name="accountNumberber"
                                 value={values.accountNumberber}
                                 onChange={handleInputChange}
@@ -87,7 +87,7 @@ export default function LoginUser() {
                                         color="primary"
                                     />
                                 }
-                                label={asAdmin ? 'אדמין' : 'יוזר'}
+                                label={asAdmin ? 'מנהל מערכת' : 'חבר קיבוץ'}
                                 sx={{ width: '90%', marginTop: '1rem' }}
                             />
                             <Button

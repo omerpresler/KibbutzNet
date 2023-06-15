@@ -67,7 +67,7 @@ async function add_order(event){
            <Button onClick={open_chat_manager}>
                               מנהל הצאטים</Button>
             <Button onClick={see_all_orders}>
-                מנהל הזמנה
+                 מנהל הזמנות
                 </Button>
             <Button onClick={show_add_order}>
                 הוסף הזמנה 
@@ -81,37 +81,68 @@ async function add_order(event){
                             <form noValidate autoComplete="off" onSubmit={add_order}>
                             
                         <TextField
-                        label="memberId"
+                        label="שם החנות"
+                        name="storeName"
+                        value={values.storeName}
+                        onChange={handleInputChange}
+                        variant="outlined"
+                        {...(errors.storeName && { error: true, helperText: errors.storeName })}
+                        />
+
+                        <TextField
+                        label="מספר חבר"
                         name="memberId"
                         value={values.memberId}
                         onChange={handleInputChange}
                         variant="outlined"
                         {...(errors.memberId && { error: true, helperText: errors.memberId })}
                         />
+
                         <TextField
-                        label="member name"
-                        name="memberName"
-                        value={values.memberName}
+                        label="מספר חנות"
+                        name="storeId"
+                        value={values.storeId}
                         onChange={handleInputChange}
                         variant="outlined"
-                        {...(errors.memberName && { error: true, helperText: errors.memberName })}
+                        {...(errors.storeId && { error: true, helperText: errors.storeId })}
                         />
+
                         <TextField
-                        label="description"
-                        name="description"
-                        value={values.description}
+                        label="מספר רכישה"
+                        name="purchaseId"
+                        value={values.purchaseId}
                         onChange={handleInputChange}
                         variant="outlined"
-                        {...(errors.description && { error: true, helperText: errors.description })}
+                        {...(errors.purchaseId && { error: true, helperText: errors.purchaseId })}
                         />
+
                         <TextField
-                        label="cost"
+                        label="מחיר"
                         name="cost"
                         value={values.cost}
                         onChange={handleInputChange}
                         variant="outlined"
                         {...(errors.cost && { error: true, helperText: errors.cost })}
                         />
+
+                        <TextField
+                        label="תיאור"
+                        name="description"
+                        value={values.description}
+                        onChange={handleInputChange}
+                        variant="outlined"
+                        {...(errors.description && { error: true, helperText: errors.description })}
+                        />
+
+                        <TextField
+                        label="תאריך"
+                        name="date"
+                        value={values.date}
+                        onChange={handleInputChange}
+                        variant="outlined"
+                        {...(errors.date && { error: true, helperText: errors.date })}
+                        />
+
                         <Button
                         type="add Order"
                         variant="contained"
@@ -119,7 +150,7 @@ async function add_order(event){
                         sx={{ width: '90%' }}
                         onClick={add_order}
                         >
-                        Add Order
+                        הוסף הזמנה
                         </Button>
 
                                                 </form>

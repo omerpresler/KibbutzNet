@@ -109,6 +109,7 @@ export default function PurchaseHistoryDisplayer() {
                 <TableHead>
                   <TableRow>
                     <TableCell align="right">שם חנות</TableCell>
+                    <TableCell align="right">מספר תקציב</TableCell>
                     <TableCell align="right">מספר קניה</TableCell>
                     <TableCell align="right">מחיר</TableCell>
                     <TableCell align="right">תיאור</TableCell>
@@ -121,6 +122,9 @@ export default function PurchaseHistoryDisplayer() {
 
                       <TableCell align="right">
                         {dataItem.storeName}
+                      </TableCell>
+                      <TableCell align="right">
+                        {dataItem.memberId}
                       </TableCell>
                       <TableCell align="right">
                         {dataItem.purchaseId}

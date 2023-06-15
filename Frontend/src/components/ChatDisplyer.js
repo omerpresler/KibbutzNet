@@ -15,6 +15,7 @@ import {
   IconButton,
   Grid,
   Container,
+ 
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import getChatService from '../services/ChatService';
@@ -24,15 +25,13 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
   const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const handleChatSelect = async (chat) => {
-    console.log(chat)
     await setSelectedChat(chat);
   };
 
 
-
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
-  
+    console.log(selectedChat)
     const message = {
       message: newMessage,
       FromMe: true,
@@ -45,7 +44,6 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
         ...selectedChat,
         messages: [...selectedChat.messages, message],
       };
-      
       setSelectedChat(updatedChat);
       setNewMessage('');
     }
@@ -66,7 +64,7 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
                     key={chat.storeId}
                     onClick={() => handleChatSelect(chat)}
                     sx={{
-                      backgroundColor: selectedChat?.storeId === chat.storeId ? '#f0f0f0' : '',
+                      backgroundColor: selectedChat?.storeId === chat.storeId ? '#000EE' : '',
                       '&:hover': {
                         backgroundColor: '#f1f1f1',
                       },
@@ -87,16 +85,24 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
                 <Typography variant="h5" gutterBottom sx={{ marginBottom: 2, color: '#3f51b5' }}>
                   {selectedChat.name}
                 </Typography>
-                <List>
-                  {selectedChat.messages.map((message, index) => (
-                    <ListItem key={index} align={message.FromMe ? "right" : "left"}>
-                      <ListItemText
-                        primary={message.FromMe ? 'אני' : 'הם'}
-                        secondary={message.message}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
+          <List>
+      {selectedChat.messages.map((message, index) => (
+        <ListItem key={index}>
+          <ListItemText
+            sx={{
+              '& .MuiListItemText-primary': {
+                textAlign: message.FromMe ? 'left' : 'right',
+              },
+              '& .MuiListItemText-secondary': {
+                textAlign: message.FromMe ? 'left' : 'right',
+              },
+            }}
+            primary={message.FromMe ? 'אני' : 'הם'}
+            secondary={message.message}
+          />
+        </ListItem>
+      ))}
+    </List>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', mt: 2 }}>
                   <TextField
                     value={newMessage}

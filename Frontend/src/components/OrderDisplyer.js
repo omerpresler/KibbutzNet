@@ -61,7 +61,7 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
             <TableCell>תאריך</TableCell>
             <TableCell>סטטוס</TableCell>
             <TableCell>שם החבר </TableCell>
-            <TableCell>מספר חבר</TableCell>
+            <TableCell>מספר תקציב</TableCell>
             <TableCell onClick={handleSortByStatus} style={{cursor: 'pointer'}}>פעיל</TableCell>
             {/* <TableCell>Chat</TableCell> */}
             <TableCell>מחיר</TableCell>
