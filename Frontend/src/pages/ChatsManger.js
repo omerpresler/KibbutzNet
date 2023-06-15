@@ -86,6 +86,7 @@ const fetchChats = async () => {
     });
   } else {
     await getAllChatsUser(userId).then(chatData => {
+      console.log(chatData)
       // Transform each chat with additional data
       let transformedChats = chatData.value.map((chatString) => {
         // Parse the chat JSON string into an object

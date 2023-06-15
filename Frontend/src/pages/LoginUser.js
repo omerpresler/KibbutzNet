@@ -72,7 +72,7 @@ export default function LoginUser() {
                                 variant="outlined"
                                 {...(errors.email && { error: true, helperText: errors.email })} />
                             <TextField
-                                label="מספר חשבון "
+                                label="מספר תקציב "
                                 name="accountNumberber"
                                 value={values.accountNumberber}
                                 onChange={handleInputChange}

@@ -59,7 +59,7 @@ export default function Regsiter() {
                                 variant="outlined"
                                 {...(errors.description && { error: true, helperText: errors.description })} /> 
         <TextField
-                                label="מספר חשבון"
+                                label="מספר תקציב"
                                 name="accountNumber"
                                 value={values.accountNumber}
                                 onChange={handleInputChange}
@@ -75,7 +75,7 @@ export default function Regsiter() {
        
         <Button onClick={(seePurchaseHistory)}   >
 
-            היסטוריית רכישות
+            היסטוריית קניות
         </Button>
         {/* <Button    N
          onClick={()=>(LoginService.logout())}   
