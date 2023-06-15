@@ -78,82 +78,55 @@ async function add_order(event){
           </Box>
           {showAddOrderForm && (
   <Box>
-                            <form noValidate autoComplete="off" onSubmit={add_order}>
-                            
-                        <TextField
-                        label="שם החנות"
-                        name="storeName"
-                        value={values.storeName}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.storeName && { error: true, helperText: errors.storeName })}
-                        />
-
-                        <TextField
-                        label="מספר חבר"
-                        name="memberId"
-                        value={values.memberId}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.memberId && { error: true, helperText: errors.memberId })}
-                        />
-
-                        <TextField
-                        label="מספר חנות"
-                        name="storeId"
-                        value={values.storeId}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.storeId && { error: true, helperText: errors.storeId })}
-                        />
-
-                        <TextField
-                        label="מספר רכישה"
-                        name="purchaseId"
-                        value={values.purchaseId}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.purchaseId && { error: true, helperText: errors.purchaseId })}
-                        />
-
-                        <TextField
-                        label="מחיר"
-                        name="cost"
-                        value={values.cost}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.cost && { error: true, helperText: errors.cost })}
-                        />
-
-                        <TextField
-                        label="תיאור"
-                        name="description"
-                        value={values.description}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.description && { error: true, helperText: errors.description })}
-                        />
-
-                        <TextField
-                        label="תאריך"
-                        name="date"
-                        value={values.date}
-                        onChange={handleInputChange}
-                        variant="outlined"
-                        {...(errors.date && { error: true, helperText: errors.date })}
-                        />
-
-                        <Button
-                        type="add Order"
-                        variant="contained"
-                        size="large"
-                        sx={{ width: '90%' }}
-                        onClick={add_order}
-                        >
-                        הוסף הזמנה
-                        </Button>
-
-                                                </form>
+<form noValidate autoComplete="off" onSubmit={add_order}>
+    
+    <TextField
+    label="שם החבר"
+    name="memberName"
+    value={values.memberName}
+    onChange={handleInputChange}
+    variant="outlined"
+    {...(errors.memberName && { error: true, helperText: errors.memberName })}
+    />
+    
+    <TextField
+    label="מספר חבר"
+    name="memberId"
+    value={values.memberId}
+    onChange={handleInputChange}
+    variant="outlined"
+    {...(errors.memberId && { error: true, helperText: errors.memberId })}
+    />
+    
+    <TextField
+    label="מחיר"
+    name="cost"
+    value={values.cost}
+    onChange={handleInputChange}
+    variant="outlined"
+    {...(errors.cost && { error: true, helperText: errors.cost })}
+    />
+    
+    <TextField
+    label="תיאור"
+    name="description"
+    value={values.description}
+    onChange={handleInputChange}
+    variant="outlined"
+    {...(errors.description && { error: true, helperText: errors.description })}
+    />
+    
+    <Button
+    type="submit"
+    variant="contained"
+    size="large"
+    sx={{ width: '90%' }}
+    >
+    הוסף הזמנה
+    </Button>
+    
+    </form>
+    
                         </Box>
                         )}
                             </CardContent>
