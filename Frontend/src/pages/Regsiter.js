@@ -75,7 +75,7 @@ export default function Regsiter() {
        
         <Button onClick={(seePurchaseHistory)}   >
 
-            היסטוריית הזמנות
+            היסטוריית רכישות
         </Button>
         {/* <Button    N
          onClick={()=>(LoginService.logout())}   
