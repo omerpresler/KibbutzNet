@@ -67,7 +67,7 @@ async function add_order(event){
            <Button onClick={open_chat_manager}>
                               מנהל הצאטים</Button>
             <Button onClick={see_all_orders}>
-                מנהל הזמנה
+                 מנהל הזמנות
                 </Button>
             <Button onClick={show_add_order}>
                 הוסף הזמנה 
