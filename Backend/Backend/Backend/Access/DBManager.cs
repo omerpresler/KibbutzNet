@@ -13,8 +13,8 @@ public class DBManager
     private string Host = "localhost";
     private int Port = 5432;
     private string Username = "postgres";
-    private string  Password = "1106";
-    private string Database = "kibbutznet";
+    private string  Password = "omer";
+    private string Database = "KibbutzNet";
 
     public DBManager()
     {
