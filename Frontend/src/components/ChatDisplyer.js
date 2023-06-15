@@ -24,7 +24,6 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
   const [selectedChat, setSelectedChat] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const handleChatSelect = async (chat) => {
-    console.log(chat)
     await setSelectedChat(chat);
   };
 
@@ -32,7 +31,7 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
 
   const handleSendMessage = async () => {
     if (newMessage.trim() === '') return;
-  
+    console.log(selectedChat)
     const message = {
       message: newMessage,
       FromMe: true,
@@ -45,7 +44,6 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
         ...selectedChat,
         messages: [...selectedChat.messages, message],
       };
-      
       setSelectedChat(updatedChat);
       setNewMessage('');
     }
@@ -66,7 +64,7 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
                     key={chat.storeId}
                     onClick={() => handleChatSelect(chat)}
                     sx={{
-                      backgroundColor: selectedChat?.storeId === chat.storeId ? '#f0f0f0' : '',
+                      backgroundColor: selectedChat?.storeId === chat.storeId ? '#000EE' : '',
                       '&:hover': {
                         backgroundColor: '#f1f1f1',
                       },
@@ -89,7 +87,7 @@ export default function ChatDisplay({ userId, userType, chats, sendMessage }) {
                 </Typography>
                 <List>
                   {selectedChat.messages.map((message, index) => (
-                    <ListItem key={index} align={message.FromMe ? "right" : "left"}>
+                    <ListItem key={index} align={message.FromMe ? "left" : "right"}>
                       <ListItemText
                         primary={message.FromMe ? 'אני' : 'הם'}
                         secondary={message.message}

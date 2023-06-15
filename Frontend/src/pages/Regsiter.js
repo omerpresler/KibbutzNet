@@ -34,8 +34,8 @@ export default function Regsiter() {
      <Center>
         <Card sx={{ width: 1000 }}>
             <CardContent sx={{ textAlign: 'center' }}>
-                <Typography variant="h2" sx={{ my: 3 }}>
-                    kibbutzNet
+                <Typography variant="h2" sx={{ my: 3,textAlign: 'center'}}>
+                    קיבוץ נט
                 </Typography>
                 <Box sx={{
                     '& .MuiTextField-root': {
@@ -45,21 +45,21 @@ export default function Regsiter() {
                     }
                 }}>
         <TextField
-                                label="price"
+                                label="מחיר"
                                 name="price"
                                 value={values.price}
                                 onChange={handleInputChange}
                                 variant="outlined"
                                 {...(errors.price && { error: true, helperText: errors.price })} /> 
         <TextField
-                                label="description"
+                                label="תיאור"
                                 name="description"
                                 value={values.description}
                                 onChange={handleInputChange}
                                 variant="outlined"
                                 {...(errors.description && { error: true, helperText: errors.description })} /> 
         <TextField
-                                label="accountNumber"
+                                label="מספר חשבון"
                                 name="accountNumber"
                                 value={values.accountNumber}
                                 onChange={handleInputChange}
@@ -69,14 +69,13 @@ export default function Regsiter() {
         <Button    
          onClick={()=>addNewPurhcase(values.price,values.description,values.accountNumber)}   
             >
-            add new purahcse
+            הוסף קניה חדשה
 
         </Button>
        
         <Button onClick={(seePurchaseHistory)}   >
 
-            see purchase history
-
+            היסטוריית הזמנות
         </Button>
         {/* <Button    N
          onClick={()=>(LoginService.logout())}   

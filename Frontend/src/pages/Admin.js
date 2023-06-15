@@ -79,26 +79,26 @@ export default function AdminPage() {
       <Card sx={{ width: 1000 }}>
         <CardContent sx={{ textAlign: 'center' }}>
           <Typography variant="h2" sx={{ my: 3 }}>
-            Admin Page
+            עמוד מנהל
           </Typography>
 
           <Button onClick={() => {
             setShowAddUserForm(true);
             setShowAddStoreForm(false);
             setShowConnectStoreUserForm(false);
-          }}>Add User</Button>
+          }}>הוסף חבר קיבוץ</Button>
 
           <Button onClick={() => {
             setShowAddStoreForm(true);
             setShowAddUserForm(false);
             setShowConnectStoreUserForm(false);
-          }}>Add Store</Button>
+          }}>הוסף חנות</Button>
 
           <Button onClick={() => {
             setShowConnectStoreUserForm(true);
             setShowAddUserForm(false);
             setShowAddStoreForm(false);
-          }}>Connect Store and User</Button>
+          }}>קישור בין חנות לעובד חנות</Button>
 
 
           {showAddUserForm && (

@@ -56,7 +56,7 @@ export default function getChatService() {
   function sendMessageStore(userId,storeId, message) {
     console.log(userId,storeId,message)
     return axios
-      .post(sendMessageStorePath, { userId,storeId,text:  message})
+      .post(sendMessageStorePath, { userId,storeId,text:message})
       .then((response) => {
         if (response.data.exceptionHasOccured){
           alert(response.data.errorMessage)

@@ -81,7 +81,7 @@ async function add_order(event){
                             <form noValidate autoComplete="off" onSubmit={add_order}>
                             
                         <TextField
-                        label="memberId"
+                        label="מספר חבר"
                         name="memberId"
                         value={values.memberId}
                         onChange={handleInputChange}
@@ -89,7 +89,7 @@ async function add_order(event){
                         {...(errors.memberId && { error: true, helperText: errors.memberId })}
                         />
                         <TextField
-                        label="member name"
+                        label="שם חבר"
                         name="memberName"
                         value={values.memberName}
                         onChange={handleInputChange}
@@ -97,7 +97,7 @@ async function add_order(event){
                         {...(errors.memberName && { error: true, helperText: errors.memberName })}
                         />
                         <TextField
-                        label="description"
+                        label="תיאור"
                         name="description"
                         value={values.description}
                         onChange={handleInputChange}
@@ -105,7 +105,7 @@ async function add_order(event){
                         {...(errors.description && { error: true, helperText: errors.description })}
                         />
                         <TextField
-                        label="cost"
+                        label="מחיר"
                         name="cost"
                         value={values.cost}
                         onChange={handleInputChange}
@@ -119,7 +119,7 @@ async function add_order(event){
                         sx={{ width: '90%' }}
                         onClick={add_order}
                         >
-                        Add Order
+                        הוסף הזמנה
                         </Button>
 
                                                 </form>
