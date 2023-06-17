@@ -42,7 +42,9 @@ namespace Backend.Business.MemberController
             return member.Name;
         }
 
-        public Response<string> SendMessage(int storeId, string msg)
+        public Response<string> SendMessage
+            
+            (int storeId, string msg)
         {
             return cm.SendMessage(member.UserId, storeId, new Message(false, msg), false);
         }

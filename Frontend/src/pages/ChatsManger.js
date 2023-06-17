@@ -68,7 +68,7 @@ export default function ChatManagerPage() {
     });
 
     if (storedUserType === 'store') {
-      await getAllChatsStore(userId).then(chatData => {
+      await getAllChatsStore(localStorage.getItem("storeId")).then(chatData => {
         console.log(chatData);
         let transformedChats = chatData.value.map((chatString) => {
           let chat = JSON.parse(chatString);
