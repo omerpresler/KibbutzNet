@@ -70,6 +70,7 @@ export default function getChatService() {
   }
 
   function getAllChatsUser(userId) {
+    if (userId!=null){
     return axios
       .post(getAllUserChats, { userId })
       .then((response) => {
@@ -82,6 +83,7 @@ export default function getChatService() {
         console.log('Error getting all user chats:', error);
         return Response.create(null, true, error.message);
       });
+    }
   }
 
   function getAllChatsStore(storeId) {

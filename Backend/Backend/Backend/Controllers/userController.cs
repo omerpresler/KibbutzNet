@@ -1,9 +1,8 @@
-using System.Collections;
-using Backend.Business.src.Client_Store;
-using Microsoft.AspNetCore.Mvc;
 using Backend.Business.src.Utils;
 using Backend.Controllers.Requests;
 using Backend.Service;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace Backend.Controllers
 {
@@ -30,9 +29,10 @@ namespace Backend.Controllers
         
         
         [HttpPost("getAllchats")]
-        public Response<List<String>> getAllchats(int userId)
+        public Response<List<String>> getAllchats([FromBody] userIdRequest request)
         {
-            return Service.User.Instance.GetAllchats(userId);
+
+            return Service.User.Instance.GetAllchats(request.userId);
         }
         
         [HttpPost("seeOrderHistoryUser")]
