@@ -36,9 +36,9 @@ namespace Backend.Controllers
         }
         
         [HttpPost("seeOrderHistoryUser")]
-        public Response<ArrayList> seeOrderHistoryUser(int userId)
+        public Response<ArrayList> seeOrderHistoryUser([FromBody] userIdRequest request)
         {
-            return Store.Instance.SeeOrderHistoryUser(userId);
+            return Store.Instance.SeeOrderHistoryUser(request.userId);
         }
         
         [HttpPost("seeOrderHistoryUserAndStore")]
@@ -48,9 +48,9 @@ namespace Backend.Controllers
         }
         
         [HttpPost("seePurchaseHistoryUser")]
-        public Response<ArrayList> seePurchaseHistoryUser(int userId)
+        public Response<ArrayList> seePurchaseHistoryUser([FromBody] userIdRequest request)
         {
-            return Store.Instance.SeePurchaseHistoryUser(userId);
+            return Store.Instance.SeePurchaseHistoryUser(request.userId);
         }
         
         [HttpPost("seePurchaseHistoryUserAndStore")]

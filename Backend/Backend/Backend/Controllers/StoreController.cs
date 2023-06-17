@@ -48,9 +48,9 @@ namespace Backend.Controllers
         }
         //list(json.stringfy(chats)
         [HttpPost("getAllchats")]
-        public Response<List<String>> getAllchats(int StoreId)
+        public Response<List<String>> getAllchats([FromBody] storeIdRequest request)
         {
-            return Store.Instance.GetAllchats(StoreId);
+            return Store.Instance.GetAllchats(request.storeId);
         }
 
 
@@ -118,36 +118,6 @@ namespace Backend.Controllers
             return Store.Instance.SeePurchaseHistoryUserAndStore(request.StoreId, request.UserId);
         }
 
-        [HttpPost("addPost")]
-        public Response<Post> AddPost(int storeId, String header, string photoLink)
-        {
-            return Store.Instance.AddPost(storeId, header, photoLink);
-        }
-        
-        [HttpPost("removePost")]
-        public Response<Post> RemovePost(int storeId, int postId)
-        {
-            return Store.Instance.RemovePost(storeId, postId);
-        }
-        
-        [HttpPost("addProduct")]
-        public Response<Product> AddProduct(int storeId, string name, string description)
-        {
-            return Store.Instance.AddProduct(storeId, name, description);
-        }
-        
-        [HttpPost("removeProduct")]
-        public Response<Product> RemoveProduct(int storeId, int productId)
-        {
-            return Store.Instance.RemoveProduct(storeId, productId);
-        }
-        
-        [HttpPost("getPosts")]
-        public Response<List<Post>> getPosts(int storeId)
-        {
-            return Store.Instance.getPosts(storeId);
-        }
-        
         [HttpPost("saveExcelReport")]
         public Response<string> saveExcelReport(int storeId)
         {

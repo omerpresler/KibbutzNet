@@ -1,4 +1,4 @@
-git pullusing System.Data;
+using System.Data;
 using System.Drawing.Drawing2D;
 using Npgsql;
 
@@ -427,7 +427,7 @@ public class DBManager
         return posts;
     }
     
-    public List<Chat> LoadChats()
+    public List<Backend.Access.Chat> LoadChats()
     {
         List<Chat> Chats = new List<Chat>();
         
