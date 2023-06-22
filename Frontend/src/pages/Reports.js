@@ -95,7 +95,7 @@ export default function ReportPage() {
                 autoFocus
                 margin="dense"
                 id="email"
-                label="Email Address"
+                label="כתובת איימל"
                 type="email"
                 fullWidth
                 value={email}
@@ -104,24 +104,24 @@ export default function ReportPage() {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleCloseEmail}>
-                Cancel
+                בטל
               </Button>
               <Button onClick={handleSendReportByEmail}>
-                Send
+                שלח
               </Button>
             </DialogActions>
           </Dialog>
           <Dialog open={openSms} onClose={handleCloseSms}>
-            <DialogTitle>Enter your phone number</DialogTitle>
+            <DialogTitle>הכנס מספר טלפון</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                Please enter your phone number to send the report.
+                בבקשה הכנס מספר טלפון שיקבל דוח
               </DialogContentText>
               <TextField
                 autoFocus
                 margin="dense"
                 id="phoneNumber"
-                label="Phone Number"
+                label="מספר טלפון"
                 type="tel"
                 fullWidth
                 value={phoneNumber}
@@ -130,10 +130,10 @@ export default function ReportPage() {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleCloseSms}>
-                Cancel
+                בטל
               </Button>
               <Button onClick={handleSendReportBySms}>
-                Send
+                שלח
               </Button>
             </DialogActions>
           </Dialog>

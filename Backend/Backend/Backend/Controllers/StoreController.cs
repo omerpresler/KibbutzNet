@@ -107,6 +107,7 @@ namespace Backend.Controllers
         [HttpPost("seePurchaseHistoryStore")]
         public Response<ArrayList> seePurchaseHistoryStore([FromBody] PurchaseHistoryRequest request)
         {
+            Console.WriteLine(request.StoreId);
             return Store.Instance.SeePurchaseHistoryStore(request.StoreId);
         }
 

@@ -7,10 +7,10 @@
         public int StoreId { get; set; }
         public int UserId { get; set; }
 
-        public PurchaseHistoryRequest(int storeId,int userId)
+        public PurchaseHistoryRequest(int StoreId,int UserId)
         {
-            this.UserId = userId;
-            this.StoreId = storeId;
+            this.UserId = UserId;
+            this.StoreId = StoreId;
         }
     }
 }

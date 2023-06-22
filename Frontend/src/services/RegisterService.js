@@ -20,7 +20,7 @@ export default function GetRegsiterService() {
     const storeId=localStorage.getItem("storeId")
     console.log(storeId)
     return sendRequest(paths.addPurchasePath, {
-      accountNumber: accountNumber,
+      memberId: accountNumber,
       storeId:storeId,
       price: price,
       description: description,

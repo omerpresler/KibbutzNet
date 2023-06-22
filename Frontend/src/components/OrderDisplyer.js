@@ -83,7 +83,7 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
               <TableCell>{order.status}</TableCell>
               <TableCell>{order.memberName}</TableCell>
               <TableCell>{order.memberId}</TableCell>
-              <TableCell>{order.active ? 'Yes' : 'No'}</TableCell>
+              <TableCell>{order.active ? 'כן' : 'לא'}</TableCell>
               {/* <TableCell>{"chat connection "}</TableCell> */}
               <TableCell>{order.cost}</TableCell>
               <TableCell>{order.description}</TableCell>
@@ -93,8 +93,9 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
           onClick={() => handleOpenDialog(order.orderId)}
           variant="contained"
           color="primary"
+          size="small" // size is added here
         >
-          Change Status
+          שנה סטטוס
         </Button>
       </TableCell>
     )}
@@ -104,8 +105,9 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
           onClick={() => handleToggleOrderActive(order.orderId)}
           variant="contained"
           color={order.active ? "secondary" : "primary"}
+          size="small" // size is added here
         >
-          {order.active ? 'Close' : 'Reopen'}
+          {order.active ? 'סגור' : 'פתח מחשב'}
         </Button>
       </TableCell>
     )}
@@ -121,7 +123,7 @@ const OrderDisplyer = ({ orders, handleChangeStatus,handleToggleOrderActive }) =
             autoFocus
             margin="dense"
             id="status-input"
-            label="New Status"
+            label="סטטוס חדש"
             type="text"
             value={statusInput}
             onChange={handleStatusInputChange}
